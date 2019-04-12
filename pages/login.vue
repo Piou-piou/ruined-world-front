@@ -12,6 +12,7 @@
   import jwt from 'jsonwebtoken';
   import FormData from 'form-data';
   import fetch from 'node-fetch';
+  import RibsApi from 'ribs-api';
 
   export default {
     middleware: 'notAuthenticated',
@@ -19,6 +20,8 @@
       if (process.client && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
         this.$store.commit('setAuth', localStorage.getItem('token'));
         Cookie.set('token', localStorage.getItem('token'));
+
+       const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/', 'cors');
 
         this.$router.push('/');
       }
