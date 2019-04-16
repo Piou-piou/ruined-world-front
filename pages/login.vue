@@ -21,7 +21,7 @@
         this.$store.commit('setAuth', localStorage.getItem('token'));
         Cookie.set('token', localStorage.getItem('token'));
 
-       const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/', 'cors');
+        const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/', 'cors');
 
         this.$router.push('/');
       }
