@@ -9,7 +9,7 @@ const createStore = () => {
     }),
     mutations: {
       setAuth(state, auth) {
-        state.auth = auth
+        state.token = auth
       }
     },
     actions: {

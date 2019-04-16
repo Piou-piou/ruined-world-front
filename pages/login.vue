@@ -21,9 +21,18 @@
         this.$store.commit('setAuth', localStorage.getItem('token'));
         Cookie.set('token', localStorage.getItem('token'));
 
-        const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/', 'cors');
+        const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
 
-        this.$router.push('/');
+        const jwtInfos = jwt.sign({
+          token: this.$store.state.token,
+          iat: Math.floor(Date.now() / 1000) - 30
+        }, this.$store.state.token);
+
+        api.post('users/authenticate', jwtInfos).then((data) => {
+          console.log(data);
+        });
+
+        //this.$router.push('/');
       }
     }
   }
