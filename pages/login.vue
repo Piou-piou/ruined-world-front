@@ -28,11 +28,20 @@
           iat: Math.floor(Date.now() / 1000) - 30
         }, this.$store.state.token);
 
-        api.post('users/authenticate', jwtInfos).then((data) => {
-          console.log(data);
-        });
+        const context = this;
 
-        //this.$router.push('/');
+        api.post('users/test-token', {'infos': jwtInfos, 'token': this.$store.state.token}).then((data) => {
+          if (data.success === true) {
+            this.$store.commit('setAuth', localStorage.getItem('token'));
+            Cookie.set('token', localStorage.getItem('token'));
+
+            context.$router.push('/');
+          } else {
+            context.router.push('/logout');
+          }
+        }).catch(function() {
+          context.router.push('/logout');
+        });
       }
     }
   }
