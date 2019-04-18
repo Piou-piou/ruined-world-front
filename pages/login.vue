@@ -40,7 +40,7 @@
             context.router.push('/logout');
           }
         }).catch(function() {
-          context.router.push('/logout');
+          context.$router.push('/logout');
         });
       }
     }
