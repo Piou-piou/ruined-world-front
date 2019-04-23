@@ -4,7 +4,7 @@ import RibsApi from 'ribs-api';
 
 export default {
   methods: {
-    testAndUpdateToken() {
+    testAndUpdateToken(page = null) {
       if (process.client && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
         this.$store.commit('setAuth', localStorage.getItem('token'));
         Cookie.set('token', localStorage.getItem('token'));
@@ -20,17 +20,20 @@ export default {
 
         api.post('users/test-token', {'infos': jwtInfos, 'token': this.$store.state.token}).then((data) => {
           if (data.success === true) {
-            this.$store.commit('setAuth', localStorage.getItem('token'));
-            Cookie.set('token', localStorage.getItem('token'));
+            localStorage.setItem('token', data.token);
+            /*Cookie.set('token', data.token);
+            context.$store.commit('setAuth', data.token);*/
 
-            context.$router.push('/');
+            return true;
           } else {
             context.router.push('/logout');
           }
-        }).catch(function() {
+        }).catch(function () {
           context.$router.push('/logout');
         });
-      } else {
+
+        return true;
+      } else if (process.client && localStorage.getItem('token') === null && localStorage.getItem('token') === '' && page === null) {
         this.$router.push('/logout');
       }
     }

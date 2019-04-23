@@ -41,8 +41,8 @@
         return api.post('users/authenticate', formData)
           .then((data) => {
             if (data.success === true) {
-              this.$store.commit('setAuth', data.token);
-              Cookie.set('token', data.token);
+              /*this.$store.commit('setAuth', data.token);
+              Cookie.set('token', data.token);*/
               localStorage.setItem('token', data.token);
 
               this.htmlError = '';
@@ -61,7 +61,7 @@
       },
     },
     created() {
-      this.testAndUpdateToken();
+      this.testAndUpdateToken('login');
     }
   }
 </script>
