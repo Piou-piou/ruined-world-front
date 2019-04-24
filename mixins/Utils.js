@@ -21,8 +21,10 @@ export default {
         api.post('users/test-token', {'infos': jwtInfos, 'token': this.$store.state.token}).then((data) => {
           if (data.success === true) {
             localStorage.setItem('token', data.token);
-            /*Cookie.set('token', data.token);
-            context.$store.commit('setAuth', data.token);*/
+
+            if (page === 'login') {
+              context.router.push('/');
+            }
 
             return true;
           } else {

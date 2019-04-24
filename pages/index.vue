@@ -12,7 +12,6 @@
   import Utils from '~/mixins/Utils';
 
   export default {
-    middleware: 'authenticated',
     mixins: [Utils],
     methods: {
       logout() {

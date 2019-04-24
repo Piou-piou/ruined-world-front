@@ -20,7 +20,6 @@
   import Utils from '~/mixins/Utils';
 
   export default {
-    middleware: 'notAuthenticated',
     mixins: [Utils],
     data() {
       return {
@@ -41,8 +40,6 @@
         return api.post('users/authenticate', formData)
           .then((data) => {
             if (data.success === true) {
-              /*this.$store.commit('setAuth', data.token);
-              Cookie.set('token', data.token);*/
               localStorage.setItem('token', data.token);
 
               this.htmlError = '';
