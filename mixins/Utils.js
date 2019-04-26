@@ -52,7 +52,7 @@ export default {
         });
 
         return true;
-      } else if (process.client && localStorage.getItem('token') === null && localStorage.getItem('token') === '' && page === null) {
+      } else if (process.client && page === null && (localStorage.getItem('token') === null || localStorage.getItem('token') === '')) {
         this.$router.push('/logout');
       }
     }
