@@ -13,9 +13,6 @@
 </template>
 
 <script>
-  const Cookie = process.client ? require('js-cookie') : undefined;
-  import jwt from 'jsonwebtoken';
-  import FormData from 'form-data';
   import RibsApi from 'ribs-api';
   import Utils from '~/mixins/Utils';
 
@@ -30,17 +27,15 @@
     },
     methods: {
       submit() {
-        let formData;
-        formData = new FormData();
         const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
 
-        formData.append('pseudo', this.pseudo);
-        formData.append('password', this.password);
-
-        return api.post('users/authenticate', formData)
+        return api.post('users/authenticate', {
+          'pseudo': this.pseudo,
+          'password': this.password
+        })
           .then((data) => {
             if (data.success === true) {
-              localStorage.setItem('token', data.token);
+              this.setToken(data.token);
 
               this.htmlError = '';
 
