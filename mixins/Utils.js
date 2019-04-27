@@ -4,6 +4,50 @@ import RibsApi from 'ribs-api';
 export default {
   methods: {
     /**
+     * method to get guid of current base
+     * @returns {null|any}
+     */
+    getGuidBase() {
+      if (localStorage.guid_base === undefined) {
+        return null;
+      }
+
+      return localStorage.guid_base;
+    },
+
+    /**
+     * defined guid of the current base
+     * @param guid
+     */
+    setGuidBase(guid) {
+      localStorage.guid_base = guid;
+    },
+
+    /**
+     * method to get jwt
+     * @returns {{JsonWebTokenError, TokenExpiredError, sign, verify, decode, NotBeforeError}|*}
+     */
+    getJwt() {
+      if (this.jwt === undefined) {
+        this.jwt = jwt;
+      }
+
+      return this.jwt;
+    },
+
+    /**
+     * method to get Api
+     * @returns {RibsApi}
+     */
+    getApi() {
+      if (this.api === undefined) {
+        this.api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
+      }
+
+      return this.api;
+    },
+
+    /**
      * method to get user auth token
      * @returns {any}
      */
@@ -26,8 +70,6 @@ export default {
      */
     testAndUpdateToken(page = null) {
       if (process.client && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
-        const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
-
         const jwtInfos = jwt.sign({
           token: this.getToken(),
           iat: Math.floor(Date.now() / 1000) - 30
@@ -35,7 +77,7 @@ export default {
 
         const context = this;
 
-        api.post('users/test-token', {'infos': jwtInfos, 'token': this.getToken()}).then((data) => {
+        this.getApi().post('users/test-token', {'infos': jwtInfos, 'token': this.getToken()}).then((data) => {
           if (data.success === true) {
             this.setToken(data.token);
 
