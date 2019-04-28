@@ -12,10 +12,10 @@
 		  
 		  <h2>Ressources</h2>
 		  <ul>
-			  <li><strong>Electricity</strong> : {{base.resources.electricity}}</li>
-			  <li><strong>Iron</strong> : {{base.resources.iron}}</li>
-			  <li><strong>Fuel</strong> : {{base.resources.fuel}}</li>
-			  <li><strong>Water</strong> : {{base.resources.water}}</li>
+			  <li><strong>Electricity</strong> : {{base.resources.electricity}} (+{{resources_infos.electricity_production}})</li>
+			  <li><strong>Iron</strong> : {{base.resources.iron}} (+{{resources_infos.iron_production}})</li>
+			  <li><strong>Fuel</strong> : {{base.resources.fuel}} (+{{resources_infos.fuel_production}})</li>
+			  <li><strong>Water</strong> : {{base.resources.water}} (+{{resources_infos.water_production}})</li>
 			  <li><strong>Food</strong> : {{base.resources.food}}</li>
 		  </ul>
 		  
@@ -38,7 +38,8 @@
       return {
         base: {
           resources: {}
-		}
+		},
+        resources_infos: []
 	  }
 	},
     methods: {
@@ -81,6 +82,7 @@
         }).then(data => {
           this.setToken(data.token);
           this.base = JSON.parse(data.base);
+          this.resources_infos = data.resources_infos;
         });
 	  }
     }
