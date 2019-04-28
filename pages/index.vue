@@ -34,6 +34,7 @@
           }).then(data => {
             if (data.success === true) {
               this.setGuidBase(data.guid_base);
+              this.setToken(data.token);
 			} else {
               this.$router.push('/logout');
 			}
@@ -50,6 +51,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.setToken(data.token);
           console.log(data);
         });
 	  }
