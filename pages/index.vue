@@ -44,7 +44,7 @@
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
           iat: Math.floor(Date.now() / 1000) - 30,
-          'guid_base': this.getGuidBase(),
+          guid_base: this.getGuidBase(),
         }, this.getToken());
 
         this.getApi().post('base/', {
