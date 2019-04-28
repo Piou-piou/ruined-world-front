@@ -1,10 +1,31 @@
 <template>
   <div>
-    index de la base
-
-    <button class="logout" @click="logout">
-      Se déconnecter
-    </button>
+	  <div>
+		  index de la base
+		
+		  <button class="logout" @click="logout">
+			  Se déconnecter
+		  </button>
+	  </div>
+	  <div>
+		 <h2>Nom de la base : {{base.name}}</h2>
+		  
+		  <h2>Ressources</h2>
+		  <ul>
+			  <li><strong>Electricity</strong> : {{base.resources.electricity}}</li>
+			  <li><strong>Iron</strong> : {{base.resources.iron}}</li>
+			  <li><strong>Fuel</strong> : {{base.resources.fuel}}</li>
+			  <li><strong>Water</strong> : {{base.resources.water}}</li>
+			  <li><strong>Food</strong> : {{base.resources.food}}</li>
+		  </ul>
+		  
+		  <h2>Buildings</h2>
+		  <ul>
+			  <li v-for="(building, key) in base.buildings" v-bind:key="key">
+				  {{building.name}} (lvl : {{building.level}})
+			  </li>
+		  </ul>
+	  </div>
   </div>
 </template>
 
@@ -13,6 +34,13 @@
 
   export default {
     mixins: [Utils],
+	data() {
+      return {
+        base: {
+          resources: {}
+		}
+	  }
+	},
     methods: {
       logout() {
         this.$router.push('/logout');
@@ -52,7 +80,7 @@
           'token': this.getToken(),
         }).then(data => {
           this.setToken(data.token);
-          console.log(data);
+          this.base = JSON.parse(data.base);
         });
 	  }
     }
