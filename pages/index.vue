@@ -71,7 +71,8 @@
           resources: {},
           units: {}
         },
-        resources_infos: []
+        resources_infos: [],
+		game_infos: {}
       }
     },
     methods: {
@@ -116,6 +117,7 @@
     },
     created() {
       this.testAndUpdateToken();
+      this.game_infos = this.getGameInfos();
 
       if (process.client) {
         if (this.getGuidBase() === null) {

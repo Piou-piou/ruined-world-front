@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import RibsApi from 'ribs-api';
+import game_infos from '~/assets/game_infos.json';
 
 export default {
   methods: {
@@ -61,6 +62,13 @@ export default {
      */
     setToken(value) {
       localStorage.setItem('token', value);
+    },
+
+    /**
+     * method to get json of game config and vars
+     */
+    getGameInfos() {
+      return game_infos;
     },
 
     /**
