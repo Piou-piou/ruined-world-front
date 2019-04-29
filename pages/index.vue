@@ -36,14 +36,16 @@
 
       <h2>Buildings</h2>
       <ul>
-        <li v-for="(building, key) in base.buildings" v-bind:key="key">
-          {{building.name}} (lvl : {{building.level}})
-        </li>
+		<li v-for="(i, index) in game_infos.building_locations" v-bind:key="index">
+		  <div v-for="(building, key) in base.buildings" v-bind:key="key" v-if="building.location === i">
+			  {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+		  </div>
+		</li>
+      
       </ul>
 
       <h2>Unités</h2>
-      <p v-show="base.units.length === 0">Aucune unité disponible dans votre base</p>
-      <ul v-show="base.units.length > 0">
+      <ul>
         <li v-for="(unit, key) in base.units" v-bind:key="key">
           {{unit.name}} (lvl : {{unit.level}})
         </li>
