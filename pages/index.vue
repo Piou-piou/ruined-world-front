@@ -40,6 +40,7 @@
           {{building.name}} (lvl : {{building.level}})
         </li>
       </ul>
+    </div>
   </div>
 </template>
 
