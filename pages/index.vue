@@ -79,6 +79,26 @@
         this.$router.push('/logout');
       }
     },
+    mounted() {
+      setInterval(() => {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase()
+        }, this.getToken());
+
+        this.getApi().post('refresh-resources/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+          this.base.resources.electricity = data.electricity;
+          this.base.resources.iron = data.iron;
+          this.base.resources.fuel = data.fuel;
+          this.base.resources.water = data.water;
+          this.setToken(data.token);
+        });
+      }, 30000);
+    },
     created() {
       this.testAndUpdateToken();
 
