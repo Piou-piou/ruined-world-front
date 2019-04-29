@@ -80,6 +80,21 @@
       }
     },
     mounted() {
+      const jwtInfos = this.getJwt().sign({
+        token: this.getToken(),
+        iat: Math.floor(Date.now() / 1000) - 30,
+        guid_base: this.getGuidBase(),
+      }, this.getToken());
+
+      this.getApi().post('base/', {
+        'infos': jwtInfos,
+        'token': this.getToken(),
+      }).then(data => {
+        this.setToken(data.token);
+        this.base = JSON.parse(data.base);
+        this.resources_infos = data.resources_infos;
+      });
+      
       setInterval(() => {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -121,21 +136,6 @@
             }
           });
         }
-
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
-        this.getApi().post('base/', {
-          'infos': jwtInfos,
-          'token': this.getToken(),
-        }).then(data => {
-          this.setToken(data.token);
-          this.base = JSON.parse(data.base);
-          this.resources_infos = data.resources_infos;
-        });
       }
     }
   }
