@@ -40,6 +40,14 @@
           {{building.name}} (lvl : {{building.level}})
         </li>
       </ul>
+
+      <h2>Unités</h2>
+      <p v-show="base.units.length === 0">Aucune unité disponible dans votre base</p>
+      <ul v-show="base.units.length > 0">
+        <li v-for="(unit, key) in base.units" v-bind:key="key">
+          {{unit.name}} (lvl : {{unit.level}})
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -60,7 +68,8 @@
     data() {
       return {
         base: {
-          resources: {}
+          resources: {},
+          units: {}
         },
         resources_infos: []
       }
