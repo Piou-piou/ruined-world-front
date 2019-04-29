@@ -11,6 +11,7 @@
     },
     mounted() {
       localStorage.removeItem('token');
+      localStorage.removeItem('guid_base');
     }
   }
 </script>
