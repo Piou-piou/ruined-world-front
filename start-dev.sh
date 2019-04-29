@@ -1,3 +1,3 @@
 rm -rf dist
-yarn --silent
+npm install
 npm run generate
