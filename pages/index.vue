@@ -1,25 +1,142 @@
 <template>
   <div>
-    index de la base
+    <div>
+      index de la base
 
-    <button class="logout" @click="logout">
-      Se déconnecter
-    </button>
+      <button class="logout" @click="logout">
+        Se déconnecter
+      </button>
+    </div>
+    <div>
+      <h2>Nom de la base : {{base.name}}</h2>
+
+      <h2>Ressources</h2>
+      <ul class="resources">
+        <li><strong>Electricity</strong> : <span
+          v-bind:class="{'max-storage': base.resources.electricity === resources_infos.max_storage}">
+          {{base.resources.electricity}}</span> (+{{resources_infos.electricity_production}})
+        </li>
+        <li><strong>Iron</strong> : <span
+          v-bind:class="{'max-storage': base.resources.iron === resources_infos.max_storage}">
+          {{base.resources.iron}}</span> (+{{resources_infos.iron_production}})
+        </li>
+        <li><strong>Fuel</strong> : <span
+          v-bind:class="{'max-storage': base.resources.fuel === resources_infos.max_storage}">
+          {{base.resources.fuel}}</span> (+{{resources_infos.fuel_production}})
+        </li>
+        <li><strong>Water</strong> : <span
+          v-bind:class="{'max-storage': base.resources.water === resources_infos.max_storage}">
+          {{base.resources.water}}</span> (+{{resources_infos.water_production}})
+        </li>
+        <li><strong>Food</strong> : <span
+          v-bind:class="{'max-storage': base.resources.food === resources_infos.max_storage}">
+          {{base.resources.food}}</span>
+        </li>
+      </ul>
+
+      <h2>Buildings</h2>
+      <ul>
+        <li v-for="(building, key) in base.buildings" v-bind:key="key">
+          {{building.name}} (lvl : {{building.level}})
+        </li>
+      </ul>
+
+      <h2>Unités</h2>
+      <p v-show="base.units.length === 0">Aucune unité disponible dans votre base</p>
+      <ul v-show="base.units.length > 0">
+        <li v-for="(unit, key) in base.units" v-bind:key="key">
+          {{unit.name}} (lvl : {{unit.level}})
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
+
+<style lang="scss">
+  .resources {
+    .max-storage {
+      color: red;
+    }
+  }
+</style>
 
 <script>
   import Utils from '~/mixins/Utils';
 
   export default {
     mixins: [Utils],
+    data() {
+      return {
+        base: {
+          resources: {},
+          units: {}
+        },
+        resources_infos: []
+      }
+    },
     methods: {
       logout() {
         this.$router.push('/logout');
       }
     },
+    mounted() {
+      setInterval(() => {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase()
+        }, this.getToken());
+
+        this.getApi().post('refresh-resources/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+          this.base.resources.electricity = data.electricity;
+          this.base.resources.iron = data.iron;
+          this.base.resources.fuel = data.fuel;
+          this.base.resources.water = data.water;
+          this.setToken(data.token);
+        });
+      }, 30000);
+    },
     created() {
       this.testAndUpdateToken();
+
+      if (process.client) {
+        if (this.getGuidBase() === null) {
+          const jwtInfos = this.getJwt().sign({
+            token: this.getToken(),
+            iat: Math.floor(Date.now() / 1000) - 30,
+          }, this.getToken());
+
+          this.getApi().post('main-base/', {
+            'infos': jwtInfos,
+            'token': this.getToken()
+          }).then(data => {
+            if (data.success === true) {
+              this.setGuidBase(data.guid_base);
+              this.setToken(data.token);
+            } else {
+              this.$router.push('/logout');
+            }
+          });
+        }
+
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('base/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.setToken(data.token);
+          this.base = JSON.parse(data.base);
+          this.resources_infos = data.resources_infos;
+        });
+      }
     }
   }
 </script>
