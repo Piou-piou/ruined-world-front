@@ -36,15 +36,11 @@
 
       <h2>Buildings</h2>
       <ul>
-        <li v-for="(i, index) in game_infos.building_locations" v-bind:key="index">
-          <div v-for="(building, key) in base.buildings" v-bind:key="key">
-			  <div v-if="building.location === i">
-				  {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
-			  </div>
-			  <div v-else>{{i}}</div>
-			  
-          
-          </div>
+        <li v-for="(building, key) in base.buildings" v-bind:key="key">
+			<div v-if="building !== null">
+				{{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+			</div>
+			<div v-else>Construire</div>
         </li>
       </ul>
 
@@ -99,6 +95,18 @@
           this.setToken(data.token);
           this.base = JSON.parse(data.base);
           this.resources_infos = data.resources_infos;
+          
+          const buildings = {};
+          
+          for (let i = 1 ; i <= this.game_infos.building_locations ; i++) {
+            buildings[i] = null;
+		  }
+
+          for (const building of this.base.buildings){
+            buildings[building.location] = building;
+		  }
+          
+          this.base.buildings = buildings;
         });
       },
 
