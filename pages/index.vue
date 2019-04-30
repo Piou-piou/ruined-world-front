@@ -37,8 +37,13 @@
       <h2>Buildings</h2>
       <ul>
         <li v-for="(i, index) in game_infos.building_locations" v-bind:key="index">
-          <div v-for="(building, key) in base.buildings" v-bind:key="key" v-if="building.location === i">
-            {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+          <div v-for="(building, key) in base.buildings" v-bind:key="key">
+			  <div v-if="building.location === i">
+				  {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+			  </div>
+			  <div v-else>{{i}}</div>
+			  
+          
           </div>
         </li>
       </ul>
@@ -91,7 +96,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
-          //this.setToken(data.token);
+          this.setToken(data.token);
           this.base = JSON.parse(data.base);
           this.resources_infos = data.resources_infos;
         });
