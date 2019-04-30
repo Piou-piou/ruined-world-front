@@ -36,12 +36,11 @@
 
       <h2>Buildings</h2>
       <ul>
-		<li v-for="(i, index) in game_infos.building_locations" v-bind:key="index">
-		  <div v-for="(building, key) in base.buildings" v-bind:key="key" v-if="building.location === i">
-			  {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
-		  </div>
-		</li>
-      
+        <li v-for="(i, index) in game_infos.building_locations" v-bind:key="index">
+          <div v-for="(building, key) in base.buildings" v-bind:key="key" v-if="building.location === i">
+            {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+          </div>
+        </li>
       </ul>
 
       <h2>Unités</h2>
@@ -74,30 +73,41 @@
           units: {}
         },
         resources_infos: [],
-		game_infos: {}
+        game_infos: {}
       }
     },
     methods: {
+      /**
+       * return the base informations like resources, buldings, units, ...
+       */
+      getBase() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('base/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          //this.setToken(data.token);
+          this.base = JSON.parse(data.base);
+          this.resources_infos = data.resources_infos;
+        });
+      },
+
+      /**
+       * to logout from the game
+       */
       logout() {
         this.$router.push('/logout');
       }
     },
     mounted() {
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
-      this.getApi().post('base/', {
-        'infos': jwtInfos,
-        'token': this.getToken(),
-      }).then(data => {
-        this.setToken(data.token);
-        this.base = JSON.parse(data.base);
-        this.resources_infos = data.resources_infos;
-      });
-      
+      /**
+       * called when page is builded to refresh resources
+       */
       setInterval(() => {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -135,10 +145,14 @@
             if (data.success === true) {
               this.setGuidBase(data.guid_base);
               this.setToken(data.token);
+
+              this.getBase();
             } else {
               this.$router.push('/logout');
             }
           });
+        } else {
+          this.getBase();
         }
       }
     }
