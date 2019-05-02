@@ -13,6 +13,11 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+
+  css: [
+    'ribs-popup/dist/css/style.min.css'
+  ],
+
   /*
   ** Customize the progress bar color
   */
@@ -21,9 +26,6 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    /*
-    ** Run ESLint on save
-    */
     transpile: ['ribs-api'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {

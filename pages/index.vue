@@ -51,6 +51,23 @@
         </li>
       </ul>
     </div>
+
+    <a href="#" data-ribspopup data-popup="popup-test">Test popup</a>
+    <div class="popup" id="popup-test">
+      <div class="content">
+        <div id="set-content">
+          <h2>test ?</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad commodi corporis cupiditate explicabo<br/></p>
+          <p class="warning">This is alert !</p>
+        </div>
+
+        <div class="link">
+          <a class="cancel" data-close>Cancel</a>
+          <a href="#" class="validate"  data-validate>Validate</a>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,6 +81,10 @@
 
 <script>
   import Utils from '~/mixins/Utils';
+
+  if (process.client) {
+    require('ribs-popup');
+  }
 
   export default {
     mixins: [Utils],
