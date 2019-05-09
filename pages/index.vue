@@ -52,14 +52,11 @@
       </ul>
     </div>
 
-    <a href="#" data-ribspopup data-popup="popup-test">Test popup</a>
+    <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">Test popup</a>
     <div class="popup" id="popup-test">
       <div class="content">
         <div id="set-content">
-          <h2>test ?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad commodi corporis cupiditate explicabo<br/>
-          </p>
-          <p class="warning">This is alert !</p>
+
         </div>
 
         <div class="link">
