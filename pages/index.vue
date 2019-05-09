@@ -37,10 +37,10 @@
       <h2>Buildings</h2>
       <ul>
         <li v-for="(building, key) in base.buildings" v-bind:key="key">
-			<div v-if="building !== null">
-				{{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
-			</div>
-			<div v-else>Construire</div>
+          <div v-if="building !== null">
+            {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+          </div>
+          <div v-else>Construire</div>
         </li>
       </ul>
 
@@ -57,13 +57,14 @@
       <div class="content">
         <div id="set-content">
           <h2>test ?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad commodi corporis cupiditate explicabo<br/></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad commodi corporis cupiditate explicabo<br/>
+          </p>
           <p class="warning">This is alert !</p>
         </div>
 
         <div class="link">
           <a class="cancel" data-close>Cancel</a>
-          <a href="#" class="validate"  data-validate>Validate</a>
+          <a href="#" class="validate" data-validate>Validate</a>
         </div>
         <div class="clear"></div>
       </div>
@@ -116,17 +117,17 @@
           this.setToken(data.token);
           this.base = JSON.parse(data.base);
           this.resources_infos = data.resources_infos;
-          
-          const buildings = {};
-          
-          for (let i = 1 ; i <= this.game_infos.building_locations ; i++) {
-            buildings[i] = null;
-		  }
 
-          for (const building of this.base.buildings){
+          const buildings = {};
+
+          for (let i = 1; i <= this.game_infos.building_locations; i++) {
+            buildings[i] = null;
+          }
+
+          for (const building of this.base.buildings) {
             buildings[building.location] = building;
-		  }
-          
+          }
+
           this.base.buildings = buildings;
         });
       },
