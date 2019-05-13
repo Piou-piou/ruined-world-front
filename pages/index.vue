@@ -36,9 +36,11 @@
 
       <h2>Buildings</h2>
       <ul>
-        <li v-for="(building, key) in base.buildings" v-bind:key="key">
+        <li v-for="(building, key) in base.buildings" v-bind:key="key"><a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">Test popup</a>
           <div v-if="building !== null">
-            {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">
+              {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
+            </a>
           </div>
           <div v-else>Construire</div>
         </li>
@@ -52,20 +54,7 @@
       </ul>
     </div>
 
-    <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">Test popup</a>
-    <div class="popup" id="popup-test">
-      <div class="content">
-        <div id="set-content">
-
-        </div>
-
-        <div class="link">
-          <a class="cancel" data-close>Cancel</a>
-          <a href="#" class="validate" data-validate>Validate</a>
-        </div>
-        <div class="clear"></div>
-      </div>
-    </div>
+    <popup></popup>
   </div>
 </template>
 
@@ -79,12 +68,12 @@
 
 <script>
   import Utils from '~/mixins/Utils';
-
-  if (process.client) {
-    require('ribs-popup');
-  }
+  import Popup from '~/components/Popup.vue';
 
   export default {
+    components: {
+      Popup
+    },
     mixins: [Utils],
     data() {
       return {
