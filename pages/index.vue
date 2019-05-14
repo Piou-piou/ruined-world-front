@@ -36,7 +36,7 @@
 
       <h2>Buildings</h2>
       <ul>
-        <li v-for="(building, key) in base.buildings" v-bind:key="key"><a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">Test popup</a>
+        <li v-for="(building, key) in base.buildings" v-bind:key="key">
           <div v-if="building !== null">
             <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">
               {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
@@ -53,7 +53,6 @@
         </li>
       </ul>
     </div>
-
     <popup></popup>
   </div>
 </template>

@@ -20,7 +20,7 @@
     mounted() {
       if (process.browser) {
         if( document.readyState !== 'loading' ) {
-          require('ribs-popup');
+          setTimeout(() => require('ribs-popup'), 1000);
         }
       }
     }
