@@ -38,7 +38,7 @@
       <ul>
         <li v-for="(building, key) in base.buildings" v-bind:key="key">
           <div v-if="building !== null">
-            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test">
+            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test" :data-building="building.arrayName">
               {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
             </a>
           </div>
