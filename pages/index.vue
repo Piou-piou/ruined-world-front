@@ -38,7 +38,7 @@
       <ul>
         <li v-for="(building, key) in base.buildings" v-bind:key="key">
           <div v-if="building !== null">
-            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test" :data-building="building.arrayName">
+            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test"  @click="setBuildingToUpdate(building.arrayName)" :data-building="building.arrayName">
               {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
             </a>
           </div>
@@ -115,6 +115,10 @@
 
           this.base.buildings = buildings;
         });
+      },
+
+      setBuildingToUpdate(building = null) {
+        localStorage.setItem('building_array_name', building);
       },
 
       /**
