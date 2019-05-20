@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p @click="alertMe">test</p>
+    test
+    <h1 v-if="new_construction === true">Nouveau bâtiment</h1>
+    <h1 v-else>Bâtiment déjà construit</h1>
   </div>
 </template>
 
@@ -10,20 +12,14 @@
   export default {
     data() {
       return {
-        new_construction: true
-      }
-    },
-    methods: {
-      alertMe() {
-        alert('test');
+        new_construction: false
       }
     },
     mounted() {
       //not work for the moment
-      if (localStorage.building_array_name !== null) {
-        console.log('test');
+      /*if (localStorage.building_array_name !== null) {
         this.new_construction = false;
-      }
+      }*/
     },
   }
 </script>
