@@ -1,8 +1,5 @@
 <template>
   <div>
-<!--    <h1 v-if="new_construction === true">Nouveau bâtiment</h1>-->
-<!--    <h1 v-else>Bâtiment déjà construit</h1>-->
-
     <p @click="alertMe">test</p>
   </div>
 </template>
