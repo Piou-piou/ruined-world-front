@@ -54,6 +54,11 @@
       </ul>
     </div>
     <popup></popup>
+
+
+    <nuxt-link :to="{name: 'test', component:'Poka', params: {id: 12}}">See item 1</nuxt-link>
+
+    <poka></poka>
   </div>
 </template>
 
@@ -68,10 +73,12 @@
 <script>
   import Utils from '~/mixins/Utils';
   import Popup from '~/components/Popup.vue';
+  import Poka from '~/components/Poka.vue';
 
   export default {
     components: {
-      Popup
+      Popup,
+      Poka
     },
     mixins: [Utils],
     data() {
