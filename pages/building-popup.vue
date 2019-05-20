@@ -17,6 +17,7 @@
     mounted() {
       //not work for the moment
       if (localStorage.building_array_name !== null) {
+        console.log('test');
         this.new_construction = false;
       }
     },
