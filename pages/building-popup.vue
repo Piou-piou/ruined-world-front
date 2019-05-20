@@ -11,14 +11,14 @@
   export default {
     data() {
       return {
-        new_construction: false
+        new_construction: true
       }
     },
     mounted() {
       //not work for the moment
-      /*if (localStorage.building_array_name !== null) {
+      if (localStorage.building_array_name !== null) {
         this.new_construction = false;
-      }*/
+      }
     },
   }
 </script>
