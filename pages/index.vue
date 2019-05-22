@@ -53,7 +53,9 @@
         </li>
       </ul>
     </div>
-    <popup></popup>
+    <popup :isDisplayed=displayPopup @close="displayPopup = false"></popup>
+
+    <div @click="displayPopup = true">Show popup</div>
   </div>
 </template>
 
@@ -76,6 +78,7 @@
     mixins: [Utils],
     data() {
       return {
+        displayPopup: false,
         base: {
           resources: {},
           units: {}
