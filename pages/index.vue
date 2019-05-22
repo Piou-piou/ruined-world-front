@@ -38,9 +38,7 @@
       <ul>
         <li v-for="(building, key) in base.buildings" v-bind:key="key">
           <div v-if="building !== null">
-            <a href="#" data-ribspopup data-ajax="building-popup" data-popup="popup-test"  @click="setBuildingToUpdate(building.arrayName)" :data-building="building.arrayName">
-              {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}
-            </a>
+            <a @click="displayPopup(building.arrayName)"> {{building.name}} (lvl : {{building.level}}) --- location : {{building.location}}</a>
           </div>
           <div v-else>Construire</div>
         </li>
@@ -53,9 +51,8 @@
         </li>
       </ul>
     </div>
-    <popup :isDisplayed=displayPopup @close="displayPopup = false"></popup>
 
-    <div @click="displayPopup = true">Show popup</div>
+    <BuildingPopup :isDisplayed=isDisplayPopup @close="isDisplayPopup = false" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
 
@@ -69,16 +66,16 @@
 
 <script>
   import Utils from '~/mixins/Utils';
-  import Popup from '~/components/Popup.vue';
+  import BuildingPopup from '~/components/BuildingPopup.vue';
 
   export default {
     components: {
-      Popup
+      BuildingPopup
     },
     mixins: [Utils],
     data() {
       return {
-        displayPopup: false,
+        isDisplayPopup: false,
         base: {
           resources: {},
           units: {}
@@ -88,6 +85,11 @@
       }
     },
     methods: {
+      displayPopup(building) {
+        this.$refs.buildingPopup.getBuilding(building);
+        this.isDisplayPopup = true;
+      },
+
       /**
        * return the base informations like resources, buldings, units, ...
        */
