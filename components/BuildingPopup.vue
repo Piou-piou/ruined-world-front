@@ -25,6 +25,8 @@
           </ul>
         </div>
 
+        <div>{{error_messsage}}</div>
+
         <div class="link">
           <a class="cancel" @click="$emit('close')">Cancel</a>
           <a class="validate" @click="build()">Validate</a>
@@ -46,7 +48,8 @@
       return {
         building: {},
         construction_time : null,
-        resources_build: {}
+        resources_build: {},
+        error_messsage: null
       }
     },
     methods: {
@@ -79,7 +82,12 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
-
+          if (data.success === true) {
+            this.$emit('close');
+            this.$router.push('/');
+          } else {
+            this.error_messsage = "A building is already in construction in your base";
+          }
         });
       }
     }
