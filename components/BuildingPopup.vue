@@ -4,6 +4,25 @@
       <div class="content">
         <div id="set-content">
           <h1>{{building.name}}</h1>
+          <ul>
+            <li>Level : {{building.level}}</li>
+          </ul>
+
+
+          <h2>Informations to pass to next level</h2>
+
+          <h3>Resources</h3>
+          <ul>
+            <li>Electricity : {{resources_build.electricity}}</li>
+            <li>Iron : {{resources_build.iron}}</li>
+            <li>Fuel : {{resources_build.fuel}}</li>
+            <li>Water : {{resources_build.water}}</li>
+          </ul>
+
+          <h3>Time</h3>
+          <ul>
+            <li>Time to build : {{construction_time}}</li>
+          </ul>
         </div>
 
         <div class="link">
@@ -43,9 +62,8 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
-          console.log('df');
-          this.building = data.building;
-          this.construction_time = data.construction_time;
+          this.building = JSON.parse(data.building);
+          this.construction_time = this.secondToHourMinute(data.construction_time);
           this.resources_build = data.resources_build;
         });
       }
