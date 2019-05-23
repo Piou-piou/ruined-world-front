@@ -27,7 +27,7 @@
 
         <div class="link">
           <a class="cancel" @click="$emit('close')">Cancel</a>
-          <a href="#" class="validate">Validate</a>
+          <a class="validate" @click="build()">Validate</a>
         </div>
         <div class="clear"></div>
       </div>
@@ -65,6 +65,21 @@
           this.building = JSON.parse(data.building);
           this.construction_time = this.secondToHourMinute(data.construction_time);
           this.resources_build = data.resources_build;
+        });
+      },
+      build() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+          array_name: this.building.arrayName
+        }, this.getToken());
+
+        this.getApi().post('/buildings/build/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+
         });
       }
     }
