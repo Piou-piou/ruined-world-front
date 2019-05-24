@@ -53,7 +53,7 @@
       </ul>
     </div>
 
-    <BuildingPopup :isDisplayed=isDisplayPopup @close="isDisplayPopup = false" ref="buildingPopup"></BuildingPopup>
+    <BuildingPopup :isDisplayed=isDisplayPopup @close="closePopup" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
 
@@ -89,6 +89,11 @@
       displayPopup(building) {
         this.$refs.buildingPopup.getBuilding(building);
         this.isDisplayPopup = true;
+      },
+
+      closePopup() {
+        this.isDisplayPopup = false;
+        this.getBase();
       },
 
       /**
