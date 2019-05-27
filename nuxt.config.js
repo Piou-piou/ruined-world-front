@@ -15,7 +15,8 @@ module.exports = {
   },
 
   css: [
-    'ribs-popup/dist/css/style.min.css'
+    'ribs-popup/dist/css/style.min.css',
+    'ribs-flash-message/dist/css/style.css'
   ],
 
   /*
@@ -26,7 +27,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: ['ribs-api'],
+    transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import RibsApi from 'ribs-api';
+import ribsFlash from 'ribs-flash-message';
 import game_infos from '~/assets/game_infos.json';
 
 export default {
@@ -46,6 +47,18 @@ export default {
       }
 
       return this.api;
+    },
+
+    /**
+     * metho to get flash message
+     * @returns {RibsFlashMessage}
+     */
+    getFlash() {
+      if (this.flash === undefined) {
+        this.flash = new ribsFlash();
+      }
+
+      return this.flash;
     },
 
     /**
