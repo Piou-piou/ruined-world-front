@@ -46,11 +46,19 @@
       </ul>
 
       <h2>Unités</h2>
-      <ul>
+      <ul v-if="base.units.length  > 0">
         <li v-for="(unit, key) in base.units" v-bind:key="key">
           {{unit.name}} (lvl : {{unit.level}})
         </li>
       </ul>
+      <div v-else>Aucune unité présente dans la base</div>
+
+      <h2>Bâtiment en construction</h2>
+      <ul v-if="current_construction.name !== undefined">
+        <li>bâtiment : {{current_construction.name}}</li>
+        <li>Fin construction : {{current_construction.endConstruction}}</li>
+      </ul>
+      <div v-else>Aucun bâtiment en construction</div>
     </div>
 
     <BuildingPopup :isDisplayed=isDisplayPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
@@ -82,6 +90,7 @@
           units: {}
         },
         resources_infos: [],
+        current_construction: {},
         game_infos: {}
       }
     },
