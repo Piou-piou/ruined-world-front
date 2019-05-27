@@ -86,7 +86,7 @@
             this.$emit('close');
             this.$router.push('/');
           } else {
-            this.error_messsage = "A building is already in construction in your base";
+            this.getFlash().append('A building is already in construction in your base', 'error');
           }
         });
       }
