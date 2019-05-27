@@ -84,7 +84,6 @@
         }).then(data => {
           if (data.success === true) {
             this.$emit('close');
-            this.$router.push('/');
           } else {
             this.getFlash().append('A building is already in construction in your base', 'error');
           }
