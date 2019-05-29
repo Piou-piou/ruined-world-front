@@ -143,10 +143,6 @@
         });
       },
 
-      setBuildingToUpdate(building = null) {
-        localStorage.setItem('building_array_name', building);
-      },
-
       /**
        * to logout from the game
        */
