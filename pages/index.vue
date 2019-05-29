@@ -165,7 +165,6 @@
         }).then(data => {
           if (data.success === true && data.buildings.length > 0) {
             this.current_constructions = data.buildings;
-            console.log(this.current_constructions);
           }
         })
       },
