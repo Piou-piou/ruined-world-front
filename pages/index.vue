@@ -54,10 +54,12 @@
       <div v-else>Aucune unité présente dans la base</div>
 
       <h2>Bâtiment en construction</h2>
-      <ul v-if="current_construction.name !== undefined">
-        <li>bâtiment : {{current_construction.name}}</li>
-        <li>Fin construction : {{current_construction.endConstruction}}</li>
-      </ul>
+      <div v-if="current_constructions.length > 0">
+        <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key">
+          <li>bâtiment : {{current_construction.name}}</li>
+          <li>Fin construction : {{current_construction.endConstruction}}</li>
+        </ul>
+      </div>
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
@@ -90,7 +92,7 @@
           units: {}
         },
         resources_infos: [],
-        current_construction: {},
+        current_constructions: {},
         game_infos: {}
       }
     },
@@ -140,7 +142,29 @@
           }
 
           this.base.buildings = buildings;
+          this.getCurrentConstructions();
         });
+      },
+
+      /**
+       * method to get current construction in base
+       */
+      getCurrentConstructions() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('buildings/in-construction/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success === true && data.buildings.length > 0) {
+            this.current_constructions = data.buildings;
+            console.log(this.current_constructions);
+          }
+        })
       },
 
       /**
