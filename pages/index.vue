@@ -58,6 +58,7 @@
         <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key">
           <li>bâtiment : {{current_construction.name}}</li>
           <li>Fin construction : {{current_construction.endConstruction}}</li>
+          <li><Countdown :end="current_construction.endConstruction"></Countdown></li>
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
@@ -78,10 +79,12 @@
 <script>
   import Utils from '~/mixins/Utils';
   import BuildingPopup from '~/components/BuildingPopup.vue';
+  import Countdown from '~/components/Countdown.vue';
 
   export default {
     components: {
-      BuildingPopup
+      BuildingPopup,
+      Countdown
     },
     mixins: [Utils],
     data() {
