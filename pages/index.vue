@@ -41,7 +41,7 @@
             <div @click="displayBuildingPopup(building.arrayName)">
               {{building.name}} (lvl : {{building.level}}) in build {{building.inConstruction}}</div>
           </div>
-          <div v-else @click="displayListBuildingToBuildPopup()">Construire</div>
+          <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
         </li>
       </ul>
 
@@ -63,7 +63,7 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
-    <ListBuildingToBuildPopup :isDisplayed=isDisplayListBuildingToBuildPopup @close="closePopup()" ref="listBuildingToBuildPopup"></ListBuildingToBuildPopup>
+    <ListBuildingToBuildPopup :isDisplayed=isDisplayListBuildingToBuildPopup :caseToBuild=caseToBuildNumber @close="closePopup()" ref="listBuildingToBuildPopup"></ListBuildingToBuildPopup>
     <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
@@ -85,6 +85,7 @@
       return {
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
+        caseToBuildNumber: null,
         base: {
           resources: {},
           units: {}
@@ -106,7 +107,8 @@
       /**
        * to open popup to list building to build
        */
-      displayListBuildingToBuildPopup() {
+      displayListBuildingToBuildPopup(caseNumber) {
+        this.caseToBuildNumber = caseNumber;
         this.$refs.listBuildingToBuildPopup.getBuildings();
         this.isDisplayListBuildingToBuildPopup = true;
       },
