@@ -1,9 +1,9 @@
 <template>
   <div class="vuejs-countdown">
-    <span>
+    <span v-if="days > 0">
       {{ days | twoDigits }} {{ days > 1 ? 'days' : 'day' }}
     </span>
-    <span>
+    <span  v-if="hours > 0">
       {{ hours | twoDigits }} {{ hours > 1 ? 'hours' : 'hour' }}
     </span>
     <span>
