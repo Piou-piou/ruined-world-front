@@ -78,6 +78,28 @@ export default {
     },
 
     /**
+     * method to return current resources of the base
+     * @returns {null|any}
+     */
+    getResources() {
+      if (localStorage.resources === undefined) {
+        return null;
+      }
+
+      return JSON.parse(localStorage.resources);
+    },
+
+    setResources(resources) {
+      const resources_array = {
+        electricity: resources.electricity,
+        iron: resources.iron,
+        fuel: resources.iron,
+        water: resources.water,
+      };
+      localStorage.setItem('resources', JSON.stringify(resources_array));
+    },
+
+    /**
      * method to get json of game config and vars
      */
     getGameInfos() {

@@ -136,6 +136,7 @@
           this.setToken(data.token);
           this.base = JSON.parse(data.base);
           this.resources_infos = data.resources_infos;
+          this.setResources(this.base.resources);
 
           const buildings = {};
 
@@ -199,6 +200,7 @@
           this.base.resources.fuel = data.fuel;
           this.base.resources.water = data.water;
           this.setToken(data.token);
+          this.setResources(data);
         });
       }, 30000);
     },
