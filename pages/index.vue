@@ -57,7 +57,6 @@
       <div v-if="current_constructions.length > 0">
         <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key">
           <li>bâtiment : {{current_construction.name}}</li>
-          <li>Fin construction : {{current_construction.endConstruction}}</li>
           <li><Countdown :end="current_construction.endConstruction"></Countdown></li>
         </ul>
       </div>
