@@ -38,7 +38,7 @@
       <ul>
         <li v-for="(building, key) in base.buildings" v-bind:key="key">
           <div v-if="building !== null">
-            <div @click="displayPopup(building.arrayName)">
+            <div @click="displayBuildingPopup(building.arrayName)">
               {{building.name}} (lvl : {{building.level}}) in build {{building.inConstruction}}</div>
           </div>
           <div v-else @click="displayPopup()">Construire</div>
@@ -94,7 +94,7 @@
       /**
        * to open popup to upgrade a building
        */
-      displayPopup(building) {
+      displayBuildingPopup(building) {
         this.$refs.buildingPopup.getBuilding(building);
         this.isDisplayBuildingPopup = true;
       },
