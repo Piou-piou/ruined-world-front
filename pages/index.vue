@@ -107,6 +107,7 @@
        * to open popup to list building to build
        */
       displayListBuildingToBuildPopup() {
+        this.$refs.listBuildingToBuildPopup.getBuildings();
         this.isDisplayListBuildingToBuildPopup = true;
       },
 
