@@ -2,28 +2,26 @@
   <div>
     <div class="popup" v-bind:class="{displayed: isDisplayed}">
       <div class="content">
-        <div id="set-content">
-          <h1>{{building.name}}</h1>
-          <ul>
-            <li>Level : {{building.level}}</li>
-          </ul>
+        <h1>{{building.name}}</h1>
+        <ul>
+          <li>Level : {{building.level}}</li>
+        </ul>
 
 
-          <h2>Informations to pass to next level</h2>
+        <h2>Informations to pass to next level</h2>
 
-          <h3>Resources</h3>
-          <ul>
-            <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < resources_build.electricity}">{{resources_build.electricity}}</span></li>
-            <li>Iron : <span v-bind:class="{'resources-error': resources.iron < resources_build.iron}">{{resources_build.iron}}</span></li>
-            <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < resources_build.fuel}">{{resources_build.fuel}}</span></li>
-            <li>Water : <span v-bind:class="{'resources-error': resources.water < resources_build.water}">{{resources_build.water}}</span></li>
-          </ul>
+        <h3>Resources</h3>
+        <ul>
+          <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < resources_build.electricity}">{{resources_build.electricity}}</span></li>
+          <li>Iron : <span v-bind:class="{'resources-error': resources.iron < resources_build.iron}">{{resources_build.iron}}</span></li>
+          <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < resources_build.fuel}">{{resources_build.fuel}}</span></li>
+          <li>Water : <span v-bind:class="{'resources-error': resources.water < resources_build.water}">{{resources_build.water}}</span></li>
+        </ul>
 
-          <h3>Time</h3>
-          <ul>
-            <li>Time to build : {{construction_time}}</li>
-          </ul>
-        </div>
+        <h3>Time</h3>
+        <ul>
+          <li>Time to build : {{construction_time}}</li>
+        </ul>
 
         <div>{{error_messsage}}</div>
 
