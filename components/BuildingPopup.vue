@@ -13,10 +13,10 @@
 
           <h3>Resources</h3>
           <ul>
-            <li>Electricity : {{resources_build.electricity}}</li>
-            <li>Iron : {{resources_build.iron}}</li>
-            <li>Fuel : {{resources_build.fuel}}</li>
-            <li>Water : {{resources_build.water}}</li>
+            <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < resources_build.electricity}">{{resources_build.electricity}}</span></li>
+            <li>Iron : <span v-bind:class="{'resources-error': resources.iron < resources_build.iron}">{{resources_build.iron}}</span></li>
+            <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < resources_build.fuel}">{{resources_build.fuel}}</span></li>
+            <li>Water : <span v-bind:class="{'resources-error': resources.water < resources_build.water}">{{resources_build.water}}</span></li>
           </ul>
 
           <h3>Time</h3>
@@ -49,7 +49,8 @@
         building: {},
         construction_time : null,
         resources_build: {},
-        error_messsage: null
+        error_messsage: null,
+        resources: {}
       }
     },
     methods: {
@@ -68,6 +69,7 @@
           this.building = JSON.parse(data.building);
           this.construction_time = this.secondToHourMinute(data.construction_time);
           this.resources_build = data.resources_build;
+          this.resources = this.building.base.resources;
         });
       },
       build() {
