@@ -41,7 +41,7 @@
             <div @click="displayBuildingPopup(building.arrayName)">
               {{building.name}} (lvl : {{building.level}}) in build {{building.inConstruction}}</div>
           </div>
-          <div v-else @click="displayPopup()">Construire</div>
+          <div v-else @click="displayListBuildingToBuildPopup()">Construire</div>
         </li>
       </ul>
 
@@ -63,6 +63,7 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
+    <ListBuildingToBuildPopup :isDisplayed=isDisplayListBuildingToBuildPopup @close="closePopup()" ref="listBuildingToBuildPopup"></ListBuildingToBuildPopup>
     <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
@@ -70,17 +71,20 @@
 <script>
   import Utils from '~/mixins/Utils';
   import BuildingPopup from '~/components/BuildingPopup.vue';
+  import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
   import Countdown from '~/components/Countdown.vue';
 
   export default {
     components: {
       BuildingPopup,
+      ListBuildingToBuildPopup,
       Countdown
     },
     mixins: [Utils],
     data() {
       return {
         isDisplayBuildingPopup: false,
+        isDisplayListBuildingToBuildPopup: false,
         base: {
           resources: {},
           units: {}
@@ -100,10 +104,18 @@
       },
 
       /**
+       * to open popup to list building to build
+       */
+      displayListBuildingToBuildPopup() {
+        this.isDisplayListBuildingToBuildPopup = true;
+      },
+
+      /**
        * to close popup
        */
       closePopup() {
         this.isDisplayBuildingPopup = false;
+        this.isDisplayListBuildingToBuildPopup = false;
         this.getBase();
       },
 
