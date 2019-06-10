@@ -41,7 +41,7 @@
             <div @click="displayPopup(building.arrayName)">
               {{building.name}} (lvl : {{building.level}}) in build {{building.inConstruction}}</div>
           </div>
-          <div v-else>Construire</div>
+          <div v-else @click="displayPopup()">Construire</div>
         </li>
       </ul>
 
@@ -64,7 +64,7 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
-    <BuildingPopup :isDisplayed=isDisplayPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
+    <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
 
@@ -89,7 +89,7 @@
     mixins: [Utils],
     data() {
       return {
-        isDisplayPopup: false,
+        isDisplayBuildingPopup: false,
         base: {
           resources: {},
           units: {}
@@ -105,14 +105,14 @@
        */
       displayPopup(building) {
         this.$refs.buildingPopup.getBuilding(building);
-        this.isDisplayPopup = true;
+        this.isDisplayBuildingPopup = true;
       },
 
       /**
        * to close popup
        */
       closePopup() {
-        this.isDisplayPopup = false;
+        this.isDisplayBuildingPopup = false;
         this.getBase();
       },
 
