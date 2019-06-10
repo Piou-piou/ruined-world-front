@@ -11,25 +11,25 @@
       <h2>Nom de la base : {{base.name}}</h2>
 
       <h2>Ressources</h2>
-      <ul class="resources">
+      <ul>
         <li><strong>Electricity</strong> : <span
-          v-bind:class="{'max-storage': base.resources.electricity === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.electricity === resources_infos.max_storage}">
           {{base.resources.electricity}}</span> (+{{resources_infos.electricity_production}})
         </li>
         <li><strong>Iron</strong> : <span
-          v-bind:class="{'max-storage': base.resources.iron === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.iron === resources_infos.max_storage}">
           {{base.resources.iron}}</span> (+{{resources_infos.iron_production}})
         </li>
         <li><strong>Fuel</strong> : <span
-          v-bind:class="{'max-storage': base.resources.fuel === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.fuel === resources_infos.max_storage}">
           {{base.resources.fuel}}</span> (+{{resources_infos.fuel_production}})
         </li>
         <li><strong>Water</strong> : <span
-          v-bind:class="{'max-storage': base.resources.water === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.water === resources_infos.max_storage}">
           {{base.resources.water}}</span> (+{{resources_infos.water_production}})
         </li>
         <li><strong>Food</strong> : <span
-          v-bind:class="{'max-storage': base.resources.food === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage}">
           {{base.resources.food}}</span>
         </li>
       </ul>
@@ -67,14 +67,6 @@
     <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
 </template>
-
-<style lang="scss">
-  .resources {
-    .max-storage {
-      color: red;
-    }
-  }
-</style>
 
 <script>
   import Utils from '~/mixins/Utils';

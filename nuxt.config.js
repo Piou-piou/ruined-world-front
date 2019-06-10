@@ -10,13 +10,14 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Ruined world, gestion game is a free game around gestion of a base and an army and ressources production' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
 
   css: [
     'ribs-popup/dist/css/style.min.css',
-    'ribs-flash-message/dist/css/style.css'
+    'ribs-flash-message/dist/css/style.css',
+    '~assets/style.scss'
   ],
 
   /*
@@ -27,6 +28,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    extractCSS: true,
     transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
