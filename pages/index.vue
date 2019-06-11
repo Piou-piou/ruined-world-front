@@ -83,6 +83,7 @@
     mixins: [Utils],
     data() {
       return {
+        emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
         caseToBuildNumber: null,
@@ -108,9 +109,11 @@
        * to open popup to list building to build
        */
       displayListBuildingToBuildPopup(caseNumber) {
-        this.caseToBuildNumber = caseNumber;
-        this.$refs.listBuildingToBuildPopup.getBuildings();
-        this.isDisplayListBuildingToBuildPopup = true;
+        if (this.emptyLocation) {
+          this.caseToBuildNumber = caseNumber;
+          this.$refs.listBuildingToBuildPopup.getBuildings();
+          this.isDisplayListBuildingToBuildPopup = true;
+        }
       },
 
       /**
@@ -142,6 +145,7 @@
           this.setResources(this.base.resources);
 
           const buildings = {};
+          let buildingNumber = 0;
 
           for (let i = 1; i <= this.game_infos.building_locations; i++) {
             buildings[i] = null;
@@ -149,6 +153,11 @@
 
           for (const building of this.base.buildings) {
             buildings[building.location] = building;
+            buildingNumber = buildingNumber +1;
+          }
+
+          if (buildingNumber === this.game_infos.building_locations) {
+            this.emptyLocation = false;
           }
 
           this.base.buildings = buildings;
