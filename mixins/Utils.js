@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import RibsApi from 'ribs-api';
+import ribsFlash from 'ribs-flash-message';
+import game_infos from '~/assets/game_infos.json';
 
 export default {
   methods: {
@@ -48,6 +50,18 @@ export default {
     },
 
     /**
+     * metho to get flash message
+     * @returns {RibsFlashMessage}
+     */
+    getFlash() {
+      if (this.flash === undefined) {
+        this.flash = new ribsFlash();
+      }
+
+      return this.flash;
+    },
+
+    /**
      * method to get user auth token
      * @returns {any}
      */
@@ -61,6 +75,35 @@ export default {
      */
     setToken(value) {
       localStorage.setItem('token', value);
+    },
+
+    /**
+     * method to return current resources of the base
+     * @returns {null|any}
+     */
+    getResources() {
+      if (localStorage.resources === undefined) {
+        return null;
+      }
+
+      return JSON.parse(localStorage.resources);
+    },
+
+    setResources(resources) {
+      const resources_array = {
+        electricity: resources.electricity,
+        iron: resources.iron,
+        fuel: resources.iron,
+        water: resources.water,
+      };
+      localStorage.setItem('resources', JSON.stringify(resources_array));
+    },
+
+    /**
+     * method to get json of game config and vars
+     */
+    getGameInfos() {
+      return game_infos;
     },
 
     /**
@@ -97,6 +140,16 @@ export default {
       } else if (process.client && page === null && (localStorage.getItem('token') === null || localStorage.getItem('token') === '')) {
         this.$router.push('/logout');
       }
+    },
+
+    secondToHourMinute(time) {
+      const hours = Math.floor(time / 3600);
+      const minutes = Math.floor(time % 3600 / 60);
+
+      const hoursDisplay = hours === 0 ? '' : `${hours}h`;
+      const minutesDisplay = minutes === 0 ? '' : `${minutes}min`;
+
+      return `${hoursDisplay} ${minutesDisplay}`;
     }
   }
 };
