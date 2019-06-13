@@ -7,6 +7,7 @@
             <h2>{{building.name}}</h2>
 
             <h2>Informations to build</h2>
+            <p>{{building.explanation}}</p>
 
             <h3>Resources</h3>
             <ul>
