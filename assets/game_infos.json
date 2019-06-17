@@ -1,6 +1,6 @@
 {
 	"building_locations": 13,
-	"specifiq_popup": {
+	"specific_popup": {
 		"command_center": "CommandCenterPopup"
 	}
 }
