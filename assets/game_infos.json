@@ -1,3 +1,6 @@
 {
-	"building_locations": 13
+	"building_locations": 13,
+	"specifiq_popup": {
+		"command_center": "CommandCenterPopup"
+	}
 }
