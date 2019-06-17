@@ -71,6 +71,7 @@
 
           const specificPopup = this.getGameInfos().specific_popup[array_name];
           this.tabs = [];
+          this.currentTab = 'Default';
           if (specificPopup) {
             this.tabs.push('Default');
             this.tabs.push(specificPopup);
