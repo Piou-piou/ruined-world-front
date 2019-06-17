@@ -7,6 +7,7 @@
             <h2>{{building.name}}</h2>
 
             <h2>Informations to build</h2>
+            <p>{{building.explanation}}</p>
 
             <h3>Resources</h3>
             <ul>
@@ -19,6 +20,7 @@
             <h3>Time</h3>
             <ul>
               <li>Time to build : {{secondToHourMinute(building.construction_time)}}</li>
+              <li>{{building.explanation_next_power}}</li>
             </ul>
 
             <a href="#" @click="build(building.array_name)">Construire</a>

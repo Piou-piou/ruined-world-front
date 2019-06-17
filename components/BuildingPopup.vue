@@ -5,6 +5,8 @@
         <h1>{{building.name}}</h1>
         <ul>
           <li>Level : {{building.level}}</li>
+          <li>{{explanation}}</li>
+          <li>{{explanation_current_power}}</li>
         </ul>
 
 
@@ -21,6 +23,7 @@
         <h3>Time</h3>
         <ul>
           <li>Time to build : {{construction_time}}</li>
+          <li>{{explanation_next_power}}</li>
         </ul>
 
         <div>{{error_messsage}}</div>
@@ -45,6 +48,9 @@
     data() {
       return {
         building: {},
+        explanation: '',
+        explanation_current_power: '',
+        explanation_next_power: '',
         construction_time : null,
         resources_build: {},
         error_messsage: null,
@@ -65,6 +71,9 @@
           'token': this.getToken()
         }).then(data => {
           this.building = JSON.parse(data.building);
+          this.explanation = data.explanation;
+          this.explanation_current_power = data.explanation_current_power;
+          this.explanation_next_power = data.explanation_next_power;
           this.construction_time = this.secondToHourMinute(data.construction_time);
           this.resources_build = data.resources_build;
           this.resources = this.building.base.resources;
