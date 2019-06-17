@@ -8,7 +8,6 @@
 
             <h2>Informations to build</h2>
             <p>{{building.explanation}}</p>
-            <p>{{building.explanation_current_power}}</p>
 
             <h3>Resources</h3>
             <ul>
