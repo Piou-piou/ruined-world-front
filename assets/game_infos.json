@@ -1,6 +1,9 @@
 {
 	"building_locations": 13,
 	"specific_popup": {
-		"command_center": "CommandCenterPopup"
+		"command_center": {
+			"name": "Change name of base",
+			"url": "CommandCenterPopup"
+		}
 	}
 }
