@@ -3,7 +3,7 @@
 	"specific_popup": {
 		"command_center": [
 			{
-				"name": "Change name of base",
+				"name": "Changer le nom de la base",
 				"url": "CommandCenterPopup"
 			}
 		]
