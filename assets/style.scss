@@ -1,3 +1,11 @@
 .resources-error {
     color: red;
 }
+
+.popup {
+    nav {
+        > div {
+            display: inline-block;
+        }
+    }
+}

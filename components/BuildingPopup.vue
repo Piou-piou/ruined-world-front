@@ -2,12 +2,12 @@
   <div>
     <div class="popup" v-bind:class="{displayed: isDisplayed}">
       <div class="content">
-        <button
-          v-if="tabs.length > 0"
-          v-for="tab of tabs"
-          v-bind:key="tab.name"
-          v-on:click="changeComponent(tab.url)"
-        >{{ tab.name }}</button>
+        <nav>
+          <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">
+            <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
+          </div>
+        </nav>
+
         <Component :is="component" />
 
         <div class="link">
@@ -73,7 +73,7 @@
           this.tabs = [];
           this.currentTab = 'Default';
           if (specificPopup) {
-            this.tabs.push({name: 'default', url: 'Default'});
+            this.tabs.push([{name: 'default', url: 'Default'}]);
             this.tabs.push(specificPopup);
           }
         });
