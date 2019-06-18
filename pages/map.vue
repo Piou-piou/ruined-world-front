@@ -12,9 +12,12 @@
       <div class="controls" id="left" direction="left"></div>
 
       <div v-bind:style="{'width': map_size*map_multiplicator + 'px',  'height': map_size*map_multiplicator + 'px'}"  class="map">
-        <div v-for="(base, key) in bases" v-bind:key="key" v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}">
+        <div v-for="(base, key) in bases"
+             v-bind:key="key"
+             v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
+        >
           <div>
-            <p>Base : {{base.name}}</p>
+            <p>Base : {{base.name}} de {{base.pseudo}}</p>
           </div>
         </div>
 
@@ -38,6 +41,7 @@
     data() {
       return {
         bases: {},
+        guid_player: null,
         map_size: this.getGameInfos().map_size,
         map_multiplicator: this.getGameInfos().map_multiplicator
       }
@@ -58,6 +62,7 @@
       }).then(data => {
         if (data.success) {
           this.bases = data.bases;
+          this.guid_player = data.guid_player;
         }
       });
     }
