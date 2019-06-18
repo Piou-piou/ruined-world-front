@@ -1,11 +1,3 @@
-.resources-error {
-    color: red;
-}
-
-.popup {
-    nav {
-        > div {
-            display: inline-block;
-        }
-    }
-}
+@import "variables";
+@import "general";
+@import "map";
