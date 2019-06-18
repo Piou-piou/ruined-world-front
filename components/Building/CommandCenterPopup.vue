@@ -26,6 +26,7 @@
           token: this.getToken(),
           iat: Math.floor(Date.now() / 1000) - 30,
           guid_base: this.getGuidBase(),
+          base_name: this.base_name,
         }, this.getToken());
 
         this.getApi().post('/base/change-name/', {
@@ -34,9 +35,9 @@
         }).then(data => {
           if (data.success === true) {
             this.base_name = data.base_name;
-            this.getFlash().append('Le nom de votre base a été modifié.', 'success');
+            this.getFlash().append(data.success_message, 'success');
           } else {
-            this.getFlash().append('Une erreur est survenue, merci de réessayer', 'error');
+            this.getFlash().append(data.error_message, 'error');
           }
         });
       }
