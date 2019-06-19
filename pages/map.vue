@@ -65,7 +65,6 @@
         if (data.success) {
           this.bases = data.bases;
           this.guids_player_bases = data.guids_player_bases;
-          console.log(this.guids_player_bases);
           this.id_player = data.id_player;
         }
       });
