@@ -51,8 +51,11 @@
     methods: {
       moveMap(direction) {
         const deplace = 50;
-        const originalDirection = this.$refs.map.style[direction] === '' ? 0 : parseInt(this.$refs.map.style[direction].split('px')[0], 10);
-        const newPosition = direction.indexOf(['right', 'bottom']) === -1 ? originalDirection-deplace : originalDirection+deplace;
+        let moveDirection = direction;
+        moveDirection = moveDirection ==='bottom' ? 'top' : moveDirection;
+        moveDirection = moveDirection ==='right' ? 'left' : moveDirection;
+        const originalDirection = this.$refs.map.style[moveDirection] === '' ? 0 : parseInt(this.$refs.map.style[moveDirection].split('px')[0], 10);
+        const newPosition = direction === 'right' || direction === 'bottom' ? originalDirection-deplace : originalDirection+deplace;
         direction = direction === 'right' ? 'left' : direction;
         direction = direction === 'bottom' ? 'top' : direction;
         this.$refs.map.style[direction] = (newPosition)+'px';
