@@ -15,6 +15,7 @@
         <div v-for="(base, key) in bases"
              v-bind:key="key"
              v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
+             v-bind:class="{'my-base': base.guid == getGuidBase(), 'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase()}"
         >
           <div>
             <p>Base : {{base.name}} de {{base.pseudo}}</p>
@@ -41,7 +42,8 @@
     data() {
       return {
         bases: {},
-        guid_player: null,
+        guids_player_bases: [],
+        id_player: null,
         map_size: this.getGameInfos().map_size,
         map_multiplicator: this.getGameInfos().map_multiplicator
       }
@@ -62,7 +64,9 @@
       }).then(data => {
         if (data.success) {
           this.bases = data.bases;
-          this.guid_player = data.guid_player;
+          this.guids_player_bases = data.guids_player_bases;
+          console.log(this.guids_player_bases);
+          this.id_player = data.id_player;
         }
       });
     }
