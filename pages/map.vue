@@ -6,12 +6,12 @@
     <h1>Map</h1>
 
     <div class="map-players">
-      <div class="controls" id="top" direction="top"></div>
-      <div class="controls" id="right" direction="right"></div>
-      <div class="controls" id="bottom" direction="bottom"></div>
-      <div class="controls" id="left" direction="left"></div>
+      <div class="controls" id="top" @click="moveMap('top')"></div>
+      <div class="controls" id="right" @click="moveMap('right')"></div>
+      <div class="controls" id="bottom" @click="moveMap('bottom')"></div>
+      <div class="controls" id="left" @click="moveMap('left')"></div>
 
-      <div v-bind:style="{'width': map_size*map_multiplicator + 'px',  'height': map_size*map_multiplicator + 'px'}"  class="map">
+      <div v-bind:style="{'width': map_size*map_multiplicator + 'px',  'height': map_size*map_multiplicator + 'px'}"  class="map" ref="map">
         <div v-for="(base, key) in bases"
              v-bind:key="key"
              v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
@@ -49,7 +49,14 @@
       }
     },
     methods: {
-
+      moveMap(direction) {
+        const deplace = 50;
+        const originalDirection = this.$refs.map.style[direction] === '' ? 0 : parseInt(this.$refs.map.style[direction].split('px')[0], 10);
+        const newPosition = direction.indexOf(['right', 'bottom']) === -1 ? originalDirection-deplace : originalDirection+deplace;
+        direction = direction === 'right' ? 'left' : direction;
+        direction = direction === 'bottom' ? 'top' : direction;
+        this.$refs.map.style[direction] = (newPosition)+'px';
+      }
     },
     mounted() {
       const jwtInfos = this.getJwt().sign({
