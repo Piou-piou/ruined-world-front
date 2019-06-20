@@ -16,15 +16,10 @@
              v-bind:key="key"
              v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
              v-bind:class="{'my-base': base.guid == getGuidBase(), 'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase()}"
+             @mouseover="getTravalTime(base.guid)"
         >
           <div>
             <p>Base : {{base.name}} de {{base.pseudo}}</p>
-          </div>
-        </div>
-
-        <div style="left:30px;top:30px;">
-          <div>
-            <p>Base : sdf du joueur : sfd</p>
           </div>
         </div>
       </div>
@@ -59,7 +54,26 @@
         direction = direction === 'right' ? 'left' : direction;
         direction = direction === 'bottom' ? 'top' : direction;
         this.$refs.map.style[direction] = (newPosition)+'px';
-      }
+      },
+      getTravalTime(base_guid) {
+        if (base_guid !== this.getGuidBase()) {
+          const jwtInfos = this.getJwt().sign({
+            token: this.getToken(),
+            iat: Math.floor(Date.now() / 1000) - 30,
+            guid_base: this.getGuidBase(),
+            guid_other_base: base_guid
+          }, this.getToken());
+
+          this.getApi().post('base/travel-time/', {
+            'infos': jwtInfos,
+            'token': this.getToken(),
+          }).then(data => {
+            if (data.success) {
+              console.log(data);
+            }
+          });
+        }
+      },
     },
     mounted() {
       const jwtInfos = this.getJwt().sign({
