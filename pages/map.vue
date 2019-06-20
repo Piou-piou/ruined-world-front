@@ -19,7 +19,7 @@
              @mouseover="getTravalTime(base.guid)"
         >
           <div>
-            <p>Base : {{base.name}} de {{base.pseudo}}</p>
+            <p>Base : {{base.name}} de {{base.pseudo}} <span v-show="travel_time != 0">(trajet : {{travel_time}})</span></p>
           </div>
         </div>
       </div>
@@ -37,6 +37,7 @@
     data() {
       return {
         bases: {},
+        travel_time: 0,
         guids_player_bases: [],
         id_player: null,
         map_size: this.getGameInfos().map_size,
@@ -78,13 +79,14 @@
             'token': this.getToken(),
           }).then(data => {
             if (data.success) {
-              console.log(data);
+              this.travel_time = data.travel_time;
             }
           });
         }
       },
     },
     mounted() {
+      this.travel_time = 0;
       const jwtInfos = this.getJwt().sign({
         token: this.getToken(),
         iat: Math.floor(Date.now() / 1000) - 30,
