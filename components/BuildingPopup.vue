@@ -48,6 +48,10 @@
       }
     },
     methods: {
+      /**
+       * method that get infos about a building
+       * @param array_name
+       */
       getBuilding(array_name) {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -78,6 +82,10 @@
           }
         });
       },
+
+      /**
+       * methot that launch construction of building
+       */
       build() {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -97,6 +105,11 @@
           }
         });
       },
+
+      /**
+       * method to load specific component of a building
+       * @param url
+       */
       changeComponent(url) {
         this.component = () => getSpecifiqBuilding(url);
       }

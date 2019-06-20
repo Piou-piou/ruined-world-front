@@ -44,6 +44,10 @@
       }
     },
     methods: {
+      /**
+       * method to move map based on direction
+       * @param direction
+       */
       moveMap(direction) {
         const deplace = 50;
         let moveDirection = direction;
@@ -55,6 +59,11 @@
         direction = direction === 'bottom' ? 'top' : direction;
         this.$refs.map.style[direction] = (newPosition)+'px';
       },
+
+      /**
+       * method to get travel time on hover a base
+       * @param base_guid
+       */
       getTravalTime(base_guid) {
         if (base_guid !== this.getGuidBase()) {
           const jwtInfos = this.getJwt().sign({
