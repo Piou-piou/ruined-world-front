@@ -17,7 +17,7 @@
              v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
              v-bind:class="{'my-base': base.guid == getGuidBase(), 'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase()}"
              @mouseover="getTravalTime(base.guid)"
-             @click="isDisplayBasePopup = true"
+             @click="displayBasePopup(base.guid)"
         >
           <div>
             <p>Base : {{base.name}} de {{base.pseudo}} <span v-show="travel_time != 0">(trajet : {{travel_time}})</span></p>
@@ -89,6 +89,15 @@
             }
           });
         }
+      },
+
+      /**
+       * method call to display a popup of a clicked base
+       * @param guid
+       */
+      displayBasePopup(guid) {
+        this.$refs.basePopup.getBase(guid);
+        this.isDisplayBasePopup = true;
       },
     },
     mounted() {

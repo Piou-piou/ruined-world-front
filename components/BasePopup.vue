@@ -7,7 +7,7 @@
             <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
           </div>
         </nav>
-fxdbvgdfg
+
         <Component :is="component" />
 
         <div class="link">
@@ -23,8 +23,8 @@ fxdbvgdfg
 <script>
   import Utils from '~/mixins/Utils';
 
-  const getSpecifiqBuilding = slug => ({
-    component: import(`~/components/Building/${slug}`),
+  const getSpecificBase = slug => ({
+    component: import(`~/components/${slug}`),
   });
 
   export default {
@@ -37,41 +37,39 @@ fxdbvgdfg
         tabs: [],
         currentTab: 'Default',
         navBuilding: {},
-        component: false
+        component: false,
+        base: {}
       }
     },
     methods: {
       /**
-       * method that get infos about a building
-       * @param array_name
+       * method that get infos about a base
+       * @param guid
        */
-      getBuilding(array_name) {
+      getBase(guid) {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
           iat: Math.floor(Date.now() / 1000) - 30,
           guid_base: this.getGuidBase(),
-          array_name
+          guid_other_base: guid,
         }, this.getToken());
 
-        this.getApi().post('/buildings/show/', {
+        this.getApi().post('/base/player/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
-          this.building = JSON.parse(data.building);
-          this.explanation = data.explanation;
-          this.explanation_current_power = data.explanation_current_power;
-          this.explanation_next_power = data.explanation_next_power;
-          this.construction_time = this.secondToHourMinute(data.construction_time);
-          this.resources_build = data.resources_build;
-          this.resources = this.building.base.resources;
-          this.component = () => getSpecifiqBuilding('Default.vue');
+          if (data.success) {
+            this.base = JSON.parse(data.base);
+            this.base.travel_time = data.travel_time;
 
-          const specificPopup = this.getGameInfos().specific_popup[array_name];
-          this.tabs = [];
-          this.currentTab = 'Default';
-          if (specificPopup) {
-            this.tabs.push([{name: 'default', url: 'Default'}]);
-            this.tabs.push(specificPopup);
+            this.component = () => getSpecificBase('Base/Default.vue');
+            const specificPopup = this.getGameInfos().specific_popup[array_name];
+            this.tabs = [];
+            this.currentTab = 'Default';
+            if (specificPopup) {
+              this.tabs.push([{name: 'default', url: 'Default'}]);
+              this.tabs.push(specificPopup);
+            }
           }
         });
       },
@@ -81,7 +79,7 @@ fxdbvgdfg
        * @param url
        */
       changeComponent(url) {
-        this.component = () => getSpecifiqBuilding(url);
+        this.component = () => getSpecificBase(url);
       }
     }
   }
