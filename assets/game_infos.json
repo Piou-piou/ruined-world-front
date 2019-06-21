@@ -8,6 +8,12 @@
 				"name": "Changer le nom de la base",
 				"url": "CommandCenterPopup"
 			}
+		],
+		"market": [
+			{
+				"name": "Envoyer des ressources",
+				"url": "Market/SendResources"
+			}
 		]
 	}
 }
