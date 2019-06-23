@@ -25,3 +25,39 @@
     </form>
   </div>
 </template>
+
+<script>
+  import Utils from '~/mixins/Utils';
+
+  export default {
+    mixins: [Utils],
+    methods: {
+      submit() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+          resources: {
+            electricity: this.electricity,
+            fuel: this.fuel,
+            iron: this.iron,
+            water: this.water,
+            food: this.food,
+          },
+          posx: this.posx,
+          posy: this.posy
+        }, this.getToken());
+
+        this.getApi().post('/market/send-resources/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+          if (data.success === true) {
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        });
+      }
+    }
+  }
+</script>
