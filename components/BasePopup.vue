@@ -54,7 +54,7 @@
           guid_other_base: guid,
         }, this.getToken());
 
-        this.getApi().post('/base/player/', {
+        this.getApi().post('base/player/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {

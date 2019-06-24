@@ -48,7 +48,7 @@
           posy: this.posy
         }, this.getToken());
 
-        this.getApi().post('/market/send-resources/', {
+        this.getApi().post('market/send-resources/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
