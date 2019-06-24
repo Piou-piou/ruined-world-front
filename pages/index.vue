@@ -69,7 +69,9 @@
     <h2>Transport en cours</h2>
     <div v-if="current_market_transports.length > 0">
       <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
-        <li>te</li>
+        <li>Allé ou retour (à faire)</li>
+        <li>Va ou retour de {{current_market_transport.base_dest_name}}</li>
+        <li><Countdown :end="current_market_transport.endTransport"></Countdown></li>
       </ul>
     </div>
     <div v-else>Aucun transport en cours</div>
@@ -174,6 +176,7 @@
 
           this.base.buildings = buildings;
           this.getCurrentConstructions();
+          this.getCurrentMarketMovements();
         });
       },
 
@@ -193,6 +196,26 @@
         }).then(data => {
           if (data.success === true && data.buildings.length > 0) {
             this.current_constructions = data.buildings;
+          }
+        })
+      },
+
+      /**
+       * method to get current market movements in base
+       */
+      getCurrentMarketMovements() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('market/send-current-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success === true && data.market_movements.length > 0) {
+            this.current_market_transports = data.market_movements;
           }
         })
       },
