@@ -66,6 +66,14 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
+    <h2>Transport en cours</h2>
+    <div v-if="current_market_transports.length > 0">
+      <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
+        <li>te</li>
+      </ul>
+    </div>
+    <div v-else>Aucun transport en cours</div>
+
     <ListBuildingToBuildPopup :isDisplayed=isDisplayListBuildingToBuildPopup :caseToBuild=caseToBuildNumber @close="closePopup()" ref="listBuildingToBuildPopup"></ListBuildingToBuildPopup>
     <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
@@ -86,6 +94,7 @@
     mixins: [Utils],
     data() {
       return {
+        current_market_transports: {},
         emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
