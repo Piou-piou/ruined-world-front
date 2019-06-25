@@ -69,9 +69,15 @@
     <h2>Transport en cours</h2>
     <div v-if="current_market_transports.length > 0">
       <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
-        <li>Allé ou retour (à faire)</li>
-        <li>Va ou retour de {{current_market_transport.base_dest_name}}</li>
-        <li><Countdown :end="current_market_transport.endTransport"></Countdown></li>
+        <li>
+          <div>
+            sur le chemin
+            <span v-if="current_market_transport.type === 0">de l'allé à</span>
+            <span v-else>du retour de</span>
+            {{current_market_transport.base_dest_name}}
+          </div>
+          <div><Countdown :end="current_market_transport.endTransport"></Countdown></div>
+        </li>
       </ul>
     </div>
     <div v-else>Aucun transport en cours</div>
