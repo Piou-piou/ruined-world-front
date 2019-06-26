@@ -76,7 +76,7 @@
             <span v-else>du retour de</span>
             {{current_market_transport.base_dest_name}}
           </div>
-          <div><Countdown :end="current_market_transport.endTransport"></Countdown></div>
+          <div><Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown></div>
         </li>
       </ul>
     </div>
@@ -223,7 +223,27 @@
           if (data.success === true && data.market_movements.length > 0) {
             this.current_market_transports = data.market_movements;
           }
-        })
+        });
+      },
+
+      updateMarketMovement() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('market/update-current-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success === true && data.market_movements.length > 0) {
+            this.current_market_transports = {};
+            this.current_market_transports = data.market_movements;
+          } else {
+            this.current_market_transports = {};
+          }
+        });
       },
 
       /**
