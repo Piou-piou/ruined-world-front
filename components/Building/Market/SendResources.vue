@@ -64,6 +64,7 @@
           'token': this.getToken()
         }).then(data => {
           if (data.success === true) {
+            this.getFlash().append(data.success_message, 'success');
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
