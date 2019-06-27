@@ -70,10 +70,15 @@
     <div v-if="current_market_transports.length > 0">
       <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
         <li>
-          <div>
+          <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
             sur le chemin
             <span v-if="current_market_transport.type === 0">de l'allé à</span>
             <span v-else>du retour de</span>
+            {{current_market_transport.base_dest_name}}
+          </div>
+          <div v-else>
+            <span v-if="current_market_transport.type === 0">arrive de</span>
+            <span v-else>repart à</span>
             {{current_market_transport.base_dest_name}}
           </div>
           <div><Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown></div>

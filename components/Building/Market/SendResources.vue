@@ -49,11 +49,11 @@
           iat: Math.floor(Date.now() / 1000) - 30,
           guid_base: this.getGuidBase(),
           resources: {
-            electricity: this.electricity,
-            fuel: this.fuel,
-            iron: this.iron,
-            water: this.water,
-            food: this.food,
+            electricity: this.electricity === null ? 0 : this.electricity,
+            fuel: this.fuel === null ? 0 : this.fuel,
+            iron: this.iron === null ? 0 : this.iron,
+            water: this.water === null ? 0 : this.water,
+            food: this.food === null ? 0 : this.food,
           },
           posx: this.posx,
           posy: this.posy
