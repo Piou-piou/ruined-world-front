@@ -75,13 +75,12 @@
             <span v-if="current_market_transport.type === 0">de l'allé à</span>
             <span v-else>du retour de</span>
             {{current_market_transport.base_dest_name}}
+            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
           </div>
           <div v-else>
-            <span v-if="current_market_transport.type === 0">arrive de</span>
-            <span v-else>repart à</span>
-            {{current_market_transport.base_dest_name}}
+            <span >arrive de {{current_market_transport.base_dest_name}}</span>
+            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
           </div>
-          <div><Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown></div>
         </li>
       </ul>
     </div>
