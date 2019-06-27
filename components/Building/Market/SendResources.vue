@@ -31,6 +31,17 @@
 
   export default {
     mixins: [Utils],
+    data() {
+      return {
+        electricity: null,
+        fuel: null,
+        iron: null,
+        water: null,
+        food: null,
+        posx: null,
+        posy: null,
+      }
+    },
     methods: {
       submit() {
         const jwtInfos = this.getJwt().sign({
