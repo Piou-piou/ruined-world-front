@@ -33,6 +33,7 @@ module.exports = {
     start_url: '/login',
     display: "standalone",
     orientation: 'portrait-primary',
+    theme_color: '#F83C00',
     lang: 'fr'
   },
 
