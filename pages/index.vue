@@ -66,6 +66,26 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
+    <h2>Transport en cours</h2>
+    <div v-if="current_market_transports.length > 0">
+      <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
+        <li>
+          <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
+            sur le chemin
+            <span v-if="current_market_transport.type === 0">de l'allé à</span>
+            <span v-else>du retour de</span>
+            {{current_market_transport.base_dest_name}}
+            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
+          </div>
+          <div v-else>
+            <span >arrive de {{current_market_transport.base_dest_name}}</span>
+            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div v-else>Aucun transport en cours</div>
+
     <ListBuildingToBuildPopup :isDisplayed=isDisplayListBuildingToBuildPopup :caseToBuild=caseToBuildNumber @close="closePopup()" ref="listBuildingToBuildPopup"></ListBuildingToBuildPopup>
     <BuildingPopup :isDisplayed=isDisplayBuildingPopup @close="closePopup()" ref="buildingPopup"></BuildingPopup>
   </div>
@@ -86,6 +106,7 @@
     mixins: [Utils],
     data() {
       return {
+        current_market_transports: {},
         emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
@@ -165,6 +186,7 @@
 
           this.base.buildings = buildings;
           this.getCurrentConstructions();
+          this.getCurrentMarketMovements();
         });
       },
 
@@ -186,6 +208,49 @@
             this.current_constructions = data.buildings;
           }
         })
+      },
+
+      /**
+       * method to get current market movements in base
+       */
+      getCurrentMarketMovements() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('market/send-current-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success === true && data.market_movements.length > 0) {
+            this.current_market_transports = data.market_movements;
+          }
+        });
+      },
+
+      /**
+       * method to update movement if there is on the go to put it on return
+       */
+      updateMarketMovement() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('market/update-current-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success === true && data.market_movements.length > 0) {
+            this.current_market_transports = {};
+            this.current_market_transports = data.market_movements;
+          } else {
+            this.current_market_transports = {};
+          }
+        });
       },
 
       /**
@@ -218,6 +283,8 @@
           this.setResources(data);
         });
       }, 30000);
+
+      setInterval(() => this.getCurrentMarketMovements(), 60000);
     },
     created() {
       this.testAndUpdateToken();

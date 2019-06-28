@@ -29,7 +29,7 @@
           base_name: this.base_name,
         }, this.getToken());
 
-        this.getApi().post('/base/change-name/', {
+        this.getApi().post('base/change-name/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {

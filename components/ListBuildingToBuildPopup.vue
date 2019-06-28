@@ -88,7 +88,7 @@
           array_name: arrayName
         }, this.getToken());
 
-        this.getApi().post('/buildings/build/', {
+        this.getApi().post('buildings/build/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
