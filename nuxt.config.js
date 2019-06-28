@@ -20,6 +20,11 @@ module.exports = {
     '~assets/style.scss'
   ],
 
+  modules: [
+    '@nuxts/manifest',
+    '@nuxts/icon',
+  ],
+
   manifest: {
     name: 'Ruined World',
     short_name: "RWold",
