@@ -230,6 +230,9 @@
         });
       },
 
+      /**
+       * method to update movement if there is on the go to put it on return
+       */
       updateMarketMovement() {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
