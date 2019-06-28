@@ -280,6 +280,8 @@
           this.setResources(data);
         });
       }, 30000);
+
+      setInterval(() => this.getCurrentMarketMovements(), 60000);
     },
     created() {
       this.testAndUpdateToken();
