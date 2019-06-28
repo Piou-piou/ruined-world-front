@@ -21,6 +21,7 @@ module.exports = {
   ],
 
   modules: [
+    '@nuxtjs/pwa',
     '@nuxtjs/icon',
     '@nuxtjs/manifest'
   ],
@@ -31,6 +32,7 @@ module.exports = {
     description: "Ruined World est un jeu de stratégie, reconstruisez votre base après la dévastation du monde et reignez dessus !",
     start_url: '/login',
     display: "standalone",
+    orientation: 'portrait-primary',
     lang: 'fr'
   },
 
