@@ -21,8 +21,8 @@ module.exports = {
   ],
 
   modules: [
-    '@nuxtjs/manifest',
     '@nuxtjs/icon',
+    '@nuxtjs/manifest'
   ],
 
   manifest: {
