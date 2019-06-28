@@ -13,7 +13,6 @@
 </template>
 
 <script>
-  import RibsApi from 'ribs-api';
   import Utils from '~/mixins/Utils';
 
   export default {
@@ -27,9 +26,7 @@
     },
     methods: {
       submit() {
-        const api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
-
-        return api.post('users/authenticate', {
+        return this.getApi().post('users/authenticate', {
           'pseudo': this.pseudo,
           'password': this.password
         })
