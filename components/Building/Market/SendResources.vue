@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>Envoyer des ressources à une base en saisissant ses coordonnées</h3>
+    <h4>Vous avez actuellement {{trader_number}}/{{max_trader_number}} marchands disponible(s) dans votre base</h4>
     <form action="">
       <div>
         Electricity : <input type="number" name="electricity" v-model="electricity">
@@ -33,6 +34,8 @@
     mixins: [Utils],
     data() {
       return {
+        trader_number: null,
+        max_trader_number: null,
         electricity: null,
         fuel: null,
         iron: null,
@@ -70,6 +73,23 @@
           }
         });
       }
+    },
+    mounted() {
+      const jwtInfos = this.getJwt().sign({
+        token: this.getToken(),
+        iat: Math.floor(Date.now() / 1000) - 30,
+        guid_base: this.getGuidBase(),
+      }, this.getToken());
+
+      this.getApi().post('market/send-current-market-number/', {
+        'infos': jwtInfos,
+        'token': this.getToken(),
+      }).then(data => {
+        if (data.success) {
+          this.trader_number = data.trader_number;
+          this.max_trader_number = data.max_trader_number;
+        }
+      });
     }
   }
 </script>
