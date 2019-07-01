@@ -107,6 +107,14 @@ export default {
     },
 
     /**
+     * method to chane bpody class when open or close popup
+     */
+    toggleBodyClassForPopup() {
+      const body = document.body;
+      body.classList.toggle('ribs-popup-body');
+    },
+
+    /**
      * method to test if token of user is always valid
      * @param page
      * @returns {boolean}

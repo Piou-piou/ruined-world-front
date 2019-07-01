@@ -126,6 +126,7 @@
        */
       displayBuildingPopup(building) {
         this.$refs.buildingPopup.getBuilding(building);
+        this.toggleBodyClassForPopup();
         this.isDisplayBuildingPopup = true;
       },
 
@@ -137,6 +138,7 @@
           this.caseToBuildNumber = caseNumber;
           this.$refs.listBuildingToBuildPopup.getBuildings();
           this.isDisplayListBuildingToBuildPopup = true;
+          this.toggleBodyClassForPopup();
         }
       },
 
@@ -146,6 +148,7 @@
       closePopup() {
         this.isDisplayBuildingPopup = false;
         this.isDisplayListBuildingToBuildPopup = false;
+        this.toggleBodyClassForPopup();
         this.getBase();
       },
 
