@@ -142,6 +142,11 @@ export default {
       }
     },
 
+    /**
+     * method to convert second to hours minute
+     * @param time
+     * @returns {string}
+     */
     secondToHourMinute(time) {
       const hours = Math.floor(time / 3600);
       const minutes = Math.floor(time % 3600 / 60);
