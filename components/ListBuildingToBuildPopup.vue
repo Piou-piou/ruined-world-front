@@ -70,6 +70,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.buildings = data.buildings;
           this.nbBuildings = data.nb_buildings;
           this.resources = this.getResources();
@@ -92,6 +93,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true) {
             this.$emit('close');
           } else {

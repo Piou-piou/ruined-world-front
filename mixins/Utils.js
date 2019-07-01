@@ -77,6 +77,12 @@ export default {
       localStorage.setItem('token', value);
     },
 
+    updateTokenIfExist(token) {
+      if (token !== '' && token !== undefined) {
+        this.setToken(token);
+      }
+    },
+
     /**
      * method to return current resources of the base
      * @returns {null|any}

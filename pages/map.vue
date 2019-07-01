@@ -84,6 +84,7 @@
             'infos': jwtInfos,
             'token': this.getToken(),
           }).then(data => {
+            this.updateTokenIfExist(data.token);
             if (data.success) {
               this.travel_time = data.travel_time;
             }
@@ -112,6 +113,7 @@
         'infos': jwtInfos,
         'token': this.getToken(),
       }).then(data => {
+        this.updateTokenIfExist(data.token);
         if (data.success) {
           this.bases = data.bases;
           this.guids_player_bases = data.guids_player_bases;

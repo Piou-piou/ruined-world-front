@@ -33,6 +33,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true) {
             this.base_name = data.base_name;
             this.getFlash().append(data.success_message, 'success');

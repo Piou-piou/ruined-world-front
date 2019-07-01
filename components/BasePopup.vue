@@ -58,6 +58,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success) {
             this.base = JSON.parse(data.base);
             this.base.travel_time = data.travel_time;

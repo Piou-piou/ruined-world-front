@@ -64,6 +64,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.building = JSON.parse(data.building);
           this.explanation = data.explanation;
           this.explanation_current_power = data.explanation_current_power;

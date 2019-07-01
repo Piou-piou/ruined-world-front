@@ -66,6 +66,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true) {
             this.getFlash().append(data.success_message, 'success');
           } else {
