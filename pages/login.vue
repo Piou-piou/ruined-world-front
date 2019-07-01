@@ -49,7 +49,7 @@
           });
       },
     },
-    created() {
+    mounted() {
       this.testAndUpdateToken('login');
     }
   }
