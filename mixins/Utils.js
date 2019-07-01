@@ -139,12 +139,12 @@ export default {
             this.setToken(data.token);
 
             if (page === 'login') {
-              context.router.push('/');
+              context.$router.push('/');
             }
 
             return true;
           } else {
-            context.router.push('/logout');
+            context.$router.push('/logout');
           }
         }).catch(function () {
           context.$router.push('/logout');
