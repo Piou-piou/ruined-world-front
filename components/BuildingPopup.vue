@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <nav>
           <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">

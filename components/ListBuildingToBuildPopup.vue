@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <div v-if="nbBuildings > 0">
           <div v-for="(building, key) in buildings" v-bind:key="key">
