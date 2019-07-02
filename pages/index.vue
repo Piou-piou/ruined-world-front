@@ -126,6 +126,7 @@
        */
       displayBuildingPopup(building) {
         this.$refs.buildingPopup.getBuilding(building);
+        this.toggleBodyClassForPopup();
         this.isDisplayBuildingPopup = true;
       },
 
@@ -137,6 +138,7 @@
           this.caseToBuildNumber = caseNumber;
           this.$refs.listBuildingToBuildPopup.getBuildings();
           this.isDisplayListBuildingToBuildPopup = true;
+          this.toggleBodyClassForPopup();
         }
       },
 
@@ -146,6 +148,7 @@
       closePopup() {
         this.isDisplayBuildingPopup = false;
         this.isDisplayListBuildingToBuildPopup = false;
+        this.toggleBodyClassForPopup();
         this.getBase();
       },
 
@@ -163,7 +166,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
-          this.setToken(data.token);
+          this.updateTokenIfExist(data.token);
           this.base = JSON.parse(data.base);
           this.resources_infos = data.resources_infos;
           this.setResources(this.base.resources);
@@ -204,6 +207,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true && data.buildings.length > 0) {
             this.current_constructions = data.buildings;
           }
@@ -224,6 +228,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true && data.market_movements.length > 0) {
             this.current_market_transports = data.market_movements;
           }
@@ -244,6 +249,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true && data.market_movements.length > 0) {
             this.current_market_transports = {};
             this.current_market_transports = data.market_movements;
@@ -275,11 +281,11 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.base.resources.electricity = data.electricity;
           this.base.resources.iron = data.iron;
           this.base.resources.fuel = data.fuel;
           this.base.resources.water = data.water;
-          this.setToken(data.token);
           this.setResources(data);
         });
       }, 30000);
@@ -301,9 +307,9 @@
             'infos': jwtInfos,
             'token': this.getToken()
           }).then(data => {
+            this.updateTokenIfExist(data.token);
             if (data.success === true) {
               this.setGuidBase(data.guid_base);
-              this.setToken(data.token);
 
               this.getBase();
             } else {

@@ -84,6 +84,7 @@
             'infos': jwtInfos,
             'token': this.getToken(),
           }).then(data => {
+            this.updateTokenIfExist(data.token);
             if (data.success) {
               this.travel_time = data.travel_time;
             }
@@ -101,6 +102,10 @@
       },
     },
     mounted() {
+      if (!this.getGuidBase()) {
+        return;
+      }
+
       this.travel_time = 0;
       const jwtInfos = this.getJwt().sign({
         token: this.getToken(),
@@ -112,6 +117,7 @@
         'infos': jwtInfos,
         'token': this.getToken(),
       }).then(data => {
+        this.updateTokenIfExist(data.token);
         if (data.success) {
           this.bases = data.bases;
           this.guids_player_bases = data.guids_player_bases;

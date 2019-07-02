@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <nav>
           <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">
@@ -58,6 +58,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success) {
             this.base = JSON.parse(data.base);
             this.base.travel_time = data.travel_time;

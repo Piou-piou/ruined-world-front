@@ -43,7 +43,7 @@ export default {
      */
     getApi() {
       if (this.api === undefined) {
-        this.api = new RibsApi('http://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
+        this.api = new RibsApi('https://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
       }
 
       return this.api;
@@ -78,6 +78,16 @@ export default {
     },
 
     /**
+     * method to update token
+     * @param token
+     */
+    updateTokenIfExist(token) {
+      if (token !== '' && token !== undefined) {
+        this.setToken(token);
+      }
+    },
+
+    /**
      * method to return current resources of the base
      * @returns {null|any}
      */
@@ -107,6 +117,14 @@ export default {
     },
 
     /**
+     * method to chane bpody class when open or close popup
+     */
+    toggleBodyClassForPopup() {
+      const body = document.body;
+      body.classList.toggle('ribs-popup-body');
+    },
+
+    /**
      * method to test if token of user is always valid
      * @param page
      * @returns {boolean}
@@ -125,12 +143,12 @@ export default {
             this.setToken(data.token);
 
             if (page === 'login') {
-              context.router.push('/');
+              context.$router.push('/');
             }
 
             return true;
           } else {
-            context.router.push('/logout');
+            context.$router.push('/logout');
           }
         }).catch(function () {
           context.$router.push('/logout');
@@ -139,9 +157,16 @@ export default {
         return true;
       } else if (process.client && page === null && (localStorage.getItem('token') === null || localStorage.getItem('token') === '')) {
         this.$router.push('/logout');
+      } else {
+        return false;
       }
     },
 
+    /**
+     * method to convert second to hours minute
+     * @param time
+     * @returns {string}
+     */
     secondToHourMinute(time) {
       const hours = Math.floor(time / 3600);
       const minutes = Math.floor(time % 3600 / 60);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <div v-if="nbBuildings > 0">
           <div v-for="(building, key) in buildings" v-bind:key="key">
@@ -70,6 +70,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.buildings = data.buildings;
           this.nbBuildings = data.nb_buildings;
           this.resources = this.getResources();
@@ -92,6 +93,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true) {
             this.$emit('close');
           } else {

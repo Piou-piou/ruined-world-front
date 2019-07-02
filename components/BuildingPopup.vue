@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <nav>
           <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">
@@ -64,6 +64,7 @@
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.building = JSON.parse(data.building);
           this.explanation = data.explanation;
           this.explanation_current_power = data.explanation_current_power;
