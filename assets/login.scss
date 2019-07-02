@@ -99,25 +99,24 @@ $background-form: #EBEDF1;
         }
 
         button {
-            margin-top: 40px;
-            margin-bottom: 10px;
+            margin: 40px 0 10px 0;
+            padding: 10px 0;
+            min-width: 64px;
+            line-height: 18px;
+            background-color: $bakcground-button;
+            color: #fff;
+            border: none;
+            transition: 0.3s all ease;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            width: 100%;
+
+            @include hbgtranslate($bakcground-button, $bakcground-button-hover, top, bottom);
         }
     }
 }
 
 button {
-    margin: 10px 0;
-    padding: 10px 0;
-    min-width: 64px;
-    line-height: 18px;
-    background-color: $bakcground-button;
-    color: #fff;
-    border: none;
-    transition: 0.3s all ease;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    width: 100%;
 
-    @include hbgtranslate($bakcground-button, $bakcground-button-hover, top, bottom);
 }
