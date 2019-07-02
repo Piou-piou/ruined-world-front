@@ -50,7 +50,21 @@ $background-form: #EBEDF1;
     height: 100%;
     position: absolute;
 
-    form {
+    .active {
+        -webkit-animation: cardEnter 0.75s ease-in-out 0.5s;
+        animation: cardEnter 0.75s ease-in-out 0.5s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        height: auto;
+        margin: 0px auto;
+        padding: 20px;
+        opacity: 1;
+        display: block;
+        position: relative;
+        top: 20%;
+    }
+
+    > div {
         opacity: 0;
         height: 0;
         max-width: 350px;
@@ -59,20 +73,6 @@ $background-form: #EBEDF1;
         box-shadow: 0 10px 20px rgba(0, 0, 0, .19),
             0 6px 6px rgba(0, 0, 0, .23);
         display: none;
-
-        &.active {
-            -webkit-animation: cardEnter 0.75s ease-in-out 0.5s;
-            animation: cardEnter 0.75s ease-in-out 0.5s;
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-            height: auto;
-            margin: 0px auto;
-            padding: 20px;
-            opacity: 1;
-            display: block;
-            position: relative;
-            top: 20%;
-        }
 
         h1,h2 {
             color: #AFBDC4;
