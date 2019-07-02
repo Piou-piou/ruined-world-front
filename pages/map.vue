@@ -102,6 +102,10 @@
       },
     },
     mounted() {
+      if (!this.getGuidBase()) {
+        return;
+      }
+
       this.travel_time = 0;
       const jwtInfos = this.getJwt().sign({
         token: this.getToken(),
