@@ -58,12 +58,12 @@
               this.$router.push('/');
               return;
             } else {
-              this.htmlError = data.message;
+              this.getFlash().append(data.error_message, 'error');
               return;
             }
           })
           .catch(() => {
-            this.htmlError = 'Une erreur est survenue. Merci de réessayer dans un instant';
+            this.getFlash().append('Une erreur est survenue. Merci de réessayer dans un instant', 'error');
             return;
           });
       },
