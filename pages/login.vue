@@ -1,15 +1,24 @@
 <template>
-  <form action="">
-    <label for="pseudo">Pseudo</label>
-    <input type="text" name="pseudo" id="pseudo" v-model="pseudo">
-    <label for="password">Mot de passe</label>
-    <input type="password" name="password" id="password" v-model="password">
-    <button type="submit" v-on:click.stop.prevent="submit">Connexion</button>
+  <div id="login">
+    <form action="" class="login-form active">
+      <h1>Ruined World</h1>
+      <h2>Connexion</h2>
 
-    <div v-html="htmlError">
+      <div class="block">
+        <label for="pseudo">Pseudo</label>
+        <input type="text" name="pseudo" id="pseudo" v-model="pseudo">
+      </div>
+      <div class="block">
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" id="password" v-model="password">
+      </div>
+      <button type="submit" v-on:click.stop.prevent="submit">Connexion</button>
 
-    </div>
-  </form>
+      <div v-html="htmlError">
+
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
