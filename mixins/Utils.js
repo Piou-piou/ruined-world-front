@@ -77,6 +77,10 @@ export default {
       localStorage.setItem('token', value);
     },
 
+    /**
+     * method to update token
+     * @param token
+     */
     updateTokenIfExist(token) {
       if (token !== '' && token !== undefined) {
         this.setToken(token);
