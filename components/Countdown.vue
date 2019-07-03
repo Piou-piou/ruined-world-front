@@ -26,12 +26,19 @@
       return {
         now: Math.trunc((new Date()).getTime() / 1000),
         date: null,
-        diff: 0
+        interval: null,
+        diff: 0,
+        componentKey: 0,
+      }
+    },
+    methods: {
+      forceRerender() {
+        this.componentKey += 1;
       }
     },
     created() {
       this.date = this.end;
-      interval = setInterval(() => {
+      this.interval = setInterval(() => {
         this.now = Math.trunc((new Date()).getTime() / 1000);
       }, 1000);
     },
@@ -54,7 +61,8 @@
         this.diff = this.date - this.now;
         if(this.diff <= 0){
           this.diff = 0;
-          clearInterval(interval);
+          clearInterval(this.interval);
+          this.$emit('doActionAfterTimeOver');
         }
       }
     },

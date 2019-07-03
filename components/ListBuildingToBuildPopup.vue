@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
         <div v-if="nbBuildings > 0">
           <div v-for="(building, key) in buildings" v-bind:key="key">
             <h2>{{building.name}}</h2>
 
             <h2>Informations to build</h2>
+            <p>{{building.explanation}}</p>
 
             <h3>Resources</h3>
             <ul>
@@ -19,6 +20,7 @@
             <h3>Time</h3>
             <ul>
               <li>Time to build : {{secondToHourMinute(building.construction_time)}}</li>
+              <li>{{building.explanation_next_power}}</li>
             </ul>
 
             <a href="#" @click="build(building.array_name)">Construire</a>
@@ -68,6 +70,7 @@
           'infos': jwtInfos,
           'token': this.getToken(),
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.buildings = data.buildings;
           this.nbBuildings = data.nb_buildings;
           this.resources = this.getResources();
@@ -86,10 +89,11 @@
           array_name: arrayName
         }, this.getToken());
 
-        this.getApi().post('/buildings/build/', {
+        this.getApi().post('buildings/build/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           if (data.success === true) {
             this.$emit('close');
           } else {

@@ -20,10 +20,27 @@ module.exports = {
     '~assets/style.scss'
   ],
 
+  modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/icon',
+    '@nuxtjs/manifest'
+  ],
+
+  manifest: {
+    name: 'Ruined World',
+    short_name: "RWold",
+    description: "Ruined World est un jeu de stratégie, reconstruisez votre base après la dévastation du monde et reignez dessus !",
+    start_url: '/login',
+    display: "standalone",
+    orientation: 'portrait-primary',
+    theme_color: '#F83C00',
+    lang: 'fr'
+  },
+
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#F83C00' },
   /*
   ** Build configuration
   */

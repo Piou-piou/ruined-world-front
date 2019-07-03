@@ -1,3 +1,19 @@
 {
-	"building_locations": 12
+	"building_locations": 13,
+	"map_size": 200,
+	"map_multiplicator": 15,
+	"specific_popup": {
+		"command_center": [
+			{
+				"name": "Changer le nom de la base",
+				"url": "CommandCenterPopup"
+			}
+		],
+		"market": [
+			{
+				"name": "Envoyer des ressources",
+				"url": "Market/SendResources"
+			}
+		]
+	}
 }

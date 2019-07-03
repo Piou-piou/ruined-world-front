@@ -1,0 +1,99 @@
+.map-players {
+    position: relative;
+    height: 800px;
+    max-height: 800px;
+    overflow: hidden;
+    border: 1px solid $border-map-players;
+    background-color: $bg-map;
+
+    .controls {
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1;
+        position: absolute;
+    }
+
+    #right {
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 20px;
+    }
+
+    #left {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 20px;
+    }
+
+    #top {
+        left: 0;
+        top: 0;
+        height: 20px;
+        width: 100%;
+    }
+
+    #bottom {
+        left: 0;
+        bottom: 0;
+        height: 20px;
+        width: 100%;
+    }
+
+    .map {
+        margin: 30px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        > div {
+            width: 10px;
+            height: 10px;
+            background-color: #FFF;
+            position: absolute;
+
+            &:hover {
+                cursor: pointer;
+
+                > div {
+                    display: block;
+                }
+            }
+
+            &.my-base {
+                background-color: $map-bg-mybase;
+            }
+
+            &.my-bases {
+                background-color: $map-bg-mybases;
+            }
+
+            &.my-faction {
+                background-color: $map-bg-myfaction;
+            }
+
+            &.allies-factions {
+                background-color: $map-bg-alliesfactions;
+            }
+
+            &.non-aggression-factions {
+                background-color: $map-bg-nonaggressionfactions;
+            }
+
+            &.ennemies-faction {
+                background-color: $map-bg-ennemiesfactions;
+            }
+
+            > div {
+                height: 25px;
+                min-width: 350px;
+                background: $map-bg-hover-base;
+                position: absolute;
+                top: -30px;
+                display: none;
+            }
+        }
+    }
+}

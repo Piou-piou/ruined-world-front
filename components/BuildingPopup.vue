@@ -1,29 +1,14 @@
 <template>
   <div>
-    <div class="popup" v-bind:class="{displayed: isDisplayed}">
+    <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
-        <h1>{{building.name}}</h1>
-        <ul>
-          <li>Level : {{building.level}}</li>
-        </ul>
+        <nav>
+          <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">
+            <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
+          </div>
+        </nav>
 
-
-        <h2>Informations to pass to next level</h2>
-
-        <h3>Resources</h3>
-        <ul>
-          <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < resources_build.electricity}">{{resources_build.electricity}}</span></li>
-          <li>Iron : <span v-bind:class="{'resources-error': resources.iron < resources_build.iron}">{{resources_build.iron}}</span></li>
-          <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < resources_build.fuel}">{{resources_build.fuel}}</span></li>
-          <li>Water : <span v-bind:class="{'resources-error': resources.water < resources_build.water}">{{resources_build.water}}</span></li>
-        </ul>
-
-        <h3>Time</h3>
-        <ul>
-          <li>Time to build : {{construction_time}}</li>
-        </ul>
-
-        <div>{{error_messsage}}</div>
+        <Component :is="component" />
 
         <div class="link">
           <a class="cancel" @click="$emit('close')">Cancel</a>
@@ -37,6 +22,10 @@
 <script>
   import Utils from '~/mixins/Utils';
 
+  const getSpecifiqBuilding = slug => ({
+    component: import(`~/components/Building/${slug}`),
+  });
+
   export default {
     mixins: [Utils],
     props: {
@@ -44,7 +33,14 @@
     },
     data() {
       return {
+        tabs: [],
+        currentTab: 'Default',
+        navBuilding: {},
+        component: false,
         building: {},
+        explanation: '',
+        explanation_current_power: '',
+        explanation_next_power: '',
         construction_time : null,
         resources_build: {},
         error_messsage: null,
@@ -52,6 +48,10 @@
       }
     },
     methods: {
+      /**
+       * method that get infos about a building
+       * @param array_name
+       */
       getBuilding(array_name) {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -60,16 +60,33 @@
           array_name
         }, this.getToken());
 
-        this.getApi().post('/buildings/show/', {
+        this.getApi().post('buildings/show/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
+          this.updateTokenIfExist(data.token);
           this.building = JSON.parse(data.building);
+          this.explanation = data.explanation;
+          this.explanation_current_power = data.explanation_current_power;
+          this.explanation_next_power = data.explanation_next_power;
           this.construction_time = this.secondToHourMinute(data.construction_time);
           this.resources_build = data.resources_build;
           this.resources = this.building.base.resources;
+          this.component = () => getSpecifiqBuilding('Default.vue');
+
+          const specificPopup = this.getGameInfos().specific_popup[array_name];
+          this.tabs = [];
+          this.currentTab = 'Default';
+          if (specificPopup) {
+            this.tabs.push([{name: 'default', url: 'Default'}]);
+            this.tabs.push(specificPopup);
+          }
         });
       },
+
+      /**
+       * methot that launch construction of building
+       */
       build() {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -78,7 +95,7 @@
           array_name: this.building.arrayName
         }, this.getToken());
 
-        this.getApi().post('/buildings/build/', {
+        this.getApi().post('buildings/build/', {
           'infos': jwtInfos,
           'token': this.getToken()
         }).then(data => {
@@ -88,6 +105,14 @@
             this.getFlash().append('A building is already in construction in your base', 'error');
           }
         });
+      },
+
+      /**
+       * method to load specific component of a building
+       * @param url
+       */
+      changeComponent(url) {
+        this.component = () => getSpecifiqBuilding(url);
       }
     }
   }

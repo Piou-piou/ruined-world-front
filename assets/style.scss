@@ -1,3 +1,9 @@
-.resources-error {
-    color: red;
+@import "variables";
+@import "mixins";
+@import "login";
+@import "general";
+@import "map";
+
+body {
+    margin: 0;
 }
