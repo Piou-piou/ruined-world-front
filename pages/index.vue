@@ -58,9 +58,9 @@
 
       <h2>Bâtiment en construction</h2>
       <div v-if="current_constructions.length > 0">
-        <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key">
+        <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key" ref="construction-{{current_construction.id}}">
           <li>bâtiment : {{current_construction.name}}</li>
-          <li><Countdown :end="current_construction.endConstruction"></Countdown></li>
+          <li><Countdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()"></Countdown></li>
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
@@ -211,6 +211,30 @@
           if (data.success === true && data.buildings.length > 0) {
             this.current_constructions = data.buildings;
           }
+        })
+      },
+
+      /**
+       * method to end current constructions that are finished in base
+       */
+      endConstructions() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('buildings/end-constructions-base/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.buildings.length > 0) {
+            this.current_constructions = data.buildings;
+          } else {
+            this.current_constructions = {};
+          }
+          this.getBase();
         })
       },
 
