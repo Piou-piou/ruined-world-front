@@ -51,9 +51,9 @@
       </ul>
 
       <h2>Unités</h2>
-      <ul v-if="base.units.length  > 0">
+      <ul v-if="Object.keys(base.units).length > 0">
         <li v-for="(unit, key) in base.units" v-bind:key="key">
-          {{unit.name}} (lvl : {{unit.level}})
+          {{unit.name}}
         </li>
       </ul>
       <div v-else>Aucune unité présente dans la base</div>
@@ -174,6 +174,7 @@
           this.setResources(this.base.resources);
 
           this.getBuildings();
+          this.getUnits();
           this.getCurrentConstructions();
           this.getCurrentMarketMovements();
         });
@@ -200,6 +201,21 @@
         }
 
         this.base.buildings = buildings;
+      },
+
+      /**
+       * method to get units of the base
+       */
+      getUnits() {
+        const units = {};
+
+        (this.base.units).forEach((unit, index) => {
+          if (unit.inRecruitment === false) {
+            units[index+1] = unit;
+          }
+        });
+
+        this.base.units = units;
       },
 
       /**
