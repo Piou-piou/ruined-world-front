@@ -21,8 +21,8 @@
           <li>Water : <span v-bind:class="{'resources-error': resources.water < unit.resources_recruit.water}">{{unit.resources_recruit.water}}</span></li>
         </ul>
 
-        Recruit : <input type="number" v-model="number_to_recruit" name="number_to_recruit"> on xx available
-        <button>Recruit</button>
+        Recruit : <input type="number" v-bind:class="unit.array_name"> on xx available
+        <button type="submit" v-bind:id="unit.array_name" @click="recruitUnit">Recruit</button>
         <hr>
       </div>
     </div>
@@ -38,6 +38,33 @@
       return {
         units: {},
         resources: {}
+      }
+    },
+    methods: {
+      /**
+       * method to recruit units
+       * @param event
+       */
+      recruitUnit(event) {
+        const unitArrayName = event.currentTarget.id;
+        const numberToRecruit = event.currentTarget.parentNode.querySelector(`.${unitArrayName}`).value;
+
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+          unit_array_name: unitArrayName,
+          number_to_recruit: numberToRecruit
+        }, this.getToken());
+
+        this.getApi().post('barrack/recruit-units/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success) {
+            this.updateTokenIfExist(data.token);
+          }
+        });
       }
     },
     mounted() {
