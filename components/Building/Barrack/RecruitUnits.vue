@@ -63,6 +63,9 @@
         }).then(data => {
           if (data.success) {
             this.updateTokenIfExist(data.token);
+            this.getFlash().append(data.success_message, 'success');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
           }
         });
       }
