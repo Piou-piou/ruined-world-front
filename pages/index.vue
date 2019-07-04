@@ -173,26 +173,33 @@
           this.resources_infos = data.resources_infos;
           this.setResources(this.base.resources);
 
-          const buildings = {};
-          let buildingNumber = 0;
-
-          for (let i = 1; i <= this.game_infos.building_locations; i++) {
-            buildings[i] = null;
-          }
-
-          for (const building of this.base.buildings) {
-            buildings[building.location] = building;
-            buildingNumber = buildingNumber +1;
-          }
-
-          if (buildingNumber === this.game_infos.building_locations) {
-            this.emptyLocation = false;
-          }
-
-          this.base.buildings = buildings;
+          this.getBuildings();
           this.getCurrentConstructions();
           this.getCurrentMarketMovements();
         });
+      },
+
+      /**
+       * method to get buildings of the base
+       */
+      getBuildings() {
+        const buildings = {};
+        let buildingNumber = 0;
+
+        for (let i = 1; i <= this.game_infos.building_locations; i++) {
+          buildings[i] = null;
+        }
+
+        for (const building of this.base.buildings) {
+          buildings[building.location] = building;
+          buildingNumber = buildingNumber +1;
+        }
+
+        if (buildingNumber === this.game_infos.building_locations) {
+          this.emptyLocation = false;
+        }
+
+        this.base.buildings = buildings;
       },
 
       /**
