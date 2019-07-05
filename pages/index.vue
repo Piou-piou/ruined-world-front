@@ -204,21 +204,6 @@
       },
 
       /**
-       * method to get units of the base
-       */
-      getUnits() {
-        const units = {};
-
-        (this.base.units).forEach((unit, index) => {
-          if (unit.inRecruitment === false) {
-            units[index+1] = unit;
-          }
-        });
-
-        this.base.units = units;
-      },
-
-      /**
        * method to get current construction in base
        */
       getCurrentConstructions() {
@@ -306,6 +291,21 @@
             this.current_market_transports = {};
           }
         });
+      },
+
+      /**
+       * method to get units of the base
+       */
+      getUnits() {
+        const units = {};
+
+        (this.base.units).forEach((unit, index) => {
+          if (unit.inRecruitment === false) {
+            units[index+1] = unit;
+          }
+        });
+
+        this.base.units = units;
       },
 
       /**
