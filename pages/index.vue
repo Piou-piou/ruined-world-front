@@ -68,6 +68,15 @@
       <div v-else>Aucun bâtiment en construction</div>
     </div>
 
+    <h2>Unités en recrutement</h2>
+    <div v-if="current_units_recruitment.length > 0">
+      <ul  v-for="(current_unit, key) in current_units_recruitment" v-bind:key="key" ref="recruitment-{{current_unit.id}}">
+        <li>unité : {{current_unit.name}} (nombre en recrutement : {{current_unit.number}})</li>
+        <li><RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment"></RibsCountdown></li>
+      </ul>
+    </div>
+    <div v-else>Aucun bâtiment en construction</div>
+
     <h2>Transport en cours</h2>
     <div v-if="current_market_transports.length > 0">
       <ul  v-for="(current_market_transport, key) in current_market_transports" v-bind:key="key">
@@ -109,6 +118,7 @@
     data() {
       return {
         current_market_transports: {},
+        current_units_recruitment: {},
         emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
@@ -177,6 +187,7 @@
           this.getUnits();
           this.getCurrentConstructions();
           this.getCurrentMarketMovements();
+          this.getUnitsInRecruitment();
         });
       },
 
@@ -306,6 +317,30 @@
         });
 
         this.base.units = units;
+      },
+
+      /**
+       * method to get current recruitments in base
+       */
+      getUnitsInRecruitment() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('barrack/units-in-recruitment/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.units_in_recruitment.length > 0) {
+            this.current_units_recruitment = {};
+            this.current_units_recruitment = data.units_in_recruitment;
+          } else {
+            this.current_units_recruitment = {};
+          }
+        });
       },
 
       /**
