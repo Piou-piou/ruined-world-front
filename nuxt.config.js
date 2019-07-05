@@ -46,7 +46,7 @@ module.exports = {
   */
   build: {
     extractCSS: true,
-    transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core'],
+    transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core', 'ribs-vue-countdown'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
