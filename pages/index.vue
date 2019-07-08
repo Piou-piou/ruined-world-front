@@ -52,8 +52,8 @@
 
       <h2>Unités</h2>
       <ul v-if="Object.keys(base.units).length > 0">
-        <li v-for="(unit, key) in base.units" v-bind:key="key">
-          {{unit.name}}
+        <li v-for="(number, unitName) in base.units" v-bind:key="number">
+          {{unitName}} ({{number}})
         </li>
       </ul>
       <div v-else>Aucune unité présente dans la base</div>
@@ -311,10 +311,16 @@
         const units = {};
 
         (this.base.units).forEach((unit, index) => {
+          console.log(units[unit.arrayName]);
           if (unit.inRecruitment === false) {
-            units[index+1] = unit;
+            if (units[unit.arrayName] === undefined) {
+              units[unit.arrayName] = 1;
+            }
+            units[unit.arrayName] += 1;
           }
         });
+
+        console.log(units);
 
         this.base.units = units;
       },
