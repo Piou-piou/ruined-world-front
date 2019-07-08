@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>V 0.0.1</h2>
+    <h2>V 0.0.1-16-1</h2>
 
     <div>
       index de la base
