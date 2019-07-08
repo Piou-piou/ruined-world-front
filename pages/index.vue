@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>V 0.0.1-16-1</h2>
+    <h2>V {{game_infos.app_version}}</h2>
 
     <div>
       index de la base
@@ -407,6 +407,7 @@
     },
     created() {
       this.testAndUpdateToken();
+      this.testUpdateAppVersion();
       this.game_infos = this.getGameInfos();
 
       if (process.client) {
