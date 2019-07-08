@@ -88,6 +88,38 @@ export default {
     },
 
     /**
+     * method that return current app version
+     * @returns {any}
+     */
+    getActualVersion() {
+      return localStorage.actual_version;
+    },
+
+    /**
+     * method that define current version
+     * @param value
+     */
+    setActualVersion(value) {
+      localStorage.setItem('actual_version', value);
+    },
+
+    /**
+     * method to test if current version is equal to app_version in config file.
+     * if not update app with location.reload
+     */
+    testUpdateAppVersion() {
+      if (process.client) {
+        const appVersion = this.getGameInfos().app_version;
+        const actualVersion = this.getActualVersion();
+
+        if (appVersion !== actualVersion) {
+          this.setActualVersion(appVersion);
+          window.location.reload();
+        }
+      }
+    },
+
+    /**
      * method to return current resources of the base
      * @returns {null|any}
      */
