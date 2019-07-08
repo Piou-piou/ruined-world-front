@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>V 0.0.1-16-1</h2>
+
     <div>
       index de la base
       <div>
@@ -49,9 +51,9 @@
       </ul>
 
       <h2>Unités</h2>
-      <ul v-if="base.units.length  > 0">
-        <li v-for="(unit, key) in base.units" v-bind:key="key">
-          {{unit.name}} (lvl : {{unit.level}})
+      <ul v-if="Object.keys(base.units).length > 0">
+        <li v-for="(number, unitName) in base.units" v-bind:key="number">
+          {{unitName}} ({{number}})
         </li>
       </ul>
       <div v-else>Aucune unité présente dans la base</div>
@@ -60,11 +62,20 @@
       <div v-if="current_constructions.length > 0">
         <ul  v-for="(current_construction, key) in current_constructions" v-bind:key="key" ref="construction-{{current_construction.id}}">
           <li>bâtiment : {{current_construction.name}}</li>
-          <li><Countdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()"></Countdown></li>
+          <li><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()"></RibsCountdown></li>
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
     </div>
+
+    <h2>Unités en recrutement</h2>
+    <div v-if="current_units_recruitment.length > 0">
+      <ul  v-for="(current_unit, key) in current_units_recruitment" v-bind:key="key" ref="recruitment-{{current_unit.id}}">
+        <li>unité : {{current_unit.name}} (nombre en recrutement : {{current_unit.number}})</li>
+        <li><RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()"></RibsCountdown></li>
+      </ul>
+    </div>
+    <div v-else>Aucun bâtiment en construction</div>
 
     <h2>Transport en cours</h2>
     <div v-if="current_market_transports.length > 0">
@@ -75,11 +86,11 @@
             <span v-if="current_market_transport.type === 0">de l'allé à</span>
             <span v-else>du retour de</span>
             {{current_market_transport.base_dest_name}}
-            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
+            <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></RibsCountdown>
           </div>
           <div v-else>
             <span >arrive de {{current_market_transport.base_dest_name}}</span>
-            <Countdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></Countdown>
+            <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()"></RibsCountdown>
           </div>
         </li>
       </ul>
@@ -95,18 +106,19 @@
   import Utils from '~/mixins/Utils';
   import BuildingPopup from '~/components/BuildingPopup.vue';
   import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
-  import Countdown from '~/components/Countdown.vue';
+  import RibsCountdown from 'ribs-vue-countdown';
 
   export default {
     components: {
       BuildingPopup,
       ListBuildingToBuildPopup,
-      Countdown
+      RibsCountdown
     },
     mixins: [Utils],
     data() {
       return {
         current_market_transports: {},
+        current_units_recruitment: {},
         emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
@@ -171,26 +183,35 @@
           this.resources_infos = data.resources_infos;
           this.setResources(this.base.resources);
 
-          const buildings = {};
-          let buildingNumber = 0;
-
-          for (let i = 1; i <= this.game_infos.building_locations; i++) {
-            buildings[i] = null;
-          }
-
-          for (const building of this.base.buildings) {
-            buildings[building.location] = building;
-            buildingNumber = buildingNumber +1;
-          }
-
-          if (buildingNumber === this.game_infos.building_locations) {
-            this.emptyLocation = false;
-          }
-
-          this.base.buildings = buildings;
+          this.getBuildings();
+          this.getUnits();
           this.getCurrentConstructions();
           this.getCurrentMarketMovements();
+          this.getUnitsInRecruitment();
         });
+      },
+
+      /**
+       * method to get buildings of the base
+       */
+      getBuildings() {
+        const buildings = {};
+        let buildingNumber = 0;
+
+        for (let i = 1; i <= this.game_infos.building_locations; i++) {
+          buildings[i] = null;
+        }
+
+        for (const building of this.base.buildings) {
+          buildings[building.location] = building;
+          buildingNumber = buildingNumber +1;
+        }
+
+        if (buildingNumber === this.game_infos.building_locations) {
+          this.emptyLocation = false;
+        }
+
+        this.base.buildings = buildings;
       },
 
       /**
@@ -281,6 +302,74 @@
             this.current_market_transports = {};
           }
         });
+      },
+
+      /**
+       * method to get units of the base
+       */
+      getUnits() {
+        const units = {};
+
+        (this.base.units).forEach((unit, index) => {
+          if (unit.inRecruitment === false) {
+            if (units[unit.arrayName] === undefined) {
+              units[unit.arrayName] = 1;
+            }
+            units[unit.arrayName] += 1;
+          }
+        });
+
+        console.log(units);
+
+        this.base.units = units;
+      },
+
+      /**
+       * method to get current recruitments in base
+       */
+      getUnitsInRecruitment() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('barrack/units-in-recruitment/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.units_in_recruitment.length > 0) {
+            this.current_units_recruitment = {};
+            this.current_units_recruitment = data.units_in_recruitment;
+          } else {
+            this.current_units_recruitment = {};
+          }
+        });
+      },
+
+      /**
+       * method calleed at the end of a recruitment of units
+       */
+      endUnitsRecruitment() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('barrack/end-recruitments-base/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.units_in_recruitment.length > 0) {
+            this.current_units_recruitment = data.units_in_recruitment;
+          } else {
+            this.units_in_recruitment = {};
+          }
+          this.getBase();
+        })
       },
 
       /**
