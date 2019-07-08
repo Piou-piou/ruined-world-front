@@ -170,11 +170,13 @@ export default {
     secondToHourMinute(time) {
       const hours = Math.floor(time / 3600);
       const minutes = Math.floor(time % 3600 / 60);
+      const seconds = Math.floor(time % 60);
 
       const hoursDisplay = hours === 0 ? '' : `${hours}h`;
       const minutesDisplay = minutes === 0 ? '' : `${minutes}min`;
+      const secondsDisplay = seconds === 0 ? '' : `${seconds}sec`;
 
-      return `${hoursDisplay} ${minutesDisplay}`;
+      return `${hoursDisplay} ${minutesDisplay} ${secondsDisplay}`;
     }
   }
 };
