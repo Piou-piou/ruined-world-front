@@ -311,7 +311,6 @@
         const units = {};
 
         (this.base.units).forEach((unit, index) => {
-          console.log(units[unit.arrayName]);
           if (unit.inRecruitment === false) {
             if (units[unit.arrayName] === undefined) {
               units[unit.arrayName] = 1;
