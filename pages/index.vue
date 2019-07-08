@@ -348,6 +348,9 @@
         });
       },
 
+      /**
+       * method calleed at the end of a recruitment of units
+       */
       endUnitsRecruitment() {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
