@@ -7,7 +7,7 @@
 		"command_center": [
 			{
 				"name": "Changer le nom de la base",
-				"url": "CommandCenterPopup"
+				"url": "CommandCenter/ChangeBaseName"
 			}
 		],
 		"market": [
