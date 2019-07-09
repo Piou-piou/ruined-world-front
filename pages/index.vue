@@ -319,8 +319,6 @@
           }
         });
 
-        console.log(units);
-
         this.base.units = units;
       },
 
