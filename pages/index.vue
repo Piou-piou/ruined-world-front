@@ -52,8 +52,8 @@
 
       <h2>Unités</h2>
       <ul v-if="Object.keys(base.units).length > 0">
-        <li v-for="(number, unitName) in base.units" v-bind:key="number">
-          {{unitName}} ({{number}})
+        <li v-for="(unit, key) in base.units" v-bind:key="key">
+          {{unit.name}} ({{unit.number}})
         </li>
       </ul>
       <div v-else>Aucune unité présente dans la base</div>
@@ -308,18 +308,24 @@
        * method to get units of the base
        */
       getUnits() {
-        const units = {};
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
 
-        (this.base.units).forEach((unit, index) => {
-          if (unit.inRecruitment === false) {
-            if (units[unit.arrayName] === undefined) {
-              units[unit.arrayName] = 1;
-            }
-            units[unit.arrayName] += 1;
+        this.getApi().post('units/list-units-base/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.units.length > 0) {
+            this.base.units = {};
+            this.base.units = data.units;
+          } else {
+            this.base.units = {};
           }
         });
-
-        this.base.units = units;
       },
 
       /**
