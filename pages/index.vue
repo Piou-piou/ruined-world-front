@@ -184,8 +184,9 @@
           this.setResources(this.base.resources);
 
           this.getBuildings();
-          this.getUnits();
           this.getCurrentConstructions();
+          this.getUnits();
+          //this.getCurrentUnitMovements();
           this.getCurrentMarketMovements();
           this.getUnitsInRecruitment();
         });
@@ -374,6 +375,31 @@
           }
           this.getBase();
         })
+      },
+
+      /**
+       * method to get current unit movements in base
+       */
+      getCurrentUnitMovements() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('units/list-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && data.unit_movements.length > 0) {
+            const unit_movements = data.unit_movements;
+            for (const movement of unit_movements) {
+              console.log(movement);
+            }
+
+          }
+        });
       },
 
       /**
