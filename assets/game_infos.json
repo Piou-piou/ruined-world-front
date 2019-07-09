@@ -8,6 +8,10 @@
 			{
 				"name": "Changer le nom de la base",
 				"url": "CommandCenter/ChangeBaseName"
+			},
+			{
+				"name": "Envoyer des unités en mission",
+				"url": "CommandCenter/SendUnitsInMission"
 			}
 		],
 		"market": [
