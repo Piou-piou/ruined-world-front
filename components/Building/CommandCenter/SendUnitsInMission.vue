@@ -3,7 +3,7 @@
     <h3>Liste des missions</h3>
 
     <div>
-      <div  v-for="(mission, key) in missions" v-bind:key="key">
+      <div v-for="(mission, key) in missions" v-bind:key="key">
         <h4>{{mission.name}}</h4>
         <p>{{mission.explanation}}</p>
         <ul>
@@ -11,7 +11,15 @@
           <li>Ressource en pourcentage que les unités ramèneront par rapport à ce qu'ils peuvent porter : {{mission.win_resources}} %</li>
           <li>Pertes maximale des unités envoyées : {{mission.lost_percentage}} %</li>
           <li>Durée de la mission : {{secondToHourMinute(mission.duration)}}</li>
+          <li>Gains potentiel de ressources : 0</li>
         </ul>
+        <div>
+          <div v-for="(unit, key) in units" v-bind:key="key">
+            <label>{{unit.name}}</label>
+            <input type="number" v-bind:class="unit.arrayName"> / {{unit.number}}
+          </div>
+          <button type="submit">Envoyer</button>
+        </div>
         <hr>
       </div>
     </div>
@@ -25,7 +33,8 @@
     mixins: [Utils],
     data() {
       return {
-        missions: {}
+        missions: {},
+        units: {}
       }
     },
     methods: {
@@ -45,6 +54,7 @@
         this.updateTokenIfExist(data.token);
         if (data.success) {
           this.missions = data.missions;
+          this.units = data.units;
         }
       });
     }
