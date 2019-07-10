@@ -75,7 +75,20 @@
         <li><RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()"></RibsCountdown></li>
       </ul>
     </div>
-    <div v-else>Aucun bâtiment en construction</div>
+    <div v-else>Aucune unité en recrutement</div>
+
+    <h2>Unités en mouvement</h2>
+    <div v-if="current_units_in_movement.length > 0">
+      <ul v-for="(current_movement, key) in current_units_in_movement" v-bind:key="key" ref="movement-{{current_unit.id}}">
+        <li>
+          <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date"></RibsCountdown>
+          <ul v-for="(unit, key) in current_movement.units" v-bind:key="key">
+            <li>unité : {{unit.name}} (nombre : {{unit.number}})</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div v-else>Aucune unité en mouvement</div>
 
     <h2>Transport en cours</h2>
     <div v-if="current_market_transports.length > 0">
@@ -119,6 +132,7 @@
       return {
         current_market_transports: {},
         current_units_recruitment: {},
+        current_units_in_movement: {},
         emptyLocation: true,
         isDisplayBuildingPopup: false,
         isDisplayListBuildingToBuildPopup: false,
@@ -186,7 +200,7 @@
           this.getBuildings();
           this.getCurrentConstructions();
           this.getUnits();
-          //this.getCurrentUnitMovements();
+          this.getCurrentUnitMovements();
           this.getCurrentMarketMovements();
           this.getUnitsInRecruitment();
         });
@@ -393,11 +407,9 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.unit_movements.length > 0) {
-            const unit_movements = data.unit_movements;
-            for (const movement of unit_movements) {
-              console.log(movement);
-            }
-
+            this.current_units_in_movement = data.unit_movements;
+          } else {
+            this.current_units_in_movement = {};
           }
         });
       },
