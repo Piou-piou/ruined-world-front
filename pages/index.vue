@@ -385,7 +385,7 @@
           if (data.success === true && data.units_in_recruitment.length > 0) {
             this.current_units_recruitment = data.units_in_recruitment;
           } else {
-            this.units_in_recruitment = {};
+            this.current_units_recruitment = {};
           }
           this.getBase();
         })
