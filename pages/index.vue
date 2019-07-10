@@ -81,7 +81,10 @@
     <div v-if="current_units_in_movement.length > 0">
       <ul v-for="(current_movement, key) in current_units_in_movement" v-bind:key="key" ref="movement-{{current_unit.id}}">
         <li>
-          <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date"></RibsCountdown>
+          <div v-if="current_movement.string_type === 'mission'">
+            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date"></RibsCountdown>
+          </div>
+
           <ul v-for="(unit, key) in current_movement.units" v-bind:key="key">
             <li>unité : {{unit.name}} (nombre : {{unit.number}})</li>
           </ul>
@@ -407,6 +410,7 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.unit_movements.length > 0) {
+            console.log(data);
             this.current_units_in_movement = data.unit_movements;
           } else {
             this.current_units_in_movement = {};
