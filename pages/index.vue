@@ -410,7 +410,6 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.unit_movements.length > 0) {
-            console.log(data);
             this.current_units_in_movement = data.unit_movements;
           } else {
             this.current_units_in_movement = {};
