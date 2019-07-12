@@ -28,7 +28,7 @@ module.exports = {
 
   manifest: {
     name: 'Ruined World',
-    short_name: "RWold",
+    short_name: "RWorld",
     description: "Ruined World est un jeu de stratégie, reconstruisez votre base après la dévastation du monde et reignez dessus !",
     start_url: '/login',
     display: "standalone",
