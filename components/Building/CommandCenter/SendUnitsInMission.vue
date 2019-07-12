@@ -16,9 +16,10 @@
         <div>
           <div v-for="(unit, key) in units" v-bind:key="key">
             <label>{{unit.name}}</label>
-            <input type="number" v-bind:class="unit.arrayName"> / {{unit.number}}
+            <input type="hidden" class="array_name"  v-bind:value="unit.array_name">
+            <input type="number"> / {{unit.number}}
           </div>
-          <button type="submit">Envoyer</button>
+          <button type="submit" v-bind:id="mission.id" @click="sendUnit">Envoyer</button>
         </div>
         <hr>
       </div>
@@ -38,7 +39,34 @@
       }
     },
     methods: {
+      sendUnit(event) {
+        const missionId = event.currentTarget.id;
+        const unitInputs = event.currentTarget.parentNode.querySelectorAll('input[type=number]');
+        const units = {};
 
+        Array.from(unitInputs).forEach((element, index) => {
+          const arrayName = element.parentNode.querySelector('.array_name').value;
+          const number = parseInt(element.value, 10);
+
+          if (number !== '' && number !== undefined && Number.isInteger(number)) {
+            units[arrayName] = {};
+            units[arrayName].number = number;
+          }
+        });
+
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+          mission_id: missionId,
+          units: units
+        }, this.getToken());
+
+        this.getApi().post('missions/send-units/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        })
+      }
     },
     mounted() {
       const jwtInfos = this.getJwt().sign({
