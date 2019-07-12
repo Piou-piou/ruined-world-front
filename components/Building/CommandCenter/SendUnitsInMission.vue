@@ -8,7 +8,9 @@
         <p>{{mission.explanation}}</p>
         <ul>
           <li>ressources ramenées : {{mission.type}}</li>
-          <li>Ressource en pourcentage que les unités ramèneront par rapport à ce qu'ils peuvent porter : {{mission.win_resources}} %</li>
+          <li>Ressource en pourcentage que les unités ramèneront par rapport à ce qu'ils peuvent porter :
+            {{mission.win_resources}} %
+          </li>
           <li>Pertes maximale des unités envoyées : {{mission.lost_percentage}} %</li>
           <li>Durée de la mission : {{secondToHourMinute(mission.duration)}}</li>
           <li>Gains potentiel de ressources : 0</li>
@@ -16,7 +18,7 @@
         <div>
           <div v-for="(unit, key) in units" v-bind:key="key">
             <label>{{unit.name}}</label>
-            <input type="hidden" class="array_name"  v-bind:value="unit.array_name">
+            <input type="hidden" class="array_name" v-bind:value="unit.array_name">
             <input type="number"> / {{unit.number}}
           </div>
           <button type="submit" v-bind:id="mission.id" @click="sendUnit">Envoyer</button>
@@ -65,7 +67,14 @@
         this.getApi().post('missions/send-units/', {
           'infos': jwtInfos,
           'token': this.getToken(),
-        })
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.getFlash().append(data.success_message, 'success');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        });
       }
     },
     mounted() {
