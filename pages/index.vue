@@ -494,6 +494,7 @@
       }, 30000);
 
       setInterval(() => this.getCurrentMarketMovements(), 60000);
+      setInterval(() => this.getUnits(), 300000);
     },
     created() {
       this.testAndUpdateToken();
