@@ -33,9 +33,11 @@
           v-bind:class="{'resources-error': base.resources.water === resources_infos.max_storage_wharehouse}">
           {{base.resources.water}}</span> (+{{resources_infos.water_production}})
         </li>
-        <li><strong>Food</strong> : <span
-          v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
-          {{base.resources.food}} ({{food_consumption_hour}} {{food_string}})</span>
+        <li><strong>Food</strong> :
+          <span
+            v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
+            {{base.resources.food}} (<span v-if="food_consumption_hour > 0">{{food_consumption_hour}} {{food_string}}</span><span v-if="food_consumption_hour > 0 && food_kill_hour > 0"> | </span><span v-if="food_kill_hour > 0">{{food_kill_hour}} {{food_kill_string}}</span>)
+          </span>
         </li>
       </ul>
 
@@ -148,7 +150,9 @@
         current_constructions: {},
         game_infos: {},
         food_consumption_hour: 0,
-        food_string: ''
+        food_string: '',
+        food_kill_hour: 0,
+        food_kill_string: ''
       }
     },
     methods: {
@@ -457,6 +461,8 @@
           if (data.success) {
             this.food_consumption_hour = data.food_consumption;
             this.food_string = data.food_string;
+            this.food_kill_hour = data.food_kill;
+            this.food_kill_string = data.food_string_kill;
           }
         });
       },
