@@ -51,8 +51,8 @@
       </ul>
 
       <h2>Unités</h2>
-      <ul v-if="Object.keys(base.units).length > 0">
-        <li v-for="(unit, key) in base.units" v-bind:key="key">
+      <ul v-if="Object.keys(units).length > 0">
+        <li v-for="(unit, key) in units" v-bind:key="key">
           {{unit.name}} ({{unit.number}})
         </li>
       </ul>
@@ -141,9 +141,9 @@
         isDisplayListBuildingToBuildPopup: false,
         caseToBuildNumber: null,
         base: {
-          resources: {},
-          units: {}
+          resources: {}
         },
+        units: {},
         resources_infos: [],
         current_constructions: {},
         game_infos: {}
@@ -338,10 +338,10 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.units.length > 0) {
-            this.base.units = {};
-            this.base.units = data.units;
+            this.units = {};
+            this.units = data.units;
           } else {
-            this.base.units = {};
+            this.units = {};
           }
         });
       },
