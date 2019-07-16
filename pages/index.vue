@@ -18,23 +18,23 @@
       <h2>Ressources</h2>
       <ul>
         <li><strong>Electricity</strong> : <span
-          v-bind:class="{'resources-error': base.resources.electricity === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.electricity === resources_infos.max_storage_wharehouse}">
           {{base.resources.electricity}}</span> (+{{resources_infos.electricity_production}})
         </li>
         <li><strong>Iron</strong> : <span
-          v-bind:class="{'resources-error': base.resources.iron === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.iron === resources_infos.max_storage_wharehouse}">
           {{base.resources.iron}}</span> (+{{resources_infos.iron_production}})
         </li>
         <li><strong>Fuel</strong> : <span
-          v-bind:class="{'resources-error': base.resources.fuel === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.fuel === resources_infos.max_storage_wharehouse}">
           {{base.resources.fuel}}</span> (+{{resources_infos.fuel_production}})
         </li>
         <li><strong>Water</strong> : <span
-          v-bind:class="{'resources-error': base.resources.water === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.water === resources_infos.max_storage_wharehouse}">
           {{base.resources.water}}</span> (+{{resources_infos.water_production}})
         </li>
         <li><strong>Food</strong> : <span
-          v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage}">
+          v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
           {{base.resources.food}}</span>
         </li>
       </ul>
@@ -463,6 +463,7 @@
           this.base.resources.iron = data.iron;
           this.base.resources.fuel = data.fuel;
           this.base.resources.water = data.water;
+          this.base.resources.food = data.food;
           this.setResources(data);
         });
       }, 30000);

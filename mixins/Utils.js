@@ -137,6 +137,7 @@ export default {
         iron: resources.iron,
         fuel: resources.iron,
         water: resources.water,
+        food: resources.food,
       };
       localStorage.setItem('resources', JSON.stringify(resources_array));
     },
