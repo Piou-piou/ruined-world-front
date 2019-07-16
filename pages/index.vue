@@ -36,7 +36,7 @@
         <li><strong>Food</strong> :
           <span
             v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
-            {{base.resources.food}} <span v-if="food_consumption_hour > 0 || food_kill_hour > 0">(<span v-if="food_consumption_hour > 0">{{food_consumption_hour}} {{food_string}}</span><span v-if="food_consumption_hour > 0 && food_kill_hour > 0"> | </span><span v-if="food_kill_hour > 0">{{food_kill_hour}} {{food_kill_string}}</span>)</span>
+            {{base.resources.food}} <span v-if="food_consumption_hour > 0">({{food_consumption_hour}} {{food_string}})</span>
           </span>
         </li>
       </ul>
