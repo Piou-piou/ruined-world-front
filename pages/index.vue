@@ -35,7 +35,7 @@
         </li>
         <li><strong>Food</strong> : <span
           v-bind:class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
-          {{base.resources.food}}</span>
+          {{base.resources.food}} ({{food_consumption_hour}} {{food_string}})</span>
         </li>
       </ul>
 
@@ -146,7 +146,9 @@
         units: {},
         resources_infos: [],
         current_constructions: {},
-        game_infos: {}
+        game_infos: {},
+        food_consumption_hour: 0,
+        food_string: ''
       }
     },
     methods: {
@@ -206,6 +208,7 @@
           this.getCurrentUnitMovements();
           this.getCurrentMarketMovements();
           this.getUnitsInRecruitment();
+          this.getFoodConsumptionPerHour();
         });
       },
 
@@ -433,6 +436,28 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           this.getBase();
+        });
+      },
+
+      /**
+       * method to get food consumption per hour
+       */
+      getFoodConsumptionPerHour() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('food/consumption-per-hour/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.food_consumption_hour = data.food_consumption;
+            this.food_string = data.food_string;
+          }
         });
       },
 
