@@ -82,7 +82,7 @@
       <ul v-for="(current_movement, key) in current_units_in_movement" v-bind:key="key" ref="movement-{{current_unit.id}}">
         <li>
           <div v-if="current_movement.string_type === 'mission'">
-            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date"></RibsCountdown>
+            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="enUnitMovement()"></RibsCountdown>
           </div>
 
           <ul v-for="(unit, key) in current_movement.units" v-bind:key="key">
@@ -414,6 +414,25 @@
           } else {
             this.current_units_in_movement = {};
           }
+        });
+      },
+
+      /**
+       * method to update movement of units if there is on the go to put it on return
+       */
+      enUnitMovement() {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+          guid_base: this.getGuidBase(),
+        }, this.getToken());
+
+        this.getApi().post('missions/update-movements/', {
+          'infos': jwtInfos,
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          this.getBase();
         });
       },
 
