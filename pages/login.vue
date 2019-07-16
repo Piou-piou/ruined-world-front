@@ -73,6 +73,9 @@
       if (!testToken) {
         this.loading = false;
       }
+    },
+    created() {
+      this.testUpdateAppVersion();
     }
   }
 </script>

@@ -28,7 +28,7 @@ module.exports = {
 
   manifest: {
     name: 'Ruined World',
-    short_name: "RWold",
+    short_name: "RWorld",
     description: "Ruined World est un jeu de stratégie, reconstruisez votre base après la dévastation du monde et reignez dessus !",
     start_url: '/login',
     display: "standalone",
@@ -46,7 +46,7 @@ module.exports = {
   */
   build: {
     extractCSS: true,
-    transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core'],
+    transpile: ['ribs-api', 'ribs-flash-message', 'ribs-core', 'ribs-vue-countdown'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({

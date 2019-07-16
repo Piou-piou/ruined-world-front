@@ -88,6 +88,38 @@ export default {
     },
 
     /**
+     * method that return current app version
+     * @returns {any}
+     */
+    getActualVersion() {
+      return localStorage.actual_version;
+    },
+
+    /**
+     * method that define current version
+     * @param value
+     */
+    setActualVersion(value) {
+      localStorage.setItem('actual_version', value);
+    },
+
+    /**
+     * method to test if current version is equal to app_version in config file.
+     * if not update app with location.reload
+     */
+    testUpdateAppVersion() {
+      if (process.client) {
+        const appVersion = this.getGameInfos().app_version;
+        const actualVersion = this.getActualVersion();
+
+        if (appVersion !== actualVersion) {
+          this.setActualVersion(appVersion);
+          window.location.reload();
+        }
+      }
+    },
+
+    /**
      * method to return current resources of the base
      * @returns {null|any}
      */
@@ -105,6 +137,7 @@ export default {
         iron: resources.iron,
         fuel: resources.iron,
         water: resources.water,
+        food: resources.food,
       };
       localStorage.setItem('resources', JSON.stringify(resources_array));
     },
@@ -170,11 +203,13 @@ export default {
     secondToHourMinute(time) {
       const hours = Math.floor(time / 3600);
       const minutes = Math.floor(time % 3600 / 60);
+      const seconds = Math.floor(time % 60);
 
       const hoursDisplay = hours === 0 ? '' : `${hours}h`;
       const minutesDisplay = minutes === 0 ? '' : `${minutes}min`;
+      const secondsDisplay = seconds === 0 ? '' : `${seconds}sec`;
 
-      return `${hoursDisplay} ${minutesDisplay}`;
+      return `${hoursDisplay} ${minutesDisplay} ${secondsDisplay}`;
     }
   }
 };
