@@ -1,5 +1,5 @@
 {
-	"app_version": "0.0.1-17-1",
+	"app_version": "0.0.1-18-7",
 	"building_locations": 13,
 	"map_size": 200,
 	"map_multiplicator": 15,
@@ -7,7 +7,11 @@
 		"command_center": [
 			{
 				"name": "Changer le nom de la base",
-				"url": "CommandCenterPopup"
+				"url": "CommandCenter/ChangeBaseName"
+			},
+			{
+				"name": "Envoyer des unités en mission",
+				"url": "CommandCenter/SendUnitsInMission"
 			}
 		],
 		"market": [
