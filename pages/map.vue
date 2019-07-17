@@ -15,7 +15,11 @@
         <div v-for="(base, key) in bases"
              v-bind:key="key"
              v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
-             v-bind:class="{'my-base': base.guid == getGuidBase(), 'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase()}"
+             v-bind:class="{
+              'my-base': base.guid == getGuidBase(),
+              'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase(),
+              'archived': base.archived === true,
+             }"
              @mouseover="getTravalTime(base.guid)"
              @click="displayBasePopup(base.guid)"
         >
