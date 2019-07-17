@@ -38,6 +38,20 @@ export default {
     },
 
     /**
+     * method to get jwt values
+     * @param additionalValues
+     * @returns {*|number|PromiseLike<ArrayBuffer>}
+     */
+    getJwtValues(additionalValues = {}) {
+      return this.getJwt().sign({
+        iat: Math.floor(Date.now() / 1000) - 30,
+        token: this.getToken(),
+        guid_base: this.getGuidBase(),
+        additionalValues
+      }, this.getToken());
+    },
+
+    /**
      * method to get Api
      * @returns {RibsApi}
      */

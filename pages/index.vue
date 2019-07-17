@@ -191,14 +191,8 @@
        * return the base informations like resources, buldings, units, ...
        */
       getBase() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('base/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -243,14 +237,8 @@
        * method to get current construction in base
        */
       getCurrentConstructions() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('buildings/in-construction/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -264,14 +252,8 @@
        * method to end current constructions that are finished in base
        */
       endConstructions() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('buildings/end-constructions-base/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -288,14 +270,8 @@
        * method to get current market movements in base
        */
       getCurrentMarketMovements() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('market/send-current-movements/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -309,14 +285,8 @@
        * method to update movement if there is on the go to put it on return
        */
       updateMarketMovement() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('market/update-current-movements/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -333,14 +303,8 @@
        * method to get units of the base
        */
       getUnits() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('units/list-units-base/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -357,14 +321,8 @@
        * method to get current recruitments in base
        */
       getUnitsInRecruitment() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('barrack/units-in-recruitment/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -381,14 +339,8 @@
        * method calleed at the end of a recruitment of units
        */
       endUnitsRecruitment() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('barrack/end-recruitments-base/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -405,14 +357,8 @@
        * method to get current unit movements in base
        */
       getCurrentUnitMovements() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('units/list-movements/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -428,14 +374,8 @@
        * method to update movement of units if there is on the go to put it on return
        */
       enUnitMovement() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('missions/update-movements/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -447,14 +387,8 @@
        * method to get food consumption per hour
        */
       getFoodConsumptionPerHour() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('food/consumption-per-hour/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -479,14 +413,8 @@
        * called when page is builded to refresh resources
        */
       setInterval(() => {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase()
-        }, this.getToken());
-
         this.getApi().post('refresh-resources/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
