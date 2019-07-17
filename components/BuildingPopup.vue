@@ -53,15 +53,8 @@
        * @param array_name
        */
       getBuilding(array_name) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          array_name
-        }, this.getToken());
-
         this.getApi().post('buildings/show/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({array_name: array_name}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -88,15 +81,8 @@
        * methot that launch construction of building
        */
       build() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          array_name: this.building.arrayName
-        }, this.getToken());
-
         this.getApi().post('buildings/build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({array_name: this.building.arrayName}),
           'token': this.getToken()
         }).then(data => {
           if (data.success === true) {
