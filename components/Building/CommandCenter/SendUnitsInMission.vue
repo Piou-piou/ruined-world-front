@@ -56,16 +56,8 @@
           }
         });
 
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          mission_id: missionId,
-          units: units
-        }, this.getToken());
-
         this.getApi().post('missions/send-units/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({mission_id: missionId, units: units}),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -78,14 +70,8 @@
       }
     },
     mounted() {
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
       this.getApi().post('missions/list/', {
-        'infos': jwtInfos,
+        'infos': this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
         this.updateTokenIfExist(data.token);
