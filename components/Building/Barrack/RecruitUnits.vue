@@ -49,16 +49,8 @@
         const unitArrayName = event.currentTarget.id;
         const numberToRecruit = event.currentTarget.parentNode.querySelector(`.${unitArrayName}`).value;
 
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          unit_array_name: unitArrayName,
-          number_to_recruit: numberToRecruit
-        }, this.getToken());
-
         this.getApi().post('barrack/recruit-units/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({unit_array_name: unitArrayName, number_to_recruit: numberToRecruit}),
           'token': this.getToken(),
         }).then(data => {
           if (data.success) {
@@ -71,14 +63,8 @@
       }
     },
     mounted() {
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
       this.getApi().post('barrack/list-units-to-recruit/', {
-        'infos': jwtInfos,
+        'infos': this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
         if (data.success) {
