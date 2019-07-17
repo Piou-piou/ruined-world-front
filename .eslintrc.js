@@ -8,8 +8,6 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    '@nuxtjs',
-    'airbnb-base',
     'plugin:vue/essential'
   ],
   // required to lint *.vue files
