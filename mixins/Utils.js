@@ -131,6 +131,10 @@ export default {
       return JSON.parse(localStorage.resources);
     },
 
+    /**
+     * method to set resources in localStorage
+     * @param resources
+     */
     setResources(resources) {
       const resources_array = {
         electricity: resources.electricity,
