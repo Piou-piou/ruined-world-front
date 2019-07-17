@@ -47,10 +47,7 @@
     },
     methods: {
       submit() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
+        const jwtInfos = this.getJwtValues({
           resources: {
             electricity: this.electricity === null ? 0 : this.electricity,
             fuel: this.fuel === null ? 0 : this.fuel,
@@ -60,7 +57,7 @@
           },
           posx: this.posx,
           posy: this.posy
-        }, this.getToken());
+        });
 
         this.getApi().post('market/send-resources/', {
           'infos': jwtInfos,
@@ -76,14 +73,8 @@
       }
     },
     mounted() {
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
       this.getApi().post('market/send-current-market-number/', {
-        'infos': jwtInfos,
+        'infos': this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
         if (data.success) {
