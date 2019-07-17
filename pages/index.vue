@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>V {{ game_infos.app_version }}</h2>
+    <h2>V {{ gameInfos.app_version }}</h2>
 
     <div>
       index de la base
@@ -18,25 +18,25 @@
       <h2>Ressources</h2>
       <ul>
         <li><strong>Electricity</strong> : <span
-          :class="{'resources-error': base.resources.electricity === resources_infos.max_storage_wharehouse}">
-          {{ base.resources.electricity }}</span> (+{{ resources_infos.electricity_production }})
+          :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
         </li>
         <li><strong>Iron</strong> : <span
-          :class="{'resources-error': base.resources.iron === resources_infos.max_storage_wharehouse}">
-          {{ base.resources.iron }}</span> (+{{ resources_infos.iron_production }})
+          :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
         </li>
         <li><strong>Fuel</strong> : <span
-          :class="{'resources-error': base.resources.fuel === resources_infos.max_storage_wharehouse}">
-          {{ base.resources.fuel }}</span> (+{{ resources_infos.fuel_production }})
+          :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
         </li>
         <li><strong>Water</strong> : <span
-          :class="{'resources-error': base.resources.water === resources_infos.max_storage_wharehouse}">
-          {{ base.resources.water }}</span> (+{{ resources_infos.water_production }})
+          :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
         </li>
         <li><strong>Food</strong> :
           <span
-            :class="{'resources-error': base.resources.food === resources_infos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="food_consumption_hour > 0">({{ food_consumption_hour }} {{ food_string }})</span>
+            :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
+            {{ base.resources.food }} <span v-if="foodConsumptionHour > 0">({{ foodConsumptionHour }} {{ foodString }})</span>
           </span>
         </li>
       </ul>
@@ -61,8 +61,8 @@
       <div v-else>Aucune unité présente dans la base</div>
 
       <h2>Bâtiment en construction</h2>
-      <div v-if="current_constructions.length > 0">
-        <ul v-for="(current_construction, key) in current_constructions" ref="construction-{{current_construction.id}}" :key="key">
+      <div v-if="currentConstructions.length > 0">
+        <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
           <li>bâtiment : {{ current_construction.name }}</li>
           <li><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
         </ul>
@@ -71,8 +71,8 @@
     </div>
 
     <h2>Unités en recrutement</h2>
-    <div v-if="current_units_recruitment.length > 0">
-      <ul v-for="(current_unit, key) in current_units_recruitment" ref="recruitment-{{current_unit.id}}" :key="key">
+    <div v-if="currentUnitsRecruitment.length > 0">
+      <ul v-for="(current_unit, key) in currentUnitsRecruitment" ref="recruitment-{{current_unit.id}}" :key="key">
         <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
         <li>prochaine unité dans : <RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()" /></li>
       </ul>
@@ -80,8 +80,8 @@
     <div v-else>Aucune unité en recrutement</div>
 
     <h2>Unités en mouvement</h2>
-    <div v-if="current_units_in_movement.length > 0">
-      <ul v-for="(current_movement, key) in current_units_in_movement" ref="movement-{{current_unit.id}}" :key="key">
+    <div v-if="currentUnitsInMovement.length > 0">
+      <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
         <li>
           <div v-if="current_movement.string_type === 'mission'">
             En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="enUnitMovement()" />
@@ -96,8 +96,8 @@
     <div v-else>Aucune unité en mouvement</div>
 
     <h2>Transport en cours</h2>
-    <div v-if="current_market_transports.length > 0">
-      <ul v-for="(current_market_transport, key) in current_market_transports" :key="key">
+    <div v-if="currentMarketRransports.length > 0">
+      <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
         <li>
           <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
             sur le chemin
@@ -135,9 +135,9 @@ export default {
   mixins: [Utils],
   data() {
     return {
-      current_market_transports: {},
-      current_units_recruitment: {},
-      current_units_in_movement: {},
+      currentMarketRransports: {},
+      currentUnitsRecruitment: {},
+      currentUnitsInMovement: {},
       emptyLocation: true,
       isDisplayBuildingPopup: false,
       isDisplayListBuildingToBuildPopup: false,
@@ -146,13 +146,11 @@ export default {
         resources: {},
       },
       units: {},
-      resources_infos: [],
-      current_constructions: {},
-      game_infos: {},
-      food_consumption_hour: 0,
-      food_string: '',
-      food_kill_hour: 0,
-      food_kill_string: '',
+      resourcesInfos: [],
+      currentConstructions: {},
+      gameInfos: {},
+      foodConsumptionHour: 0,
+      foodString: '',
     };
   },
   mounted() {
@@ -180,7 +178,7 @@ export default {
   created() {
     this.testAndUpdateToken();
     this.testUpdateAppVersion();
-    this.game_infos = this.getGameInfos();
+    this.gameInfos = this.getGameInfos();
 
     if (process.client) {
       if (this.getGuidBase() === null) {
@@ -249,7 +247,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.base = JSON.parse(data.base);
-        this.resources_infos = data.resources_infos;
+        this.resourcesInfos = data.resources_infos;
         this.setResources(this.base.resources);
 
         this.getBuildings();
@@ -269,7 +267,7 @@ export default {
       const buildings = {};
       let buildingNumber = 0;
 
-      for (let i = 1; i <= this.game_infos.building_locations; i++) {
+      for (let i = 1; i <= this.gameInfos.building_locations; i++) {
         buildings[i] = null;
       }
 
@@ -278,7 +276,7 @@ export default {
         buildingNumber += 1;
       }
 
-      if (buildingNumber === this.game_infos.building_locations) {
+      if (buildingNumber === this.gameInfos.building_locations) {
         this.emptyLocation = false;
       }
 
@@ -295,7 +293,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.buildings.length > 0) {
-          this.current_constructions = data.buildings;
+          this.currentConstructions = data.buildings;
         }
       });
     },
@@ -310,9 +308,9 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.buildings.length > 0) {
-          this.current_constructions = data.buildings;
+          this.currentConstructions = data.buildings;
         } else {
-          this.current_constructions = {};
+          this.currentConstructions = {};
         }
         this.getBase();
       });
@@ -328,7 +326,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.market_movements.length > 0) {
-          this.current_market_transports = data.market_movements;
+          this.currentMarketRransports = data.market_movements;
         }
       });
     },
@@ -343,10 +341,10 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.market_movements.length > 0) {
-          this.current_market_transports = {};
-          this.current_market_transports = data.market_movements;
+          this.currentMarketRransports = {};
+          this.currentMarketRransports = data.market_movements;
         } else {
-          this.current_market_transports = {};
+          this.currentMarketRransports = {};
         }
       });
     },
@@ -379,10 +377,10 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.units_in_recruitment.length > 0) {
-          this.current_units_recruitment = {};
-          this.current_units_recruitment = data.units_in_recruitment;
+          this.currentUnitsRecruitment = {};
+          this.currentUnitsRecruitment = data.units_in_recruitment;
         } else {
-          this.current_units_recruitment = {};
+          this.currentUnitsRecruitment = {};
         }
       });
     },
@@ -397,9 +395,9 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.units_in_recruitment.length > 0) {
-          this.current_units_recruitment = data.units_in_recruitment;
+          this.currentUnitsRecruitment = data.units_in_recruitment;
         } else {
-          this.current_units_recruitment = {};
+          this.currentUnitsRecruitment = {};
         }
         this.getBase();
       });
@@ -415,9 +413,9 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success === true && data.unit_movements.length > 0) {
-          this.current_units_in_movement = data.unit_movements;
+          this.currentUnitsInMovement = data.unit_movements;
         } else {
-          this.current_units_in_movement = {};
+          this.currentUnitsInMovement = {};
         }
       });
     },
@@ -445,10 +443,8 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         if (data.success) {
-          this.food_consumption_hour = data.food_consumption;
-          this.food_string = data.food_string;
-          this.food_kill_hour = data.food_kill;
-          this.food_kill_string = data.food_string_kill;
+          this.foodConsumptionHour = data.food_consumption;
+          this.foodString = data.food_string;
         }
       });
     },
