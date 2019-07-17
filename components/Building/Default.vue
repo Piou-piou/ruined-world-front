@@ -23,8 +23,6 @@
       <li>Time to build : {{constructionTime}}</li>
       <li>{{explanationNextPower}}</li>
     </ul>
-
-    <div>{{errorMesssage}}</div>
   </div>
 </template>
 
@@ -38,7 +36,6 @@
         explanationNextPower: this.$parent.explanationNextPower,
         constructionTime : this.$parent.constructionTime,
         resourcesBuild: this.$parent.resourcesBuild,
-        errorMesssage: this.$parent.errorMesssage,
         resources: this.$parent.resources
       }
     },

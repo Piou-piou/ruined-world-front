@@ -43,7 +43,6 @@
         explanationNextPower: '',
         constructionTime : null,
         resourcesBuild: {},
-        errorMesssage: null,
         resources: {}
       }
     },
