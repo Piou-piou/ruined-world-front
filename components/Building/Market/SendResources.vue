@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Envoyer des ressources à une base en saisissant ses coordonnées</h3>
-    <h4>Vous avez actuellement {{trader_number}}/{{max_trader_number}} marchands disponible(s) dans votre base</h4>
+    <h4>Vous avez actuellement {{traderNumber}}/{{maxTraderNumber}} marchands disponible(s) dans votre base</h4>
     <form action="">
       <div>
         Electricity : <input type="number" name="electricity" v-model="electricity">
@@ -34,8 +34,8 @@
     mixins: [Utils],
     data() {
       return {
-        trader_number: null,
-        max_trader_number: null,
+        traderNumber: null,
+        maxTraderNumber: null,
         electricity: null,
         fuel: null,
         iron: null,
@@ -78,8 +78,8 @@
         'token': this.getToken(),
       }).then(data => {
         if (data.success) {
-          this.trader_number = data.trader_number;
-          this.max_trader_number = data.max_trader_number;
+          this.traderNumber = data.trader_number;
+          this.maxTraderNumber = data.max_trader_number;
         }
       });
     }
