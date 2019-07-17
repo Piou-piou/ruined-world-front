@@ -77,15 +77,8 @@
        */
       getTravalTime(base_guid) {
         if (base_guid !== this.getGuidBase()) {
-          const jwtInfos = this.getJwt().sign({
-            token: this.getToken(),
-            iat: Math.floor(Date.now() / 1000) - 30,
-            guid_base: this.getGuidBase(),
-            guid_other_base: base_guid
-          }, this.getToken());
-
           this.getApi().post('base/travel-time/', {
-            'infos': jwtInfos,
+            'infos': this.getJwtValues({guid_other_base: base_guid}),
             'token': this.getToken(),
           }).then(data => {
             this.updateTokenIfExist(data.token);
@@ -111,14 +104,8 @@
       }
 
       this.travel_time = 0;
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
       this.getApi().post('bases-map/', {
-        'infos': jwtInfos,
+        'infos':  this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
         this.updateTokenIfExist(data.token);
