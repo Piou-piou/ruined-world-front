@@ -22,15 +22,8 @@
     },
     methods: {
       submit() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          base_name: this.base_name,
-        }, this.getToken());
-
         this.getApi().post('base/change-name/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({base_name: this.base_name}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
