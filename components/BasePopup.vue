@@ -47,15 +47,8 @@
        * @param guid
        */
       getBase(guid) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          guid_other_base: guid,
-        }, this.getToken());
-
         this.getApi().post('base/player/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({guid_other_base: guid}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);

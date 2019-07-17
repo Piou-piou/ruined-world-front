@@ -60,14 +60,8 @@
        * method to get all buildings that are possible to build
        */
       getBuildings() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('buildings/list-to-build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -81,16 +75,8 @@
        * method to build a building
        */
       build(arrayName) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          case: this.caseToBuild,
-          array_name: arrayName
-        }, this.getToken());
-
         this.getApi().post('buildings/build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({case: this.caseToBuild, array_name: arrayName}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);

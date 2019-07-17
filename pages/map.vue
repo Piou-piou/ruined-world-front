@@ -11,20 +11,20 @@
       <div class="controls" id="bottom" @click="moveMap('bottom')"></div>
       <div class="controls" id="left" @click="moveMap('left')"></div>
 
-      <div v-bind:style="{'width': map_size*map_multiplicator + 'px',  'height': map_size*map_multiplicator + 'px'}"  class="map" ref="map">
+      <div v-bind:style="{'width': mapSize*mapMultiplicator + 'px',  'height': mapSize*mapMultiplicator + 'px'}"  class="map" ref="map">
         <div v-for="(base, key) in bases"
              v-bind:key="key"
-             v-bind:style="{'left': base.posx*map_multiplicator + 'px', 'top': base.posy*map_multiplicator + 'px'}"
+             v-bind:style="{'left': base.posx*mapMultiplicator + 'px', 'top': base.posy*mapMultiplicator + 'px'}"
              v-bind:class="{
               'my-base': base.guid == getGuidBase(),
-              'my-bases': base.guid.indexOf(guids_player_bases) > -1 && base.guid != getGuidBase(),
+              'my-bases': base.guid.indexOf(guidsPlayerBases) > -1 && base.guid != getGuidBase(),
               'archived': base.archived === true,
              }"
              @mouseover="getTravalTime(base.guid)"
              @click="displayBasePopup(base.guid)"
         >
           <div>
-            <p>Base : {{base.name}} de {{base.pseudo}} <span v-show="travel_time != 0">(trajet : {{travel_time}})</span></p>
+            <p>Base : {{base.name}} de {{base.pseudo}} <span v-show="travelTime != 0">(trajet : {{travelTime}})</span></p>
           </div>
         </div>
       </div>
@@ -46,11 +46,11 @@
     data() {
       return {
         bases: {},
-        travel_time: 0,
-        guids_player_bases: [],
-        id_player: null,
-        map_size: this.getGameInfos().map_size,
-        map_multiplicator: this.getGameInfos().map_multiplicator,
+        travelTime: 0,
+        guidsPlayerBases: [],
+        idPlayer: null,
+        mapSize: this.getGameInfos().map_size,
+        mapMultiplicator: this.getGameInfos().map_multiplicator,
         isDisplayBasePopup: false,
       }
     },
@@ -77,20 +77,13 @@
        */
       getTravalTime(base_guid) {
         if (base_guid !== this.getGuidBase()) {
-          const jwtInfos = this.getJwt().sign({
-            token: this.getToken(),
-            iat: Math.floor(Date.now() / 1000) - 30,
-            guid_base: this.getGuidBase(),
-            guid_other_base: base_guid
-          }, this.getToken());
-
           this.getApi().post('base/travel-time/', {
-            'infos': jwtInfos,
+            'infos': this.getJwtValues({guid_other_base: base_guid}),
             'token': this.getToken(),
           }).then(data => {
             this.updateTokenIfExist(data.token);
             if (data.success) {
-              this.travel_time = data.travel_time;
+              this.travelTime = data.travel_time;
             }
           });
         }
@@ -110,22 +103,16 @@
         return;
       }
 
-      this.travel_time = 0;
-      const jwtInfos = this.getJwt().sign({
-        token: this.getToken(),
-        iat: Math.floor(Date.now() / 1000) - 30,
-        guid_base: this.getGuidBase(),
-      }, this.getToken());
-
+      this.travelTime = 0;
       this.getApi().post('bases-map/', {
-        'infos': jwtInfos,
+        'infos':  this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
         this.updateTokenIfExist(data.token);
         if (data.success) {
           this.bases = data.bases;
-          this.guids_player_bases = data.guids_player_bases;
-          this.id_player = data.id_player;
+          this.guidsPlayerBases = data.guids_player_bases;
+          this.idPlayer = data.id_player;
         }
       });
     }

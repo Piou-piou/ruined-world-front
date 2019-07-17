@@ -39,11 +39,10 @@
         component: false,
         building: {},
         explanation: '',
-        explanation_current_power: '',
-        explanation_next_power: '',
-        construction_time : null,
-        resources_build: {},
-        error_messsage: null,
+        explanationCurrentPower: '',
+        explanationNextPower: '',
+        constructionTime : null,
+        resourcesBuild: {},
         resources: {}
       }
     },
@@ -53,24 +52,17 @@
        * @param array_name
        */
       getBuilding(array_name) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          array_name
-        }, this.getToken());
-
         this.getApi().post('buildings/show/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({array_name: array_name}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
           this.building = JSON.parse(data.building);
           this.explanation = data.explanation;
-          this.explanation_current_power = data.explanation_current_power;
-          this.explanation_next_power = data.explanation_next_power;
-          this.construction_time = this.secondToHourMinute(data.construction_time);
-          this.resources_build = data.resources_build;
+          this.explanationCurrentPower = data.explanation_current_power;
+          this.explanationNextPower = data.explanation_next_power;
+          this.constructionTime = this.secondToHourMinute(data.construction_time);
+          this.resourcesBuild = data.resources_build;
           this.resources = this.building.base.resources;
           this.component = () => getSpecifiqBuilding('Default.vue');
 
@@ -88,15 +80,8 @@
        * methot that launch construction of building
        */
       build() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          array_name: this.building.arrayName
-        }, this.getToken());
-
         this.getApi().post('buildings/build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({array_name: this.building.arrayName}),
           'token': this.getToken()
         }).then(data => {
           if (data.success === true) {
