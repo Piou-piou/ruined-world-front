@@ -43,12 +43,19 @@ export default {
      * @returns {*|number|PromiseLike<ArrayBuffer>}
      */
     getJwtValues(additionalValues = {}) {
-      return this.getJwt().sign({
+      const values = {
         iat: Math.floor(Date.now() / 1000) - 30,
         token: this.getToken(),
         guid_base: this.getGuidBase(),
-        additionalValues
-      }, this.getToken());
+      };
+
+      if (Object.keys(additionalValues).length > 0) {
+        for (const index in additionalValues) {
+          values[index] = additionalValues[index];
+        }
+      }
+
+      return this.getJwt().sign(values, this.getToken());
     },
 
     /**
