@@ -39,11 +39,11 @@
         component: false,
         building: {},
         explanation: '',
-        explanation_current_power: '',
-        explanation_next_power: '',
-        construction_time : null,
-        resources_build: {},
-        error_messsage: null,
+        explanationCurrentPower: '',
+        explanationNextPower: '',
+        constructionTime : null,
+        resourcesBuild: {},
+        errorMesssage: null,
         resources: {}
       }
     },
@@ -60,10 +60,10 @@
           this.updateTokenIfExist(data.token);
           this.building = JSON.parse(data.building);
           this.explanation = data.explanation;
-          this.explanation_current_power = data.explanation_current_power;
-          this.explanation_next_power = data.explanation_next_power;
-          this.construction_time = this.secondToHourMinute(data.construction_time);
-          this.resources_build = data.resources_build;
+          this.explanationCurrentPower = data.explanation_current_power;
+          this.explanationNextPower = data.explanation_next_power;
+          this.constructionTime = this.secondToHourMinute(data.construction_time);
+          this.resourcesBuild = data.resources_build;
           this.resources = this.building.base.resources;
           this.component = () => getSpecifiqBuilding('Default.vue');
 
