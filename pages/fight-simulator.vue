@@ -27,7 +27,7 @@
       <h2>Résultats du combat</h2>
 
       <h3>Attaquant revenus</h3>
-      <div v-if="attackUnits.length">
+      <div v-if="Object.keys(attackUnits).length">
         <ul v-for="(unit, key) in attackUnits" :key="key">
           <li>{{unit.name}} : {{unit.number}}</li>
         </ul>
@@ -35,7 +35,7 @@
       <div v-else>Tous les attaquants ont été tués</div>
 
       <h3>défenseur en vie</h3>
-      <div v-if="defenseUnits.length">
+      <div v-if="Object.keys(defenseUnits).length">
         <ul v-for="(unit, key) in defenseUnits" :key="key">
           <li>{{unit.name}} : {{unit.number}}</li>
         </ul>
