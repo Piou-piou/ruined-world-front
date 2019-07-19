@@ -6,6 +6,7 @@
       index de la base
       <div>
         <nuxt-link to="/map"><button>map</button></nuxt-link>
+        <nuxt-link to="/fight-simulator"><button>Figth simulator</button></nuxt-link>
       </div>
 
       <button class="logout" @click="logout">
