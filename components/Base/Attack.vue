@@ -9,6 +9,23 @@
       <li>Coordonnées : {{base.posx}} / {{base.poxy}}</li>
       <li>temps de trajet estimé : {{base.travel_time}}</li>
     </ul>
+
+    <hr>
+
+    <div>
+      <h2>Choisis tes unités</h2>
+      <div v-if="Object.keys(units).length > 0">
+        <div v-for="(unit, key) in units" :key="key">
+          <label for="">{{ unit.name }}</label>
+          <input type="number"> / {{ unit.number }}
+        </div>
+      </div>
+      <div v-else>Aucune unité présente dans la base</div>
+    </div>
+
+    <div class="link">
+      <a class="cancel">Attaquer</a>
+    </div>
   </div>
 </template>
 
@@ -20,7 +37,22 @@
     data() {
       return {
         base: this.$parent.base,
+        units: {}
       }
     },
+    mounted() {
+      this.getApi().post('units/list-units-base/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success === true && data.units.length > 0) {
+          this.units = {};
+          this.units = data.units;
+        } else {
+          this.units = {};
+        }
+      });
+    }
   }
 </script>
