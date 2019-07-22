@@ -7,7 +7,7 @@
 		"base": [
 			{
 				"name": "Attaquer",
-				"url": "Base/Attaquer"
+				"url": "Base/Attack"
 			}
 		],
 		"command_center": [
