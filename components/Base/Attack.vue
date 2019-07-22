@@ -24,7 +24,7 @@
     </div>
 
     <div class="link">
-      <a class="cancel">Attaquer</a>
+      <a class="cancel" @click="submit(base.guid)">Attaquer</a>
     </div>
   </div>
 </template>
@@ -44,23 +44,26 @@
       /**
        * method to send units to the fight simulator and get results of it
        */
-      submit() {
+      submit(guidBase) {
         const units = {};
         const inputs = document.getElementsByClassName('unit');
 
         Array.from(inputs).forEach((element, index) => {
           if (element.value && element.value > 0) {
-            units[element.dataset.arrayname] = element.value;
+            units[element.dataset.arrayname] = {};
+            units[element.dataset.arrayname].number = element.value;
           }
         });
 
-        this.getApi().post('dont-know', {
-          infos: this.getJwtValues({units}),
+        this.getApi().post('fight/send-attack/', {
+          infos: this.getJwtValues({units, guid_dest_base: guidBase}),
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success) {
-
+            this.getFlash().append(data.success_message, 'success');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
           }
         })
       }
