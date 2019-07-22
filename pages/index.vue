@@ -178,7 +178,6 @@ export default {
 
     setInterval(() => this.getCurrentMarketMovements(), 60000);
     setInterval(() => this.getUnits(), 300000);
-    setInterval(() => this.testAndUpdateToken(), 300000);
   },
   created() {
     this.testAndUpdateToken();
