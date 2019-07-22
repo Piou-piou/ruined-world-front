@@ -429,7 +429,7 @@ export default {
        * method to update movement of units if there is on the go to put it on return
        */
     updateUnitMovement() {
-      this.getApi().post('missions/update-movements/', {
+      this.getApi().post('units/update-movements/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
       }).then((data) => {
