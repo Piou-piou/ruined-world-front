@@ -85,7 +85,10 @@
       <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
         <li>
           <div v-if="current_movement.string_type === 'mission'">
-            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="enUnitMovement()" />
+            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+          </div>
+          <div v-else-if="current_movement.string_type === 'attack'">
+            temps avant l'arrivée pour l'attaque <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>
 
           <ul v-for="(unit, key) in current_movement.units" :key="key">
@@ -425,7 +428,7 @@ export default {
     /**
        * method to update movement of units if there is on the go to put it on return
        */
-    enUnitMovement() {
+    updateUnitMovement() {
       this.getApi().post('missions/update-movements/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
