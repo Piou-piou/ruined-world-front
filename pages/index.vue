@@ -88,8 +88,13 @@
             En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>
           <div v-else-if="current_movement.string_type === 'attack'">
-            <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
-            <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+            <div v-if="current_movement.base_id === base.id">
+              <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
+              <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+            </div>
+            <div v-else>
+              l'attaque de {{current_movement.entity_name}} arrivera dans
+            </div>
             <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>
 
