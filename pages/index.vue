@@ -118,7 +118,7 @@
             <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
           </div>
           <div v-else>
-            <span>arrive de {{ current_market_transport.base_dest_name }}</span>
+            <span>arrive de {{ current_market_transport.base_name }}</span>
             <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
           </div>
         </li>
