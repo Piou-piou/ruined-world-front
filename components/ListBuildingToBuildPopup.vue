@@ -2,6 +2,8 @@
   <div>
     <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
+        <div class="close" @click="$emit('close')" data-close>X</div>
+
         <div v-if="nbBuildings > 0">
           <div v-for="(building, key) in buildings" v-bind:key="key">
             <h2>{{building.name}}</h2>
@@ -29,11 +31,6 @@
           </div>
         </div>
         <div v-else>Acun batiment à construire actuellement</div>
-
-        <div class="link">
-          <a class="cancel" @click="$emit('close')">Cancel</a>
-        </div>
-        <div class="clear"></div>
       </div>
     </div>
   </div>

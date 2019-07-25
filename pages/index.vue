@@ -85,7 +85,17 @@
       <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
         <li>
           <div v-if="current_movement.string_type === 'mission'">
-            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="enUnitMovement()" />
+            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+          </div>
+          <div v-else-if="current_movement.string_type === 'attack'">
+            <div v-if="current_movement.base_id === base.id">
+              <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
+              <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+            </div>
+            <div v-else>
+              l'attaque de {{current_movement.entity_name}} arrivera dans
+            </div>
+            <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>
 
           <ul v-for="(unit, key) in current_movement.units" :key="key">
@@ -108,7 +118,7 @@
             <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
           </div>
           <div v-else>
-            <span>arrive de {{ current_market_transport.base_dest_name }}</span>
+            <span>arrive de {{ current_market_transport.base_name }}</span>
             <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
           </div>
         </li>
@@ -174,6 +184,7 @@ export default {
     }, 30000);
 
     setInterval(() => this.getCurrentMarketMovements(), 60000);
+    setInterval(() => this.getCurrentUnitMovements(), 30000);
     setInterval(() => this.getUnits(), 300000);
   },
   created() {
@@ -424,8 +435,8 @@ export default {
     /**
        * method to update movement of units if there is on the go to put it on return
        */
-    enUnitMovement() {
-      this.getApi().post('missions/update-movements/', {
+    updateUnitMovement() {
+      this.getApi().post('units/update-movements/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
       }).then((data) => {

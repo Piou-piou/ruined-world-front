@@ -2,19 +2,15 @@
   <div>
     <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
+        <div class="close" @click="$emit('close')" data-close>X</div>
+
         <nav>
-          <div v-if="tabs.length > 0" v-for="(tab, key) of tabs" v-bind:key="key">
+          <div v-if="tabs.length > 0 && base.guid != getGuidBase()" v-for="(tab, key) of tabs" v-bind:key="key">
             <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
           </div>
         </nav>
 
         <Component :is="component" />
-
-        <div class="link">
-          <!--<a class="cancel" @click="$emit('close')">Cancel</a>-->
-          <a class="validate" @click="$emit('close')">Close</a>
-        </div>
-        <div class="clear"></div>
       </div>
     </div>
   </div>
@@ -57,7 +53,7 @@
             this.base.travel_time = data.travel_time;
 
             this.component = () => getSpecificBase('Base/Default.vue');
-            const specificPopup = this.getGameInfos().specific_popup[array_name];
+            const specificPopup = this.getGameInfos().specific_popup['base'];
             this.tabs = [];
             this.currentTab = 'Default';
             if (specificPopup) {
