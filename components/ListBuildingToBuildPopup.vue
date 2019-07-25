@@ -2,6 +2,8 @@
   <div>
     <div class="ribs-popup" v-bind:class="{'ribs-displayed': isDisplayed}">
       <div class="content">
+        <div class="close" @click="$emit('close')" data-close>X</div>
+
         <div v-if="nbBuildings > 0">
           <div v-for="(building, key) in buildings" v-bind:key="key">
             <h2>{{building.name}}</h2>
@@ -29,11 +31,6 @@
           </div>
         </div>
         <div v-else>Acun batiment à construire actuellement</div>
-
-        <div class="link">
-          <a class="cancel" @click="$emit('close')">Cancel</a>
-        </div>
-        <div class="clear"></div>
       </div>
     </div>
   </div>
@@ -60,14 +57,8 @@
        * method to get all buildings that are possible to build
        */
       getBuildings() {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-        }, this.getToken());
-
         this.getApi().post('buildings/list-to-build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues(),
           'token': this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -81,16 +72,8 @@
        * method to build a building
        */
       build(arrayName) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-          guid_base: this.getGuidBase(),
-          case: this.caseToBuild,
-          array_name: arrayName
-        }, this.getToken());
-
         this.getApi().post('buildings/build/', {
-          'infos': jwtInfos,
+          'infos': this.getJwtValues({case: this.caseToBuild, array_name: arrayName}),
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);

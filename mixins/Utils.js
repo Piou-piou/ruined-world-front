@@ -38,6 +38,27 @@ export default {
     },
 
     /**
+     * method to get jwt values
+     * @param additionalValues
+     * @returns {*|number|PromiseLike<ArrayBuffer>}
+     */
+    getJwtValues(additionalValues = {}) {
+      const values = {
+        iat: Math.floor(Date.now() / 1000) - 30,
+        token: this.getToken(),
+        guid_base: this.getGuidBase(),
+      };
+
+      if (Object.keys(additionalValues).length > 0) {
+        for (const index in additionalValues) {
+          values[index] = additionalValues[index];
+        }
+      }
+
+      return this.getJwt().sign(values, this.getToken());
+    },
+
+    /**
      * method to get Api
      * @returns {RibsApi}
      */
@@ -131,6 +152,10 @@ export default {
       return JSON.parse(localStorage.resources);
     },
 
+    /**
+     * method to set resources in localStorage
+     * @param resources
+     */
     setResources(resources) {
       const resources_array = {
         electricity: resources.electricity,
