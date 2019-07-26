@@ -9,7 +9,7 @@
         <thead>
           <tr>
             <th></th>
-            <th>Envoyé</th>
+            <th>Recu le</th>
             <th>Lu</th>
             <th>De</th>
             <th>Sujet</th>
@@ -17,9 +17,12 @@
         </thead>
         <tbody>
           <tr  v-for="(message, key) in messages" :key="key">
-            <td>**</td>
-            <td>{{message.message.sendAt}}</td>
-            <td>non</td>
+            <td><input type="checkbox"></td>
+            <td>{{message.message.formattedSendAt}}</td>
+            <td>
+              <span v-if="message.readAt">oui</span>
+              <span v-else>non</span>
+            </td>
             <td>{{message.message.user.pseudo}}</td>
             <td>{{message.message.subject}}</td>
           </tr>
