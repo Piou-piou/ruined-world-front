@@ -42,8 +42,9 @@
     },
     methods: {
       sendUnit(event) {
-        const missionId = event.currentTarget.id;
-        const unitInputs = event.currentTarget.parentNode.querySelectorAll('input[type=number]');
+        const target = event.currentTarget;
+        const missionId = target.id;
+        const unitInputs = target.parentNode.querySelectorAll('input[type=number]');
         const units = {};
 
         Array.from(unitInputs).forEach((element, index) => {
@@ -63,6 +64,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
+            target.parentNode.parentNode.remove();
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
