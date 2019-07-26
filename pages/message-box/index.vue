@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="messages">
     <Nav/>
 
     <h1>Messagerie</h1>
