@@ -8,5 +8,16 @@
             padding: 10px;
             margin: 0;
         }
+
+        tbody {
+            tr {
+                transition: 0.3s all ease;
+                cursor: pointer;
+
+                &:hover {
+                    background: $messages-bg-hover-line-list;
+                }
+            }
+        }
     }
 }
