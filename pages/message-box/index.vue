@@ -1,9 +1,9 @@
 <template>
   <div class="messages">
     <Nav/>
-
+    
     <h1>Messagerie</h1>
-
+    
     <div v-if="messages.length > 0">
       <table>
         <thead>
@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr  v-for="(message, key) in messages" :key="key">
+          <tr v-for="(message, key) in messages" :key="key" @click="showMessage(message.id)">
             <td><input type="checkbox"></td>
             <td>{{message.message.formattedSendAt}}</td>
             <td>
@@ -48,7 +48,14 @@
       };
     },
     methods: {
-
+      /**
+       * method to go on page to show a message
+       * @param id
+       */
+      showMessage(id) {
+        localStorage.setItem('message', id);
+        this.$router.push('/message-box/show-message');
+      }
     },
     mounted() {
       this.getApi().post('message/list/', {
