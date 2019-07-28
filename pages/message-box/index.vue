@@ -66,7 +66,6 @@
         const messages = JSON.parse(data.messages);
         if (data.success === true && messages.length > 0) {
           this.messages = messages;
-          console.log(this.messages);
         }
       });
     }
