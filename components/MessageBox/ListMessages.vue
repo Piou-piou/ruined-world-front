@@ -119,7 +119,7 @@
         }
 
         this.getApi().post('messages/delete/', {
-          infos: this.getJwtValues({messages: messagesToDelete}),
+          infos: this.getJwtValues({messages: messagesToDelete, type: this.type}),
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
