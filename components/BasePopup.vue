@@ -8,6 +8,9 @@
           <div v-if="tabs.length > 0 && base.guid != getGuidBase()" v-for="(tab, key) of tabs" v-bind:key="key">
             <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
           </div>
+          <div v-if="base.guid != getGuidBase()">
+            <button @click="sendMessage(base.user.id)">Envoyer un message</button>
+          </div>
         </nav>
 
         <Component :is="component" />
@@ -70,6 +73,15 @@
        */
       changeComponent(url) {
         this.component = () => getSpecificBase(url);
+      },
+
+      /**
+       * method to redirect on page to write a message
+       * @param userId
+       */
+      sendMessage(userId) {
+        localStorage.setItem('message_user_id', userId);
+        this.$router.push('/message-box/write');
       }
     }
   }
