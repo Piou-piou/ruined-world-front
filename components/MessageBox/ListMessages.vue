@@ -96,8 +96,10 @@
        * @param id
        */
       showMessage(id) {
-        localStorage.setItem('message', id);
-        this.$router.push('/message-box/show-message');
+        if (this.type !== 'send') {
+          localStorage.setItem('message', id);
+          this.$router.push('/message-box/show-message');
+        }
       },
 
       /**
