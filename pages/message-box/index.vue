@@ -56,6 +56,8 @@
        * method to get all messages of the box
        */
       getAllMessages() {
+        localStorage.removeItem('message');
+
         this.getApi().post('message/list/', {
           infos: this.getJwtValues(),
           token: this.getToken(),
