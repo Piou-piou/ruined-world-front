@@ -56,7 +56,6 @@
        */
       getAllMessages() {
         localStorage.removeItem('message');
-        console.log(this.type);
 
         this.getApi().post('message/list/', {
           infos: this.getJwtValues({type: this.messageType}),
