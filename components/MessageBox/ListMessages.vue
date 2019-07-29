@@ -5,9 +5,15 @@
         <thead>
         <tr>
           <th><input type="checkbox" @click="checkAllMessage"></th>
-          <th>Recu le</th>
+          <th>
+            <span v-if="type === 'send'">Envoyé le</span>
+            <span v-else>Recu le</span>
+          </th>
           <th>Lu</th>
-          <th><span v-if="type === 'send'">A</span><span v-else>De</span></th>
+          <th>
+            <span v-if="type === 'send'">A</span>
+            <span v-else>De</span>
+          </th>
           <th>Sujet</th>
         </tr>
         </thead>
@@ -19,7 +25,11 @@
             <span v-if="message.readAt">oui</span>
             <span v-else>non</span>
           </td>
-          <td  @click="showMessage(message.id)">{{message.message.user.pseudo}}</td>
+          <td  @click="showMessage(message.id)">
+            <span v-if="type === 'send'">{{message.user.pseudo}}</span>
+            <span v-else>{{message.message.user.pseudo}}</span>
+            
+          </td>
           <td  @click="showMessage(message.id)">{{message.message.subject}}</td>
         </tr>
         </tbody>
