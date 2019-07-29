@@ -9,7 +9,7 @@
             <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
           </div>
           <div v-if="base.guid != getGuidBase()">
-            <button @click="sendMessage(base.user.id)">Envoyer un message</button>
+            <button @click="sendMessage(base.user.id, base.user.pseudo)">Envoyer un message</button>
           </div>
         </nav>
 
@@ -79,8 +79,9 @@
        * method to redirect on page to write a message
        * @param userId
        */
-      sendMessage(userId) {
+      sendMessage(userId, pseudo) {
         localStorage.setItem('message_user_id', userId);
+        localStorage.setItem('message_user_pseudo', pseudo);
         this.$router.push('/message-box/write');
       }
     }
