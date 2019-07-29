@@ -8,16 +8,16 @@
       <table>
         <thead>
           <tr>
-            <th></th>
+            <th><input type="checkbox" id="check-all"></th>
             <th>Recu le</th>
             <th>Lu</th>
             <th>De</th>
             <th>Sujet</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="messages-list">
           <tr v-for="(message, key) in messages" :key="key">
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" :value="message.id"></td>
             <td  @click="showMessage(message.id)">{{message.message.formattedSendAt}}</td>
             <td  @click="showMessage(message.id)">
               <span v-if="message.readAt">oui</span>
@@ -28,6 +28,10 @@
           </tr>
         </tbody>
       </table>
+
+      <div>
+        <button @click="deleteMessages">Supprimer</button>
+      </div>
     </div>
     <div v-else>Aucun message</div>
   </div>
@@ -49,25 +53,62 @@
     },
     methods: {
       /**
+       * method to get all messages of the box
+       */
+      getAllMessages() {
+        this.getApi().post('message/list/', {
+          infos: this.getJwtValues(),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          const messages = JSON.parse(data.messages);
+          if (data.success === true && messages.length > 0) {
+            this.messages = messages;
+          }
+        });
+      },
+
+      /**
        * method to go on page to show a message
        * @param id
        */
       showMessage(id) {
         localStorage.setItem('message', id);
         this.$router.push('/message-box/show-message');
+      },
+
+      /**
+       * method to delete checked messages
+       * @returns {boolean}
+       */
+      deleteMessages() {
+        const messagesToDelete = [];
+        const messagesList = document.getElementById('messages-list');
+        const checkboxes = messagesList.querySelectorAll('input:checked');
+
+        Array.from(checkboxes).forEach((element, index) => {
+          messagesToDelete.push(element.value);
+        });
+
+        if (messagesToDelete.length === 0) {
+          this.getFlash().append('Vous devez sélectionner au moins un message à supprimer', 'error');
+          return false;
+        }
+
+        this.getApi().post('messages/delete/', {
+          infos: this.getJwtValues({messages: messagesToDelete}),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.getFlash().append(data.success_message, 'success');
+            this.getAllMessages();
+          }
+        })
       }
     },
     mounted() {
-      this.getApi().post('message/list/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then(data => {
-        this.updateTokenIfExist(data.token);
-        const messages = JSON.parse(data.messages);
-        if (data.success === true && messages.length > 0) {
-          this.messages = messages;
-        }
-      });
+      this.getAllMessages();
     }
   }
 </script>
