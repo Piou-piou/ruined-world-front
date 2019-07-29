@@ -16,15 +16,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(message, key) in messages" :key="key" @click="showMessage(message.id)">
+          <tr v-for="(message, key) in messages" :key="key">
             <td><input type="checkbox"></td>
-            <td>{{message.message.formattedSendAt}}</td>
-            <td>
+            <td  @click="showMessage(message.id)">{{message.message.formattedSendAt}}</td>
+            <td  @click="showMessage(message.id)">
               <span v-if="message.readAt">oui</span>
               <span v-else>non</span>
             </td>
-            <td>{{message.message.user.pseudo}}</td>
-            <td>{{message.message.subject}}</td>
+            <td  @click="showMessage(message.id)">{{message.message.user.pseudo}}</td>
+            <td  @click="showMessage(message.id)">{{message.message.subject}}</td>
           </tr>
         </tbody>
       </table>
