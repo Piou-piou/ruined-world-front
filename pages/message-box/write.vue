@@ -3,23 +3,26 @@
     <Nav/>
 
     <h1>Ecrire un message</h1>
-    <div>
-      A : <input type="text" v-model="pseudo">
-    </div>
-
-    <div>
-      Sujet : <input type="text" v-model="subject">
-    </div>
-
-    <div>
-      <textarea v-model="message"></textarea>
-    </div>
-
-    <div>
-      <button>Envoyer</button>
-    </div>
-
-    <input type="hidden" v-model="userId">
+  
+    <form action="">
+      <div>
+        A : <input type="text" v-model="pseudo">
+      </div>
+  
+      <div>
+        Sujet : <input type="text" v-model="subject">
+      </div>
+  
+      <div>
+        <textarea v-model="message"></textarea>
+      </div>
+  
+      <div>
+        <button v-on:click.stop.prevent="submit">Envoyer</button>
+      </div>
+  
+      <input type="hidden" v-model="userId">
+    </form>
   </div>
 </template>
 
@@ -41,7 +44,24 @@
       };
     },
     methods: {
-
+      submit() {
+        this.getApi().post('message/send/', {
+          infos: this.getJwtValues({
+            pseudo: this.pseudo,
+            user_id: this.userId,
+            subject: this.subject,
+            message: this.message
+          }),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.getFlash().append(data.success_message, 'success');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        })
+      }
     },
     mounted() {
       if (localStorage.getItem('message_user_id')) {
