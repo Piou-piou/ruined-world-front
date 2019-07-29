@@ -1,30 +1,21 @@
 <template>
-  <div>
+  <div class="messages">
     <Nav/>
 
     <h1>Messages envoyés</h1>
+
+    <ListMessages type="send"></ListMessages>
   </div>
 </template>
 
 <script>
-  import Utils from '~/mixins/Utils';
   import Nav from '~/components/MessageBox/Nav.vue';
+  import ListMessages from '~/components/MessageBox/ListMessages.vue';
 
   export default {
-    mixins: [Utils],
     components: {
-      Nav
-    },
-    data() {
-      return {
-
-      };
-    },
-    methods: {
-
-    },
-    mounted() {
-
+      Nav,
+      ListMessages
     }
   }
 </script>
