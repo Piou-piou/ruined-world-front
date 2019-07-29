@@ -58,7 +58,7 @@
         localStorage.removeItem('message');
 
         this.getApi().post('message/list/', {
-          infos: this.getJwtValues({type: this.messageType}),
+          infos: this.getJwtValues({type: this.type}),
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
