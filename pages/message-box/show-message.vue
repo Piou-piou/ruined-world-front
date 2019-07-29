@@ -2,10 +2,16 @@
   <div>
     <Nav/>
 
-    <h1>{{message.subject}}</h1>
     <div>
-      {{message.message}}
+      <h1>{{message.subject}}</h1>
+      <div>
+        {{message.message}}
+      </div>
     </div>
+
+     <div>
+       <button @click="deleteMessage">Supprimer</button>
+     </div>
   </div>
 </template>
 
@@ -24,7 +30,23 @@
       };
     },
     methods: {
-
+      /**
+       * method to delete the current message, on success redirect on index of mesasge box
+       */
+      deleteMessage() {
+        this.getApi().post('message/delete/', {
+          infos: this.getJwtValues({message_id: localStorage.getItem('message')}),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.getFlash().append(data.success_message, 'success');
+            this.$router.push('/message-box');
+          } else {
+            this.getFlash().append(data.error_message, 'error')
+          }
+        });
+      }
     },
     mounted() {
       if (localStorage.getItem('message') && localStorage.getItem('message') !== '' && localStorage.getItem('message') !== undefined) {
