@@ -7,6 +7,18 @@
       A : <input type="text" v-model="pseudo">
     </div>
 
+    <div>
+      Sujet : <input type="text" v-model="subject">
+    </div>
+
+    <div>
+      <textarea v-model="message"></textarea>
+    </div>
+
+    <div>
+      <button>Envoyer</button>
+    </div>
+
     <input type="hidden" v-model="userId">
   </div>
 </template>
@@ -23,7 +35,9 @@
     data() {
       return {
         pseudo: '',
-        userId: null
+        userId: null,
+        subject: '',
+        message: ''
       };
     },
     methods: {
