@@ -8,7 +8,7 @@
       <table>
         <thead>
           <tr>
-            <th><input type="checkbox" id="check-all"></th>
+            <th><input type="checkbox" @click="checkAllMessage"></th>
             <th>Recu le</th>
             <th>Lu</th>
             <th>De</th>
@@ -65,6 +65,18 @@
           if (data.success === true && messages.length > 0) {
             this.messages = messages;
           }
+        });
+      },
+
+      /**
+       * method to check or uncheck all messages
+       */
+      checkAllMessage(event) {
+        const checkAll = event.currentTarget.checked;
+        const checkboxes = document.querySelectorAll('#messages-list input[type=checkbox]');
+
+        Array.from(checkboxes).forEach((element) => {
+          element.checked = checkAll;
         });
       },
 
