@@ -86,7 +86,7 @@
         const messagesList = document.getElementById('messages-list');
         const checkboxes = messagesList.querySelectorAll('input:checked');
 
-        Array.from(checkboxes).forEach((element, index) => {
+        Array.from(checkboxes).forEach((element) => {
           messagesToDelete.push(element.value);
         });
 
