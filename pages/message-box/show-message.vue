@@ -11,6 +11,7 @@
 
      <div>
        <button @click="deleteMessage">Supprimer</button>
+       <nuxt-link to="/message-box"><button>Retour</button></nuxt-link>
      </div>
   </div>
 </template>
