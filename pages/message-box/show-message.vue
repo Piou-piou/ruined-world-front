@@ -59,11 +59,6 @@
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.message.length > 0) {
             this.message = JSON.parse(data.message).message;
-
-            this.getApi().post('message/read/', {
-              infos: this.getJwtValues({message_id: localStorage.getItem('message')}),
-              token: this.getToken(),
-            });
           }
         });
       } else {
