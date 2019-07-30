@@ -256,7 +256,6 @@ export default {
        * return the base informations like resources, buldings, units, ...
        */
     getBase() {
-      console.log('df');
       this.getApi().post('base/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
