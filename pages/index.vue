@@ -261,7 +261,7 @@ export default {
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
-        this.base = JSON.parse(data.base);
+        this.base = data.base;
         this.resourcesInfos = data.resources_infos;
         this.setResources(this.base.resources);
 

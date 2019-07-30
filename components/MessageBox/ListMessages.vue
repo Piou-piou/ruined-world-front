@@ -73,7 +73,7 @@
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          const messages = JSON.parse(data.messages);
+          const messages = data.messages;
           if (data.success === true && messages.length > 0) {
             this.messages = messages;
           }

@@ -58,7 +58,7 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && data.message.length > 0) {
-            this.message = JSON.parse(data.message).message;
+            this.message = data.message.message;
           }
         });
       } else {

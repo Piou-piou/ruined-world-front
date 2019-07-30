@@ -58,7 +58,7 @@
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          this.building = JSON.parse(data.building);
+          this.building = data.building;
           this.explanation = data.explanation;
           this.explanationCurrentPower = data.explanation_current_power;
           this.explanationNextPower = data.explanation_next_power;
