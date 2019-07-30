@@ -6,6 +6,7 @@
       index de la base
       <div>
         <nuxt-link to="/map"><button>map</button></nuxt-link>
+        <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
         <nuxt-link to="/fight-simulator"><button>Figth simulator</button></nuxt-link>
       </div>
 
@@ -162,6 +163,7 @@ export default {
       gameInfos: {},
       foodConsumptionHour: 0,
       foodString: '',
+      unreadMessageNumber: 0
     };
   },
   mounted() {
@@ -186,6 +188,7 @@ export default {
     setInterval(() => this.getCurrentMarketMovements(), 60000);
     setInterval(() => this.getCurrentUnitMovements(), 30000);
     setInterval(() => this.getUnits(), 300000);
+    setInterval(() => this.getUnreadMessageNumber(), 300000);
   },
   created() {
     this.testAndUpdateToken();
@@ -253,6 +256,7 @@ export default {
        * return the base informations like resources, buldings, units, ...
        */
     getBase() {
+      console.log('df');
       this.getApi().post('base/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
@@ -269,6 +273,7 @@ export default {
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
         this.getFoodConsumptionPerHour();
+        this.getUnreadMessageNumber();
       });
     },
 
@@ -457,6 +462,18 @@ export default {
         if (data.success) {
           this.foodConsumptionHour = data.food_consumption;
           this.foodString = data.food_string;
+        }
+      });
+    },
+
+    getUnreadMessageNumber() {
+      this.getApi().post('message/unread-number/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success) {
+          this.unreadMessageNumber = data.nb_unread;
         }
       });
     },
