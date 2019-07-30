@@ -36,7 +36,8 @@
       </table>
 
       <div>
-        <button @click="deleteMessages">Supprimer</button>
+        <button @click="updateMessages('delete')">Supprimer</button>
+        <button @click="updateMessages('read')">Marquer comme lu</button>
       </div>
     </div>
     <div v-else>Aucun message</div>
@@ -106,22 +107,23 @@
        * method to delete checked messages
        * @returns {boolean}
        */
-      deleteMessages() {
-        const messagesToDelete = [];
+      updateMessages(status) {
+        const apiUrl = status === 'delete' ? 'messages/delete/' : 'messages/read/';
+        const messagesToUpdate = [];
         const messagesList = document.getElementById('messages-list');
         const checkboxes = messagesList.querySelectorAll('input:checked');
 
         Array.from(checkboxes).forEach((element) => {
-          messagesToDelete.push(element.value);
+          messagesToUpdate.push(element.value);
         });
 
-        if (messagesToDelete.length === 0) {
-          this.getFlash().append('Vous devez sélectionner au moins un message à supprimer', 'error');
+        if (messagesToUpdate.length === 0) {
+          this.getFlash().append('Vous devez sélectionner au moins un message pour effectuer cette action', 'error');
           return false;
         }
 
-        this.getApi().post('messages/delete/', {
-          infos: this.getJwtValues({messages: messagesToDelete, type: this.type}),
+        this.getApi().post(apiUrl, {
+          infos: this.getJwtValues({messages: messagesToUpdate, type: this.type}),
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
@@ -129,8 +131,8 @@
             this.getFlash().append(data.success_message, 'success');
             this.getAllMessages();
           }
-        })
-      }
+        });
+      },
     },
     mounted() {
       this.getAllMessages();
