@@ -47,8 +47,8 @@
       <ul>
         <li v-for="(building, key) in base.buildings" :key="key">
           <div v-if="building !== null">
-            <div @click="displayBuildingPopup(building.arrayName)">
-              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.inConstruction }}</div>
+            <div @click="displayBuildingPopup(building.array_name)">
+              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
           </div>
           <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
         </li>
