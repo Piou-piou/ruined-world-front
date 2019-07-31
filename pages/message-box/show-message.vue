@@ -57,7 +57,7 @@
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          if (data.success === true && data.message.length > 0) {
+          if (data.success === true && Object.keys(data.message).length > 0) {
             this.message = data.message.message;
           }
         });
