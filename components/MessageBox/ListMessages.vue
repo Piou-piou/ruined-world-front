@@ -22,7 +22,7 @@
           <td><input type="checkbox" :value="message.id"></td>
           <td  @click="showMessage(message.id)">{{message.message.formattedSendAt}}</td>
           <td  @click="showMessage(message.id)">
-            <span v-if="message.readAt">oui</span>
+            <span v-if="message.read_at">oui</span>
             <span v-else>non</span>
           </td>
           <td  @click="showMessage(message.id)">
