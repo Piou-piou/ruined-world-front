@@ -4,8 +4,7 @@
 
     <div>
       <h1>{{message.subject}}</h1>
-      <div>
-        {{message.message}}
+      <div v-html="message.message">
       </div>
     </div>
 
