@@ -161,7 +161,7 @@ export default {
       const resources_array = {
         electricity: resources.electricity,
         iron: resources.iron,
-        fuel: resources.iron,
+        fuel: resources.fuel,
         water: resources.water,
         food: resources.food,
       };
