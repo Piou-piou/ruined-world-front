@@ -132,7 +132,8 @@ export default {
       if (process.client) {
         const appVersion = this.getGameInfos().app_version;
         const actualVersion = this.getActualVersion();
-
+        console.log(appVersion);
+        console.log(actualVersion);
         if (appVersion !== actualVersion) {
           this.setActualVersion(appVersion);
           window.location.reload();
