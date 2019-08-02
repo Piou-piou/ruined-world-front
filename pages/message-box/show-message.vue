@@ -9,7 +9,7 @@
     </div>
 
      <div>
-       <button>Répondre</button>
+       <button v-if="messageType === 'received'">Répondre</button>
        <button @click="deleteMessage">Supprimer</button>
        <button @click="goBack">Retour</button>
      </div>
@@ -27,7 +27,8 @@
     },
     data() {
       return {
-        message: {}
+        message: {},
+        messageType: null
       };
     },
     methods: {
@@ -61,6 +62,7 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && Object.keys(data.message).length > 0) {
+            this.messageType = data.message.stringMessageType;
             this.message = data.message.message;
           }
         });
