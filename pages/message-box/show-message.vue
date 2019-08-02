@@ -32,6 +32,9 @@
       };
     },
     methods: {
+      /**
+       * method to go back in navigation
+       */
       goBack() {
         this.$router.back()
       },
