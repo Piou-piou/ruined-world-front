@@ -33,13 +33,6 @@
     },
     methods: {
       /**
-       * method to go back in navigation
-       */
-      goBack() {
-        this.$router.back()
-      },
-
-      /**
        * method to delete the current message, on success redirect on index of mesasge box
        */
       deleteMessage() {
@@ -55,7 +48,14 @@
             this.getFlash().append(data.error_message, 'error')
           }
         });
-      }
+      },
+
+      /**
+       * method to go back in navigation
+       */
+      goBack() {
+        this.$router.back()
+      },
     },
     mounted() {
       if (localStorage.getItem('message') && localStorage.getItem('message') !== '' && localStorage.getItem('message') !== undefined) {
