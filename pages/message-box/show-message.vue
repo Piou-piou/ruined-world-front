@@ -11,7 +11,7 @@
      <div>
        <button>Répondre</button>
        <button @click="deleteMessage">Supprimer</button>
-       <nuxt-link to="/message-box"><button>Retour</button></nuxt-link>
+       <button @click="goBack">Retour</button>
      </div>
   </div>
 </template>
@@ -31,6 +31,10 @@
       };
     },
     methods: {
+      goBack() {
+        this.$router.back()
+      },
+
       /**
        * method to delete the current message, on success redirect on index of mesasge box
        */
