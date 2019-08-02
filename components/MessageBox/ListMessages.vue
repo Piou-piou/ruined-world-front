@@ -37,7 +37,7 @@
 
       <div>
         <button @click="updateMessages('delete')">Supprimer</button>
-        <button @click="updateMessages('read')">Marquer comme lu</button>
+        <button v-if="type !== 'send'" @click="updateMessages('read')">Marquer comme lu</button>
       </div>
     </div>
     <div v-else>Aucun message</div>
