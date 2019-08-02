@@ -60,7 +60,7 @@
             this.tabs = [];
             this.currentTab = 'Default';
             if (specificPopup) {
-              this.tabs.push([{name: 'default', url: 'Default'}]);
+              this.tabs.push([{name: 'default', url: 'Base/Default'}]);
               this.tabs.push(specificPopup);
             }
           }
