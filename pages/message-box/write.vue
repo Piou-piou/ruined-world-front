@@ -80,6 +80,8 @@
           this.updateTokenIfExist(data.token);
           if (data.success === true && Object.keys(data.message).length > 0) {
             this.message = data.message.message.message;
+            this.userId = data.message.message.user.id;
+            this.pseudo = data.message.message.user.pseudo;
           }
         });
       }
