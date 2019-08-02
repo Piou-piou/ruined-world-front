@@ -94,7 +94,7 @@
               <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
             </div>
             <div v-else>
-              l'attaque de {{current_movement.entity_name}} arrivera dans
+              l'attaque de {{current_movement.base_name}} arrivera dans
             </div>
             <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>

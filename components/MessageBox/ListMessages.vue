@@ -74,7 +74,7 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           const messages = data.messages;
-          if (data.success === true && messages.length > 0) {
+          if (data.success === true) {
             this.messages = messages;
           }
         });

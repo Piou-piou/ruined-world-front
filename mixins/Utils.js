@@ -132,7 +132,8 @@ export default {
       if (process.client) {
         const appVersion = this.getGameInfos().app_version;
         const actualVersion = this.getActualVersion();
-
+        console.log(appVersion);
+        console.log(actualVersion);
         if (appVersion !== actualVersion) {
           this.setActualVersion(appVersion);
           window.location.reload();
@@ -160,7 +161,7 @@ export default {
       const resources_array = {
         electricity: resources.electricity,
         iron: resources.iron,
-        fuel: resources.iron,
+        fuel: resources.fuel,
         water: resources.water,
         food: resources.food,
       };
