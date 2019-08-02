@@ -9,7 +9,7 @@
     </div>
 
      <div>
-       <button v-if="messageType === 'received'">Répondre</button>
+       <button v-if="messageType === 'received'" @click="answerMessage">Répondre</button>
        <button @click="deleteMessage">Supprimer</button>
        <button @click="goBack">Retour</button>
      </div>
@@ -32,6 +32,11 @@
       };
     },
     methods: {
+
+      answerMessage() {
+        this.$router.push('/message-box/write');
+      },
+
       /**
        * method to delete the current message, on success redirect on index of mesasge box
        */

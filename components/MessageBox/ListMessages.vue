@@ -135,6 +135,7 @@
       },
     },
     mounted() {
+      localStorage.removeItem('message');
       this.getAllMessages();
     }
   }

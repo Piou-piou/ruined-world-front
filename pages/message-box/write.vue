@@ -71,6 +71,18 @@
         localStorage.removeItem('message_user_id');
         localStorage.removeItem('message_user_pseudo');
       }
+
+      if (localStorage.getItem('message')) {
+        this.getApi().post('message/show/', {
+          infos: this.getJwtValues({message_id: localStorage.getItem('message')}),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && Object.keys(data.message).length > 0) {
+            this.message = data.message.message.message;
+          }
+        });
+      }
     }
   }
 </script>
