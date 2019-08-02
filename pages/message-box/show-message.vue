@@ -4,15 +4,14 @@
 
     <div>
       <h1>{{message.subject}}</h1>
-      <div>
-        {{message.message}}
+      <div v-html="message.message">
       </div>
     </div>
 
      <div>
        <button>Répondre</button>
        <button @click="deleteMessage">Supprimer</button>
-       <nuxt-link to="/message-box"><button>Retour</button></nuxt-link>
+       <button @click="goBack">Retour</button>
      </div>
   </div>
 </template>
@@ -32,6 +31,10 @@
       };
     },
     methods: {
+      goBack() {
+        this.$router.back()
+      },
+
       /**
        * method to delete the current message, on success redirect on index of mesasge box
        */
@@ -57,8 +60,8 @@
           token: this.getToken(),
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          if (data.success === true && data.message.length > 0) {
-            this.message = JSON.parse(data.message).message;
+          if (data.success === true && Object.keys(data.message).length > 0) {
+            this.message = data.message.message;
           }
         });
       } else {

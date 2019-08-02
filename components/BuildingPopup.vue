@@ -58,13 +58,13 @@
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          this.building = JSON.parse(data.building);
+          this.building = data.building;
           this.explanation = data.explanation;
           this.explanationCurrentPower = data.explanation_current_power;
           this.explanationNextPower = data.explanation_next_power;
           this.constructionTime = this.secondToHourMinute(data.construction_time);
           this.resourcesBuild = data.resources_build;
-          this.resources = this.building.base.resources;
+          this.resources = this.getResources();
           this.component = () => getSpecifiqBuilding('Default.vue');
 
           const specificPopup = this.getGameInfos().specific_popup[array_name];
@@ -82,7 +82,7 @@
        */
       build() {
         this.getApi().post('buildings/build/', {
-          'infos': this.getJwtValues({array_name: this.building.arrayName}),
+          'infos': this.getJwtValues({array_name: this.building.array_name}),
           'token': this.getToken()
         }).then(data => {
           if (data.success === true) {

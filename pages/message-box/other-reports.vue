@@ -2,9 +2,9 @@
   <div class="messages">
     <Nav/>
 
-    <h1>Rapports de combat</h1>
+    <h1>Autres rapports</h1>
 
-    <ListMessages type="fight-report"></ListMessages>
+    <ListMessages type="other-report"></ListMessages>
   </div>
 </template>
 

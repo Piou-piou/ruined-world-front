@@ -6,7 +6,7 @@
       <li>Propriétaire : {{base.user.pseudo}}</li>
       <li>Alliance : non dévelopé</li>
       <li>Base : {{base.name}}</li>
-      <li>Coordonnées : {{base.posx}} / {{base.poxy}}</li>
+      <li>Coordonnées : {{base.posx}} / {{base.posy}}</li>
       <li>temps de trajet estimé : {{base.travel_time}}</li>
     </ul>
 

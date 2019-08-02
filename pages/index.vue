@@ -47,8 +47,8 @@
       <ul>
         <li v-for="(building, key) in base.buildings" :key="key">
           <div v-if="building !== null">
-            <div @click="displayBuildingPopup(building.arrayName)">
-              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.inConstruction }}</div>
+            <div @click="displayBuildingPopup(building.array_name)">
+              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
           </div>
           <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
         </li>
@@ -94,7 +94,7 @@
               <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
             </div>
             <div v-else>
-              l'attaque de {{current_movement.entity_name}} arrivera dans
+              l'attaque de {{current_movement.base_name}} arrivera dans
             </div>
             <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
           </div>
@@ -256,13 +256,12 @@ export default {
        * return the base informations like resources, buldings, units, ...
        */
     getBase() {
-      console.log('df');
       this.getApi().post('base/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
-        this.base = JSON.parse(data.base);
+        this.base = data.base;
         this.resourcesInfos = data.resources_infos;
         this.setResources(this.base.resources);
 
