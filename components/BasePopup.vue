@@ -34,7 +34,6 @@
     data() {
       return {
         tabs: [],
-        currentTab: 'Default',
         navBuilding: {},
         component: false,
         base: {}
@@ -58,7 +57,6 @@
             this.component = () => getSpecificBase('Base/Default.vue');
             const specificPopup = this.getGameInfos().specific_popup['base'];
             this.tabs = [];
-            this.currentTab = 'Default';
             if (specificPopup) {
               this.tabs.push([{name: 'default', url: 'Base/Default'}]);
               this.tabs.push(specificPopup);
