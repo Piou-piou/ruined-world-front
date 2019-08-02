@@ -6,7 +6,7 @@
 
         <nav>
           <div v-if="tabs.length > 0 && base.guid != getGuidBase()" v-for="(tab, key) of tabs" v-bind:key="key">
-            <button v-for="(link, key) of tab" v-bind:key="key" v-on:click="changeComponent(link.url)">{{ link.name }}</button>
+            <button v-on:click="changeComponent(tab[0].url)" v-if="(tab[0].url === 'Base/Attack' && canAttack === true) || tab[0].url !== 'Base/Attack'">{{ tab[0].name }}</button>
           </div>
           <div v-if="base.guid != getGuidBase()">
             <button @click="sendMessage(base.user.id, base.user.pseudo)">Envoyer un message</button>
@@ -36,7 +36,8 @@
         tabs: [],
         navBuilding: {},
         component: false,
-        base: {}
+        base: {},
+        canAttack: false
       }
     },
     methods: {
@@ -52,6 +53,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.base = data.base;
+            this.canAttack = data.can_attack;
             this.base.travel_time = data.travel_time;
 
             this.component = () => getSpecificBase('Base/Default.vue');
