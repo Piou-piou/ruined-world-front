@@ -44,6 +44,9 @@
       };
     },
     methods: {
+      /**
+       * method used tpo submit the form to send a message
+       */
       submit() {
         this.getApi().post('message/send/', {
           infos: this.getJwtValues({
