@@ -61,6 +61,20 @@
       goBack() {
         this.$router.back()
       },
+
+      /**
+       * method to transfomr \n to <br> tag
+       */
+      parseMessage() {
+        let message = this.message.message;
+        message = message.split('\n');
+
+        for (const i in message) {
+          message[i] = message[i] + '<br>';
+        }
+
+        this.message.message = message.join('');
+      }
     },
     mounted() {
       if (localStorage.getItem('message') && localStorage.getItem('message') !== '' && localStorage.getItem('message') !== undefined) {
@@ -72,6 +86,7 @@
           if (data.success === true && Object.keys(data.message).length > 0) {
             this.messageType = data.message.stringMessageType;
             this.message = data.message.message;
+            this.parseMessage();
           }
         });
       } else {
