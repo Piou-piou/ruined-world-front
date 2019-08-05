@@ -8,6 +8,7 @@
         <nuxt-link to="/map"><button>map</button></nuxt-link>
         <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
         <nuxt-link to="/fight-simulator"><button>Figth simulator</button></nuxt-link>
+        <nuxt-link to="/ranking"><button>Classement</button></nuxt-link>
       </div>
 
       <button class="logout" @click="logout">
