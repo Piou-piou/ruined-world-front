@@ -9,7 +9,7 @@
     </div>
 
      <div>
-       <button>Répondre</button>
+       <button v-if="messageType === 'received'" @click="answerMessage">Répondre</button>
        <button @click="deleteMessage">Supprimer</button>
        <button @click="goBack">Retour</button>
      </div>
@@ -27,12 +27,14 @@
     },
     data() {
       return {
-        message: {}
+        message: {},
+        messageType: null
       };
     },
     methods: {
-      goBack() {
-        this.$router.back()
+
+      answerMessage() {
+        this.$router.push('/message-box/write');
       },
 
       /**
@@ -51,6 +53,27 @@
             this.getFlash().append(data.error_message, 'error')
           }
         });
+      },
+
+      /**
+       * method to go back in navigation
+       */
+      goBack() {
+        this.$router.back()
+      },
+
+      /**
+       * method to transfomr \n to <br> tag
+       */
+      parseMessage() {
+        let message = this.message.message;
+        message = message.split('\n');
+
+        for (const i in message) {
+          message[i] = message[i] + '<br>';
+        }
+
+        this.message.message = message.join('');
       }
     },
     mounted() {
@@ -61,7 +84,9 @@
         }).then(data => {
           this.updateTokenIfExist(data.token);
           if (data.success === true && Object.keys(data.message).length > 0) {
+            this.messageType = data.message.stringMessageType;
             this.message = data.message.message;
+            this.parseMessage();
           }
         });
       } else {
