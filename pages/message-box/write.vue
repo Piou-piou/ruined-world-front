@@ -65,6 +65,20 @@
             this.getFlash().append(data.error_message, 'error');
           }
         });
+      },
+
+      /**
+       * method to add > beofe all old messages
+       */
+      parseMessage() {
+        let message = this.message;
+        message = message.split('\n');
+
+        for (const i in message) {
+          message[i] = '> ' + message[i] + '\n';
+        }
+
+        this.message = '\n\n' + message.join('');
       }
     },
     mounted() {
@@ -85,6 +99,7 @@
             this.message = data.message.message.message;
             this.userId = data.message.message.user.id;
             this.pseudo = data.message.message.user.pseudo;
+            this.parseMessage();
           }
         });
       }
