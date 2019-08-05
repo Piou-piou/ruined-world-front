@@ -44,6 +44,9 @@
       };
     },
     methods: {
+      /**
+       * method used tpo submit the form to send a message
+       */
       submit() {
         this.getApi().post('message/send/', {
           infos: this.getJwtValues({
@@ -61,7 +64,21 @@
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
-        })
+        });
+      },
+
+      /**
+       * method to add > beofe all old messages
+       */
+      parseMessage() {
+        let message = this.message;
+        message = message.split('\n');
+
+        for (const i in message) {
+          message[i] = '> ' + message[i] + '\n';
+        }
+
+        this.message = '\n\n' + message.join('');
       }
     },
     mounted() {
@@ -70,6 +87,22 @@
         this.pseudo = localStorage.getItem('message_user_pseudo');
         localStorage.removeItem('message_user_id');
         localStorage.removeItem('message_user_pseudo');
+      }
+
+      if (localStorage.getItem('message')) {
+        this.getApi().post('message/show/', {
+          infos: this.getJwtValues({message_id: localStorage.getItem('message')}),
+          token: this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true && Object.keys(data.message).length > 0) {
+            this.message = data.message.message.message;
+            this.subject = `RE : ${data.message.message.subject}`;
+            this.userId = data.message.message.user.id;
+            this.pseudo = data.message.message.user.pseudo;
+            this.parseMessage();
+          }
+        });
       }
     }
   }

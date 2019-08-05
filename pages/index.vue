@@ -185,10 +185,10 @@ export default {
       });
     }, 30000);
 
-    setInterval(() => this.getCurrentMarketMovements(), 60000);
-    setInterval(() => this.getCurrentUnitMovements(), 30000);
-    setInterval(() => this.getUnits(), 300000);
-    setInterval(() => this.getUnreadMessageNumber(), 300000);
+    setInterval(() => this.getCurrentMarketMovements(), 70000);
+    setInterval(() => this.getCurrentUnitMovements(), 40000);
+    setInterval(() => this.getUnits(), 330000);
+    setInterval(() => this.getUnreadMessageNumber(), 450000);
   },
   created() {
     this.testAndUpdateToken();
