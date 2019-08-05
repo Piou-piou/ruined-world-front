@@ -64,7 +64,7 @@
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
-        })
+        });
       }
     },
     mounted() {
