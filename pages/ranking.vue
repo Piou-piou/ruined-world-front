@@ -20,7 +20,7 @@
           <td></td>
           <td>{{player.pseudo}}</td>
           <td>{{player.points}}</td>
-          <td>{{player.bases.length}}</td>
+          <td>{{player.basesNumber}}</td>
         </tr>
       </tbody>
     </table>
