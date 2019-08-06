@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="messages.length > 0">
-      <table>
+      <table class="general">
         <thead>
         <tr>
           <th><input type="checkbox" @click="checkAllMessage"></th>

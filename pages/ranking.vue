@@ -5,7 +5,7 @@
     </div>
     <h1>Classement</h1>
 
-    <table>
+    <table class="general">
       <thead>
         <tr>
           <th>Rang</th>
