@@ -12,7 +12,7 @@
           <th>Pseudo</th>
           <!--<th>Alliance</th>-->
           <th>Points</th>
-          <!--<th>Bases</th>-->
+          <th>Bases</th>
         </tr>
       </thead>
       <tbody>
@@ -20,9 +20,13 @@
           <td></td>
           <td>{{player.pseudo}}</td>
           <td>{{player.points}}</td>
+          <td>{{player.bases.length}}</td>
         </tr>
       </tbody>
     </table>
+
+    <button @click="changePage('prev')">Précédent</button>
+    <button @click="changePage('next')">Suivant</button>
   </div>
 </template>
 
@@ -50,10 +54,23 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.players = data.players;
-            this.currentPage = data.max_pages;
+            this.currentPage = data.current_page;
             this.maxPage = data.max_pages;
           }
         });
+      },
+
+      /**
+       * method to change current page of ranking
+       * @param type
+       */
+      changePage(type) {
+        if (type === 'next') {
+          this.currentPage++;
+        } else {
+          this.currentPage--;
+        }
+        this.getRankedPlayers();
       }
     },
     mounted() {
