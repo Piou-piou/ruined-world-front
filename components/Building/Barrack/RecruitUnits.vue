@@ -21,7 +21,7 @@
           <li>Water : <span v-bind:class="{'resources-error': resources.water < unit.resources_recruit.water}">{{unit.resources_recruit.water}}</span></li>
         </ul>
 
-        Recruit : <input type="number" v-bind:class="unit.array_name"> on xx available
+        Recruit : <input type="number" v-bind:class="unit.array_name"> on {{unit.max_recruit_possible}} available
         <button type="submit" v-bind:id="unit.array_name" @click="recruitUnit">Recruit</button>
         <hr>
       </div>
