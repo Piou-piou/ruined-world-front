@@ -2,7 +2,7 @@
   <div>
     <h3>Liste des missions</h3>
 
-    <div>
+    <div v-if="missions.length > 0">
       <div v-for="(mission, key) in missions" v-bind:key="key">
         <h4>{{mission.name}}</h4>
         <p>{{mission.explanation}}</p>
@@ -26,6 +26,7 @@
         <hr>
       </div>
     </div>
+    <div v-else>Auncune mission disponible actuellement</div>
   </div>
 </template>
 
