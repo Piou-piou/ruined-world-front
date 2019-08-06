@@ -41,6 +41,10 @@
       }
     },
     methods: {
+      /**
+       * method to send unit in a mission
+       * @param event
+       */
       sendUnit(event) {
         const target = event.currentTarget;
         const missionId = target.id;
