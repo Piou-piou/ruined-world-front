@@ -42,6 +42,22 @@
     },
     methods: {
       /**
+       * method that get units that are possible to recruit
+       */
+      getUnitsToRecruit() {
+        this.getApi().post('barrack/list-units-to-recruit/', {
+          'infos': this.getJwtValues(),
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success) {
+            this.units = data.units;
+            this.updateTokenIfExist(data.token);
+            this.resources = this.getResources();
+          }
+        });
+      },
+      
+      /**
        * method to recruit units
        * @param event
        */
@@ -59,20 +75,12 @@
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
+          this.getUnitsToRecruit();
         });
       }
     },
     mounted() {
-      this.getApi().post('barrack/list-units-to-recruit/', {
-        'infos': this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        if (data.success) {
-          this.units = data.units;
-          this.updateTokenIfExist(data.token);
-          this.resources = this.getResources();
-        }
-      });
+      this.getUnitsToRecruit();
     }
   }
 </script>
