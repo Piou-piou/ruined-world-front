@@ -25,7 +25,7 @@
       </tbody>
     </table>
 
-    <button @click="changePage('prev')" v-if="currentPage > 1">Précédent</button>
+    <button @click="changePage('prev')" v-if="currentPage > 0">Précédent</button>
     <button @click="changePage('next')" v-if="currentPage < maxPage">Suivant</button>
   </div>
 </template>
