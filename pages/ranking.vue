@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr  v-for="(player, key) in players" :key="key">
-          <td></td>
+          <td>{{key+1}}</td>
           <td>{{player.pseudo}}</td>
           <td>{{player.points}}</td>
           <td>{{player.basesNumber}}</td>
