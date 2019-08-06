@@ -42,6 +42,22 @@
     },
     methods: {
       /**
+       * method that get missions list
+       */
+      getMissionsList() {
+        this.getApi().post('missions/list/', {
+          'infos': this.getJwtValues(),
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.missions = data.missions;
+            this.units = data.units;
+          }
+        });
+      },
+
+      /**
        * method to send unit in a mission
        * @param event
        */
@@ -68,7 +84,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
-            target.parentNode.parentNode.remove();
+            this.getMissionsList()
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
@@ -76,16 +92,7 @@
       }
     },
     mounted() {
-      this.getApi().post('missions/list/', {
-        'infos': this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.missions = data.missions;
-          this.units = data.units;
-        }
-      });
+      this.getMissionsList();
     }
   }
 </script>
