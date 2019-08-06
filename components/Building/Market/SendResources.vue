@@ -4,19 +4,19 @@
     <h4>Vous avez actuellement {{traderNumber}}/{{maxTraderNumber}} marchands disponible(s) dans votre base</h4>
     <form action="">
       <div>
-        Electricity : <input type="number" name="electricity" v-model="electricity">
+        Électricité : <input type="number" name="electricity" v-model="electricity">
       </div>
       <div>
         Fuel : <input type="number" name="fuel" v-model="fuel">
       </div>
       <div>
-        Iron : <input type="number" name="iron" v-model="iron">
+        Fer : <input type="number" name="iron" v-model="iron">
       </div>
       <div>
-        Water : <input type="number" name="water" v-model="water">
+        Eau : <input type="number" name="water" v-model="water">
       </div>
       <div>
-        Food : <input type="number" name="food" v-model="food">
+        Nourriture : <input type="number" name="food" v-model="food">
       </div>
       <div>
         x: <input type="text" name="posx" v-model="posx">

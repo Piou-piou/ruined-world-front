@@ -8,19 +8,19 @@
     </ul>
 
 
-    <h2>Informations to pass to next level</h2>
+    <h2>Informations pour passer au niveau suivant</h2>
 
-    <h3>Resources</h3>
+    <h3>Ressources</h3>
     <ul>
-      <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < resourcesBuild.electricity}">{{resourcesBuild.electricity}}</span></li>
-      <li>Iron : <span v-bind:class="{'resources-error': resources.iron < resourcesBuild.iron}">{{resourcesBuild.iron}}</span></li>
+      <li>Électricité : <span v-bind:class="{'resources-error': resources.electricity < resourcesBuild.electricity}">{{resourcesBuild.electricity}}</span></li>
+      <li>Fer : <span v-bind:class="{'resources-error': resources.iron < resourcesBuild.iron}">{{resourcesBuild.iron}}</span></li>
       <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < resourcesBuild.fuel}">{{resourcesBuild.fuel}}</span></li>
-      <li>Water : <span v-bind:class="{'resources-error': resources.water < resourcesBuild.water}">{{resourcesBuild.water}}</span></li>
+      <li>Eau : <span v-bind:class="{'resources-error': resources.water < resourcesBuild.water}">{{resourcesBuild.water}}</span></li>
     </ul>
 
-    <h3>Time</h3>
+    <h3>Temps</h3>
     <ul>
-      <li>Time to build : {{constructionTime}}</li>
+      <li>Temps pour construire : {{constructionTime}}</li>
       <li>{{explanationNextPower}}</li>
     </ul>
   </div>
