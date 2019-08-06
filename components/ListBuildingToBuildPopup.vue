@@ -8,20 +8,20 @@
           <div v-for="(building, key) in buildings" v-bind:key="key">
             <h2>{{building.name}}</h2>
 
-            <h2>Informations to build</h2>
+            <h2>Informations pour construire</h2>
             <p>{{building.explanation}}</p>
 
-            <h3>Resources</h3>
+            <h3>Ressources</h3>
             <ul>
-              <li>Electricity : <span v-bind:class="{'resources-error': resources.electricity < building.resources_build.electricity}">{{building.resources_build.electricity}}</span></li>
-              <li>Iron : <span v-bind:class="{'resources-error': resources.iron < building.resources_build.iron}">{{building.resources_build.iron}}</span></li>
+              <li>Électricité : <span v-bind:class="{'resources-error': resources.electricity < building.resources_build.electricity}">{{building.resources_build.electricity}}</span></li>
+              <li>Fer : <span v-bind:class="{'resources-error': resources.iron < building.resources_build.iron}">{{building.resources_build.iron}}</span></li>
               <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < building.resources_build.fuel}">{{building.resources_build.fuel}}</span></li>
-              <li>Water : <span v-bind:class="{'resources-error': resources.water < building.resources_build.water}">{{building.resources_build.water}}</span></li>
+              <li>Eau : <span v-bind:class="{'resources-error': resources.water < building.resources_build.water}">{{building.resources_build.water}}</span></li>
             </ul>
 
-            <h3>Time</h3>
+            <h3>Temps</h3>
             <ul>
-              <li>Time to build : {{secondToHourMinute(building.construction_time)}}</li>
+              <li>Temps pour construire : {{secondToHourMinute(building.construction_time)}}</li>
               <li>{{building.explanation_next_power}}</li>
             </ul>
 
