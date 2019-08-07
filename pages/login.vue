@@ -7,7 +7,7 @@
     </div>
 
     <div v-bind:class="{active: !loading}">
-      <form action="" class="login-form">
+      <form action="">
         <h1>Ruined World</h1>
         <h2>Connexion</h2>
 
@@ -21,8 +21,26 @@
         </div>
         <button type="submit" v-on:click.stop.prevent="submit">Connexion</button>
       </form>
+      <a href="">Tu n'as pas encore de compte ? Inscris toi !</a>
     </div>
 
+    <div>
+      <form action="">
+        <h1>Ruined World</h1>
+        <h2>Connexion</h2>
+
+        <div class="block">
+          <label for="pseudo">Pseudo</label>
+          <input type="text" name="pseudo" id="pseudo" v-model="pseudo">
+        </div>
+        <div class="block">
+          <label for="password">Mot de passe</label>
+          <input type="password" name="password" id="password" v-model="password">
+        </div>
+        <button type="submit" v-on:click.stop.prevent="submit">Connexion</button>
+      </form>
+      <a href="">Retour</a>
+    </div>
   </div>
 </template>
 
@@ -39,6 +57,10 @@
       }
     },
     methods: {
+      /**
+       * method to submit login form
+       * @returns {Q.Promise<unknown>}
+       */
       submit() {
         return this.getApi().post('users/authenticate', {
           'pseudo': this.pseudo,
