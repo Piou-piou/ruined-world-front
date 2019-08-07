@@ -2,7 +2,7 @@
   <div>
     <h3>Liste des missions</h3>
 
-    <div>
+    <div v-if="Object.keys(missions).length > 0">
       <div v-for="(mission, key) in missions" v-bind:key="key">
         <h4>{{mission.name}}</h4>
         <p>{{mission.explanation}}</p>
@@ -26,6 +26,7 @@
         <hr>
       </div>
     </div>
+    <div v-else>Auncune mission disponible actuellement</div>
   </div>
 </template>
 
@@ -41,6 +42,26 @@
       }
     },
     methods: {
+      /**
+       * method that get missions list
+       */
+      getMissionsList() {
+        this.getApi().post('missions/list/', {
+          'infos': this.getJwtValues(),
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.missions = data.missions;
+            this.units = data.units;
+          }
+        });
+      },
+
+      /**
+       * method to send unit in a mission
+       * @param event
+       */
       sendUnit(event) {
         const target = event.currentTarget;
         const missionId = target.id;
@@ -64,7 +85,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
-            target.parentNode.parentNode.remove();
+            this.getMissionsList()
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
@@ -72,16 +93,7 @@
       }
     },
     mounted() {
-      this.getApi().post('missions/list/', {
-        'infos': this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.missions = data.missions;
-          this.units = data.units;
-        }
-      });
+      this.getMissionsList();
     }
   }
 </script>

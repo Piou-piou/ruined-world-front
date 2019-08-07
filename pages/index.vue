@@ -5,9 +5,9 @@
     <div>
       index de la base
       <div>
-        <nuxt-link to="/map"><button>map</button></nuxt-link>
+        <nuxt-link to="/map"><button>Carte</button></nuxt-link>
         <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
-        <nuxt-link to="/fight-simulator"><button>Figth simulator</button></nuxt-link>
+        <nuxt-link to="/fight-simulator"><button>Simulateur de combat</button></nuxt-link>
         <nuxt-link to="/ranking"><button>Classement</button></nuxt-link>
       </div>
 
@@ -20,11 +20,11 @@
 
       <h2>Ressources</h2>
       <ul>
-        <li><strong>Electricity</strong> : <span
+        <li><strong>Électricité</strong> : <span
           :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
         </li>
-        <li><strong>Iron</strong> : <span
+        <li><strong>Fer</strong> : <span
           :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
         </li>
@@ -32,11 +32,11 @@
           :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
         </li>
-        <li><strong>Water</strong> : <span
+        <li><strong>Eau</strong> : <span
           :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
         </li>
-        <li><strong>Food</strong> :
+        <li><strong>Nourriture</strong> :
           <span
             :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
             {{ base.resources.food }} <span v-if="foodConsumptionHour > 0">({{ foodConsumptionHour }} {{ foodString }})</span>
@@ -44,7 +44,7 @@
         </li>
       </ul>
 
-      <h2>Buildings</h2>
+      <h2>Bâtiments</h2>
       <ul>
         <li v-for="(building, key) in base.buildings" :key="key">
           <div v-if="building !== null">

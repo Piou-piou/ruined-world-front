@@ -3,7 +3,7 @@
     <div>
       <nuxt-link to="/"><button>Index</button></nuxt-link>
     </div>
-    <h1>Map</h1>
+    <h1>Carte</h1>
 
     <div class="map-players">
       <div class="controls" id="top" @click="moveMap('top')"></div>

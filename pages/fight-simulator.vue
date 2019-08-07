@@ -4,7 +4,7 @@
       <nuxt-link to="/"><button>Index</button></nuxt-link>
     </div>
 
-    <h1>Fight simulator</h1>
+    <h1>Simulateur de combat</h1>
     <h2>Créé ta simulation</h2>
 
     <form action="" id="fight-simulator">
