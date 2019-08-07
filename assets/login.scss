@@ -109,5 +109,9 @@
 
             @include hbgtranslate($login-bakcground-button, $login-bakcground-button-hover, top, bottom);
         }
+        
+        a {
+            color: $login-link-color;
+        }
     }
 }
