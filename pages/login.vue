@@ -31,7 +31,7 @@
 
         <div class="block">
           <label>Pseudo</label>
-          <input type="text" name="pseudo" v-model="pseudo">
+          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo">
         </div>
         <div class="block">
           <label>E-mail</label>
@@ -60,10 +60,12 @@
     data() {
       return {
         pseudo: null,
+        pseudoRegistration: '',
         mail: null,
         password: null,
         verifyPassword: null,
-        loading: true
+        loading: true,
+        pseudoKeyTimeout: 0
       }
     },
     methods: {
@@ -102,6 +104,19 @@
 
         loginForm.classList.toggle('active');
         registrationForm.classList.toggle('active');
+      },
+
+      /**
+       * method called on keyup in pseudo to test it
+       */
+      checkPseudo() {
+        clearTimeout(this.pseudoKeyTimeout);
+
+        this.pseudoKeyTimeout = setTimeout(() => {
+          if (this.pseudoRegistration.length < 4) {
+            this.getFlash().append('Ton pseudo doit faire plus de 4 caractères', 'error');
+          }
+        }, 500);
       }
     },
     mounted() {
