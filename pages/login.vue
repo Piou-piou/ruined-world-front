@@ -20,10 +20,6 @@
           <input type="password" name="password" id="password" v-model="password">
         </div>
         <button type="submit" v-on:click.stop.prevent="submit">Connexion</button>
-
-        <div v-html="htmlError">
-
-        </div>
       </form>
     </div>
 
@@ -37,7 +33,6 @@
     mixins: [Utils],
     data() {
       return {
-        htmlError: '',
         pseudo: null,
         password: null,
         loading: true
@@ -52,8 +47,6 @@
           .then((data) => {
             if (data.success === true) {
               this.setToken(data.token);
-
-              this.htmlError = '';
 
               this.$router.push('/');
               return;
