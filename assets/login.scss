@@ -88,8 +88,19 @@
                 text-indent: 10px;
                 line-height: 16px;
                 font-size: 16px;
-                border: none;
+                border: 1px solid transparent;
                 outline: none;
+
+                &.error {
+                    border: 1px solid $login-color-error-border-input;
+                }
+            }
+
+            p.error {
+                margin-top: 5px;
+                color: $login-color-error-text;
+                float: left;
+                width: 100%;
             }
         }
 
