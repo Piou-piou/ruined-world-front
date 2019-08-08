@@ -31,19 +31,23 @@
 
         <div class="block">
           <label>Pseudo</label>
-          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo">
+          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo" v-bind:class="{'error': pseudoError.length > 0}">
+          <p class="error">{{pseudoError}}</p>
         </div>
         <div class="block">
           <label>E-mail</label>
-          <input type="email" name="mail" v-model="mail">
+          <input type="email" name="mail" v-model="mail" v-bind:class="{'error': mailError.length > 0}">
+          <p class="error">{{mailError}}</p>
         </div>
         <div class="block">
           <label>Mot de passe</label>
-          <input type="password" name="password" v-model="password">
+          <input type="password" name="password" v-model="password"  v-bind:class="{'error': passwordError.length > 0}">
+          <p class="error">{{passwordError}}</p>
         </div>
         <div class="block">
           <label>Vérifies ton Mot de passe</label>
-          <input type="password" name="verify-password" v-model="verifyPassword">
+          <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0}">
+          <p class="error">{{verifyPasswordError}}</p>
         </div>
         <button type="submit" v-on:click.stop.prevent="submit">Inscription</button>
       </form>
@@ -65,7 +69,11 @@
         password: null,
         verifyPassword: null,
         loading: true,
-        pseudoKeyTimeout: 0
+        pseudoKeyTimeout: 0,
+        pseudoError: '',
+        mailError: '',
+        passwordError: '',
+        verifyPasswordError: ''
       }
     },
     methods: {
@@ -114,13 +122,15 @@
 
         this.pseudoKeyTimeout = setTimeout(() => {
           if (this.pseudoRegistration.length < 4) {
-            this.getFlash().append('Ton pseudo doit faire plus de 4 caractères', 'error');
+            this.pseudoError = 'Ton pseudo doit faire plus de 4 caractères';
           } else {
             return this.getApi().post('signup/check-pseudo-used/', {
               'pseudo': this.pseudoRegistration
             }).then(data => {
               if (data.success === true && data.error_message.length > 0) {
-                this.getFlash().append(data.error_message, 'error');
+                this.pseudoError = data.error_message;
+              } else {
+                this.pseudoError = '';
               }
             });
           }
