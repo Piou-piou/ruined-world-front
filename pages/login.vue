@@ -115,6 +115,14 @@
         this.pseudoKeyTimeout = setTimeout(() => {
           if (this.pseudoRegistration.length < 4) {
             this.getFlash().append('Ton pseudo doit faire plus de 4 caractères', 'error');
+          } else {
+            return this.getApi().post('signup/check-pseudo-used/', {
+              'pseudo': this.pseudoRegistration
+            }).then(data => {
+              if (data.success === true && data.error_message.length > 0) {
+                this.getFlash().append(data.error_message, 'error');
+              }
+            });
           }
         }, 500);
       }
