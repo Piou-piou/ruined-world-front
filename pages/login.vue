@@ -31,12 +31,12 @@
 
         <div class="block">
           <label>Pseudo</label>
-          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo" v-bind:class="{'error': pseudoError.length > 0}">
+          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo" v-bind:class="{'error': pseudoError.length > 0}"  autocomplete="none">
           <p class="error">{{pseudoError}}</p>
         </div>
         <div class="block">
           <label>E-mail</label>
-          <input type="email" name="mail" v-model="mail" v-bind:class="{'error': mailError.length > 0}">
+          <input type="email" name="mail" v-model="mail" v-bind:class="{'error': mailError.length > 0}" @keyup="checkMail" autocomplete="none">
           <p class="error">{{mailError}}</p>
         </div>
         <div class="block">
@@ -58,6 +58,7 @@
 
 <script>
   import Utils from '~/mixins/Utils';
+  import RibsCore from 'ribs-core';
 
   export default {
     mixins: [Utils],
@@ -131,6 +132,26 @@
                 this.pseudoError = data.error_message;
               } else {
                 this.pseudoError = '';
+              }
+            });
+          }
+        }, 500);
+      },
+
+      checkMail() {
+        clearTimeout(this.mailTimeout);
+
+        this.mailTimeout = setTimeout(() => {
+          if (!RibsCore.validateMail(this.mail)) {
+            this.mailError = 'Ton adresse email n\' est pas valide';
+          } else {
+            return this.getApi().post('signup/check-pseudo-used/', {
+              'pseudo': this.pseudoRegistration
+            }).then(data => {
+              if (data.success === true && data.error_message.length > 0) {
+                this.mailError = data.error_message;
+              } else {
+                this.mailError = '';
               }
             });
           }
