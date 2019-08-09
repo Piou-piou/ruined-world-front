@@ -41,7 +41,7 @@
         </div>
         <div class="block">
           <label>Mot de passe</label>
-          <input type="password" name="password" v-model="password"  v-bind:class="{'error': passwordError.length > 0}">
+          <input type="password" name="password" v-model="password"  v-bind:class="{'error': passwordError.length > 0}" @keyup="checkPassword">
           <p class="error">{{passwordError}}</p>
         </div>
         <div class="block">
@@ -158,6 +158,18 @@
               }
             });
           }
+        }, 500);
+      },
+
+      /**
+       * method to check password
+       */
+      checkPassword() {
+        clearTimeout(this.passwordTimeout);
+
+        this.passwordTimeout = setTimeout(() => {
+          console.log(RibsCore.testPasswordStrength(this.password, 4, 8));
+          console.log(RibsCore.passwordStrength);
         }, 500);
       }
     },
