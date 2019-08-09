@@ -145,8 +145,8 @@
           if (!RibsCore.validateMail(this.mail)) {
             this.mailError = 'Ton adresse email n\' est pas valide';
           } else {
-            return this.getApi().post('signup/check-pseudo-used/', {
-              'pseudo': this.pseudoRegistration
+            return this.getApi().post('signup/check-mail-used/', {
+              'mail': this.mail
             }).then(data => {
               if (data.success === true && data.error_message.length > 0) {
                 this.mailError = data.error_message;
