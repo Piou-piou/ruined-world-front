@@ -138,6 +138,9 @@
         }, 500);
       },
 
+      /**
+       * method to verify mail address
+       */
       checkMail() {
         clearTimeout(this.mailTimeout);
 
