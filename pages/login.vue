@@ -49,7 +49,7 @@
           <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0, 'valid': verifyPasswordSuccess}" @keyup="verifyPasswordMatch">
           <p class="error">{{verifyPasswordError}}</p>
         </div>
-        <button type="submit" v-on:click.stop.prevent="submit">Inscription</button>
+        <button type="submit" v-on:click.stop.prevent="submitSignup">Inscription</button>
       </form>
       <a href="" v-on:click.stop.prevent="changeForm">Retour</a>
     </div>
@@ -197,7 +197,33 @@
             this.verifyPasswordSuccess = true;
           }
         }, 500);
-      }
+      },
+
+      /**
+       * method to submit register form
+       * @returns {Q.Promise<unknown>}
+       */
+      submitSignup() {
+        return this.getApi().post('signup/register/', {
+          'pseudo': this.pseudoRegistration,
+          'mail': this.mail,
+          'password': this.password
+        })
+          .then((data) => {
+            if (data.success === true) {
+              this.getFlash().append(data.success_message, 'success');
+              this.changeForm();
+              return;
+            } else {
+              this.getFlash().append(data.error_message, 'error');
+              return;
+            }
+          })
+          .catch(() => {
+            this.getFlash().append('Une erreur est survenue. Merci de réessayer dans un instant', 'error');
+            return;
+          });
+      },
     },
     mounted() {
       const testToken = this.testAndUpdateToken('login');
