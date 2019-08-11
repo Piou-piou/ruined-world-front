@@ -168,8 +168,11 @@
         clearTimeout(this.passwordTimeout);
 
         this.passwordTimeout = setTimeout(() => {
-          console.log(RibsCore.testPasswordStrength(this.password, 4, 8));
-          console.log(RibsCore.passwordStrength);
+          if (!RibsCore.testPasswordStrength(this.password, 4, 6)) {
+            this.passwordError = 'Ton mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère sépcial';
+          } else {
+            this.passwordError = '';
+          }
         }, 500);
       }
     },
