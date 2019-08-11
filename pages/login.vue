@@ -46,7 +46,7 @@
         </div>
         <div class="block">
           <label>Vérifies ton Mot de passe</label>
-          <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0}">
+          <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0}" @keyup="verifyPasswordMatch">
           <p class="error">{{verifyPasswordError}}</p>
         </div>
         <button type="submit" v-on:click.stop.prevent="submit">Inscription</button>
@@ -172,6 +172,21 @@
             this.passwordError = 'Ton mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère sépcial';
           } else {
             this.passwordError = '';
+          }
+        }, 500);
+      },
+
+      /**
+       * method to verify if passwords match
+       */
+      verifyPasswordMatch() {
+        clearTimeout(this.passwordVerifyTimeout);
+
+        this.passwordVerifyTimeout = setTimeout(() => {
+          if (this.password !== this.verifyPassword) {
+            this.verifyPasswordError = 'Les mots de passe ne correspondent pas';
+          } else {
+            this.verifyPasswordError = '';
           }
         }, 500);
       }
