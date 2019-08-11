@@ -94,6 +94,10 @@
                 &.error {
                     border: 1px solid $login-color-error-border-input;
                 }
+
+                &.valid {
+                    border: 1px solid $login-color-valid-border-input
+                }
             }
 
             p.error {
