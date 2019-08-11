@@ -31,22 +31,22 @@
 
         <div class="block">
           <label>Pseudo</label>
-          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo" v-bind:class="{'error': pseudoError.length > 0}"  autocomplete="none">
+          <input type="text" name="pseudo-registration" v-model="pseudoRegistration" @keyup="checkPseudo" v-bind:class="{'error': pseudoError.length > 0, 'valid': pseudoSuccess === true}"  autocomplete="none">
           <p class="error">{{pseudoError}}</p>
         </div>
         <div class="block">
           <label>E-mail</label>
-          <input type="email" name="mail" v-model="mail" v-bind:class="{'error': mailError.length > 0}" @keyup="checkMail" autocomplete="none">
+          <input type="email" name="mail" v-model="mail" v-bind:class="{'error': mailError.length > 0, 'valid': mailSuccess === true}" @keyup="checkMail" autocomplete="none">
           <p class="error">{{mailError}}</p>
         </div>
         <div class="block">
           <label>Mot de passe</label>
-          <input type="password" name="password" v-model="password"  v-bind:class="{'error': passwordError.length > 0}" @keyup="checkPassword">
+          <input type="password" name="password" v-model="password"  v-bind:class="{'error': passwordError.length > 0, 'valid': passwordSuccess === true}" @keyup="checkPassword">
           <p class="error">{{passwordError}}</p>
         </div>
         <div class="block">
           <label>Vérifies ton Mot de passe</label>
-          <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0}" @keyup="verifyPasswordMatch">
+          <input type="password" name="verify-password" v-model="verifyPassword"  v-bind:class="{'error': verifyPasswordError.length > 0, 'valid': verifyPasswordSuccess}" @keyup="verifyPasswordMatch">
           <p class="error">{{verifyPasswordError}}</p>
         </div>
         <button type="submit" v-on:click.stop.prevent="submit">Inscription</button>
@@ -71,9 +71,13 @@
         verifyPassword: null,
         loading: true,
         pseudoKeyTimeout: 0,
+        pseudoSuccess: false,
         pseudoError: '',
+        mailSuccess: false,
         mailError: '',
+        passwordSuccess: false,
         passwordError: '',
+        verifyPasswordSuccess: false,
         verifyPasswordError: ''
       }
     },
@@ -132,6 +136,7 @@
                 this.pseudoError = data.error_message;
               } else {
                 this.pseudoError = '';
+                this.pseudoSuccess = true;
               }
             });
           }
@@ -155,6 +160,7 @@
                 this.mailError = data.error_message;
               } else {
                 this.mailError = '';
+                this.mailSuccess = true;
               }
             });
           }
@@ -172,6 +178,7 @@
             this.passwordError = 'Ton mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère sépcial';
           } else {
             this.passwordError = '';
+            this.passwordSuccess = true;
           }
         }, 500);
       },
@@ -187,6 +194,7 @@
             this.verifyPasswordError = 'Les mots de passe ne correspondent pas';
           } else {
             this.verifyPasswordError = '';
+            this.verifyPasswordSuccess = true;
           }
         }, 500);
       }
