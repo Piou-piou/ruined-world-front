@@ -65,7 +65,7 @@
     data() {
       return {
         pseudo: null,
-        pseudoRegistration: '',
+        pseudoRegistration: null,
         mail: null,
         password: null,
         verifyPassword: null,
@@ -204,6 +204,24 @@
        * @returns {Q.Promise<unknown>}
        */
       submitSignup() {
+        let error = false;
+        if (this.pseudoRegistration === null) {
+          this.pseudoError = 'Le pseudo ne peut pâs être vide';
+          error = true;
+        }
+        if (this.mail === null) {
+          this.mailError = 'L\'adresse email ne peut pâs être vide';
+          error = true;
+        }
+        if (this.password === null) {
+          this.passwordError = 'Le mot de passe ne peut pâs être vide';
+          error = true;
+        }
+
+        if (error === true) {
+          return;
+        }
+
         return this.getApi().post('signup/register/', {
           'pseudo': this.pseudoRegistration,
           'mail': this.mail,
