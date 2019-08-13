@@ -23,6 +23,7 @@
     "nuxt": "^2.8.1",
     "nuxt-edge": "^2.6.2-25915688.22138535",
     "ribs-api": "^1.0.2",
+    "ribs-core": "0.0.9-3",
     "ribs-flash-message": "^1.2.6",
     "ribs-popup": "^1.1.1",
     "ribs-vue-countdown": "^1.0.1",

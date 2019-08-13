@@ -1,6 +1,3 @@
-
-
-
 @mixin hbgtranslate($bg, $bg-hover, $pos-bg, $pos-bg-hover) {
     background: linear-gradient($bg, $bg) no-repeat $pos-bg,
     linear-gradient($bg-hover, $bg-hover) no-repeat $pos-bg-hover;
