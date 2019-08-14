@@ -48,7 +48,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
-            this.$router.push('/message-box');
+            this.goBack();
           } else {
             this.getFlash().append(data.error_message, 'error')
           }
