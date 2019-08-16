@@ -71,7 +71,8 @@
       <div v-if="currentConstructions.length > 0">
         <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
           <li>bâtiment : {{ current_construction.name }}</li>
-          <li><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
+          <li v-if="Math.trunc((new Date()).getTime() / 1000) > current_construction.startConstruction || current_construction.startConstruction === null"><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
+          <li v-else>En attente de la fin de construction</li>
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
