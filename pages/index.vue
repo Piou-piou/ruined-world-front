@@ -412,6 +412,9 @@ export default {
       });
     },
 
+    /**
+     * method to get unread message number
+     */
     getUnreadMessageNumber() {
       this.getApi().post('message/unread-number/', {
         infos: this.getJwtValues(),
