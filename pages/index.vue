@@ -167,60 +167,6 @@ export default {
       unreadMessageNumber: 0
     };
   },
-  mounted() {
-    /**
-       * called when page is builded to refresh resources
-       */
-    setInterval(() => {
-      this.getApi().post('refresh-resources/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        this.base.resources.electricity = data.electricity;
-        this.base.resources.iron = data.iron;
-        this.base.resources.fuel = data.fuel;
-        this.base.resources.water = data.water;
-        this.base.resources.food = data.food;
-        this.setResources(data);
-      });
-    }, 30000);
-
-    setInterval(() => this.getCurrentMarketMovements(), 70000);
-    setInterval(() => this.getCurrentUnitMovements(), 40000);
-    setInterval(() => this.getUnits(), 330000);
-    setInterval(() => this.getUnreadMessageNumber(), 450000);
-  },
-  created() {
-    this.testAndUpdateToken();
-    this.testUpdateAppVersion();
-    this.gameInfos = this.getGameInfos();
-
-    if (process.client) {
-      if (this.getGuidBase() === null) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-        }, this.getToken());
-
-        this.getApi().post('main-base/', {
-          infos: jwtInfos,
-          token: this.getToken(),
-        }).then((data) => {
-          this.updateTokenIfExist(data.token);
-          if (data.success === true) {
-            this.setGuidBase(data.guid_base);
-
-            this.getBase();
-          } else {
-            this.$router.push('/logout');
-          }
-        });
-      } else {
-        this.getBase();
-      }
-    }
-  },
   methods: {
     /**
        * to open popup to upgrade a building
@@ -485,5 +431,59 @@ export default {
       this.$router.push('/logout');
     },
   },
+  mounted() {
+    /**
+     * called when page is builded to refresh resources
+     */
+    setInterval(() => {
+      this.getApi().post('refresh-resources/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        this.base.resources.electricity = data.electricity;
+        this.base.resources.iron = data.iron;
+        this.base.resources.fuel = data.fuel;
+        this.base.resources.water = data.water;
+        this.base.resources.food = data.food;
+        this.setResources(data);
+      });
+    }, 30000);
+
+    setInterval(() => this.getCurrentMarketMovements(), 70000);
+    setInterval(() => this.getCurrentUnitMovements(), 40000);
+    setInterval(() => this.getUnits(), 330000);
+    setInterval(() => this.getUnreadMessageNumber(), 450000);
+  },
+  created() {
+    this.testAndUpdateToken();
+    this.testUpdateAppVersion();
+    this.gameInfos = this.getGameInfos();
+
+    if (process.client) {
+      if (this.getGuidBase() === null) {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+        }, this.getToken());
+
+        this.getApi().post('main-base/', {
+          infos: jwtInfos,
+          token: this.getToken(),
+        }).then((data) => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true) {
+            this.setGuidBase(data.guid_base);
+
+            this.getBase();
+          } else {
+            this.$router.push('/logout');
+          }
+        });
+      } else {
+        this.getBase();
+      }
+    }
+  }
 };
 </script>
