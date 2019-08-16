@@ -23,18 +23,22 @@
         <li><strong>Électricité</strong> : <span
           :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
+          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.electricity}}h)</span>
         </li>
         <li><strong>Fer</strong> : <span
           :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
+          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.iron}}h)</span>
         </li>
         <li><strong>Fuel</strong> : <span
           :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
+          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.fuel}}h)</span>
         </li>
         <li><strong>Eau</strong> : <span
           :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
+          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.water}}h)</span>
         </li>
         <li><strong>Nourriture</strong> :
           <span
@@ -160,6 +164,7 @@ export default {
       },
       units: {},
       resourcesInfos: [],
+      premiumStorage: {},
       currentConstructions: {},
       gameInfos: {},
       foodConsumptionHour: 0,
@@ -211,6 +216,7 @@ export default {
         this.base = data.base;
         this.resourcesInfos = data.resources_infos;
         this.setResources(this.base.resources);
+        this.setInfoPremiumStorage(data.premium_storage);
 
         this.getBuildings();
         this.getCurrentConstructions();
@@ -427,6 +433,15 @@ export default {
       });
     },
 
+    setInfoPremiumStorage(premiumStorage) {
+      if (Object.keys(premiumStorage).length > 0) {
+        console.log('houra');
+        this.premiumStorage = premiumStorage;
+      } else {
+        this.premiumStorage = {};
+      }
+    },
+
     /**
        * to logout from the game
        */
@@ -449,6 +464,7 @@ export default {
         this.base.resources.fuel = data.fuel;
         this.base.resources.water = data.water;
         this.base.resources.food = data.food;
+        this.setInfoPremiumStorage(data.premium_storage);
         this.setResources(data);
       });
     }, 30000);
