@@ -88,7 +88,7 @@
           if (data.success === true) {
             this.$emit('close');
           } else {
-            this.getFlash().append('A building is already in construction in your base', 'error');
+            this.getFlash().append(data.error_message, 'error');
           }
         });
       },
