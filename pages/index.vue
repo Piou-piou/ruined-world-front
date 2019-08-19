@@ -189,6 +189,7 @@ export default {
     },
 
     displayPremiumPopup() {
+      this.$refs.premiumPopup.getPremiumConfig();
       this.toggleBodyClassForPopup();
       this.isDisplayPremiumPopup = true;
     },

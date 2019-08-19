@@ -6,15 +6,15 @@
 
         <h1>Avantages premium</h1>
 
-        <div>
-          <h2>Amélioration construction</h2>
-          <p>Avec ce bonus, recrute pendant un temps un chef des constructions qui pourra ajouter un bâtiment de plus à la file d'attente des constructions.</p>
+        <div v-for="(premium, key) in premiumConfigs" v-bind:key="key">
+          <h2>{{premium.title}}</h2>
+          <p>{{premium.description}}</p>
 
           <h3>Tarifs</h3>
           <ul>
-            <li>Pour 3 jours : 5 tougnou <button>Acheter</button></li>
-            <li>Pour 15 jours : 20 tougnou <button>Acheter</button></li>
-            <li>Pour 30 jours : 30 tougnou <button>Acheter</button></li>
+            <li>Pour 3 jours : {{premium.cost3}} tougnou <button>Acheter</button></li>
+            <li>Pour 15 jours : {{premium.cost15}} tougnou <button>Acheter</button></li>
+            <li>Pour 30 jours : {{premium.cost30}} tougnou <button>Acheter</button></li>
           </ul>
 
           <hr>
@@ -33,10 +33,24 @@
     },
     data() {
       return {
+        premiumConfigs: {}
       }
     },
     methods: {
-
-    }
+      /**
+       * this method get list of premium advantages and their prices available in game
+       */
+      getPremiumConfig() {console.log('def');
+        this.getApi().post('premium/list-advantages/', {
+          'infos': this.getJwtValues(),
+          'token': this.getToken()
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.premiumConfigs = data.premium_config;
+          }
+        });
+      }
+    },
   }
 </script>
