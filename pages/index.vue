@@ -44,7 +44,8 @@
         <li><strong>Nourriture</strong> :
           <span
             :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="foodConsumptionHour > 0">({{ foodConsumptionHour }} {{ foodString }})</span>
+            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
+            <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.food}}h)</span>
           </span>
         </li>
       </ul>
@@ -175,6 +176,7 @@ export default {
       gameInfos: {},
       foodConsumptionHour: 0,
       foodString: '',
+      premiumFood: {},
       unreadMessageNumber: 0
     };
   },
@@ -237,7 +239,6 @@ export default {
         this.getCurrentUnitMovements();
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
-        this.getFoodConsumptionPerHour();
         this.getUnreadMessageNumber();
       });
     },
@@ -416,22 +417,6 @@ export default {
     },
 
     /**
-       * method to get food consumption per hour
-       */
-    getFoodConsumptionPerHour() {
-      this.getApi().post('food/consumption-per-hour/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.foodConsumptionHour = data.food_consumption;
-          this.foodString = data.food_string;
-        }
-      });
-    },
-
-    /**
      * method to get unread message number
      */
     getUnreadMessageNumber() {
@@ -448,7 +433,6 @@ export default {
 
     setInfoPremiumStorage(premiumStorage) {
       if (Object.keys(premiumStorage).length > 0) {
-        console.log('houra');
         this.premiumStorage = premiumStorage;
       } else {
         this.premiumStorage = {};
@@ -477,6 +461,10 @@ export default {
         this.base.resources.fuel = data.fuel;
         this.base.resources.water = data.water;
         this.base.resources.food = data.food;
+
+        this.foodConsumptionHour = data.food_consumption;
+        this.foodString = data.food_string;
+        
         this.setInfoPremiumStorage(data.premium_storage);
         this.setResources(data);
       });
