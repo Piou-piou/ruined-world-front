@@ -135,6 +135,7 @@
 
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
+    <PremiumPopup ref="premiumPopup" :is-displayed="isDisplayPremiumPopup" @close="closePopup()" />
   </div>
 </template>
 
@@ -143,11 +144,13 @@ import RibsCountdown from 'ribs-vue-countdown';
 import Utils from '~/mixins/Utils';
 import BuildingPopup from '~/components/BuildingPopup.vue';
 import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
+import PremiumPopup from '~/components/PremiumPopup.vue';
 
 export default {
   components: {
     BuildingPopup,
     ListBuildingToBuildPopup,
+    PremiumPopup,
     RibsCountdown,
   },
   mixins: [Utils],
@@ -158,6 +161,7 @@ export default {
       currentUnitsInMovement: {},
       emptyLocation: true,
       isDisplayBuildingPopup: false,
+      isDisplayPremiumPopup: false,
       isDisplayListBuildingToBuildPopup: false,
       caseToBuildNumber: null,
       base: {
@@ -201,6 +205,7 @@ export default {
     closePopup() {
       this.isDisplayBuildingPopup = false;
       this.isDisplayListBuildingToBuildPopup = false;
+      this.isDisplayPremiumPopup = false;
       this.toggleBodyClassForPopup();
       this.getBase();
     },
