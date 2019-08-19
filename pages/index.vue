@@ -9,6 +9,7 @@
         <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
         <nuxt-link to="/fight-simulator"><button>Simulateur de combat</button></nuxt-link>
         <nuxt-link to="/ranking"><button>Classement</button></nuxt-link>
+        <button @click="displayPremiumPopup()">Premium</button>
       </div>
 
       <button class="logout" @click="logout">
@@ -185,6 +186,11 @@ export default {
       this.$refs.buildingPopup.getBuilding(building);
       this.toggleBodyClassForPopup();
       this.isDisplayBuildingPopup = true;
+    },
+
+    displayPremiumPopup() {
+      this.toggleBodyClassForPopup();
+      this.isDisplayPremiumPopup = true;
     },
 
     /**
