@@ -12,9 +12,9 @@
 
           <h3>Tarifs</h3>
           <ul>
-            <li>Pour 3 jours : {{premium.cost3}} tougnou <button>Acheter</button></li>
-            <li>Pour 15 jours : {{premium.cost15}} tougnou <button>Acheter</button></li>
-            <li>Pour 30 jours : {{premium.cost30}} tougnou <button>Acheter</button></li>
+            <li>Pour 3 jours : {{premium.cost3}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost3')">Acheter</button></li>
+            <li>Pour 15 jours : {{premium.cost15}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost15')">Acheter</button></li>
+            <li>Pour 30 jours : {{premium.cost30}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost30')">Acheter</button></li>
           </ul>
 
           <hr>
@@ -50,6 +50,25 @@
             this.premiumConfigs = data.premium_config;
           }
         });
+      },
+
+      /**
+       * method to buy a premium advantage
+       * @param arrayName
+       * @param cost
+       */
+      buyAdvantage(arrayName, cost) {
+        this.getApi().post('premium/buy-advantage/', {
+          'infos': this.getJwtValues({cost: cost, array_name: arrayName}),
+          'token': this.getToken()
+        }).then(data => {
+          if (data.success === true) {
+            this.getFlash().append(data.success_message, 'success');
+            this.$emit('close');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        })
       }
     },
   }
