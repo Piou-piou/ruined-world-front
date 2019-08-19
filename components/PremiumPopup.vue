@@ -10,13 +10,18 @@
           <h2>{{premium.title}}</h2>
           <p>{{premium.description}}</p>
 
-          <h3>Tarifs</h3>
-          <ul>
-            <li>Pour 3 jours : {{premium.cost3}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost3')">Acheter</button></li>
-            <li>Pour 15 jours : {{premium.cost15}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost15')">Acheter</button></li>
-            <li>Pour 30 jours : {{premium.cost30}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost30')">Acheter</button></li>
-          </ul>
-
+          <div v-if="!(key in enabledAdvantages)">
+            <h3>Tarifs</h3>
+            <ul>
+              <li>Pour 3 jours : {{premium.cost3}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost3')">Acheter</button></li>
+              <li>Pour 15 jours : {{premium.cost15}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost15')">Acheter</button></li>
+              <li>Pour 30 jours : {{premium.cost30}} tougnou <button @click="buyAdvantage(premium.array_name, 'cost30')">Acheter</button></li>
+            </ul>
+          </div>
+          <div v-else>
+            <h3>Actif pendant encore</h3>
+            <RibsCountdown :key="key" :end="enabledAdvantages[key]" />
+          </div>
           <hr>
         </div>
       </div>
@@ -24,16 +29,21 @@
   </div>
 </template>
 <script>
+  import RibsCountdown from 'ribs-vue-countdown';
   import Utils from '~/mixins/Utils';
 
   export default {
+    components: {
+      RibsCountdown,
+    },
     mixins: [Utils],
     props: {
       'isDisplayed': false
     },
     data() {
       return {
-        premiumConfigs: {}
+        premiumConfigs: {},
+        enabledAdvantages: {}
       }
     },
     methods: {
@@ -48,6 +58,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.premiumConfigs = data.premium_config;
+            this.enabledAdvantages = data.enabled_advantages === null ? {} : data.enabled_advantages;
           }
         });
       },
