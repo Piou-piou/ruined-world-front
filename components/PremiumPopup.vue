@@ -40,7 +40,7 @@
       /**
        * this method get list of premium advantages and their prices available in game
        */
-      getPremiumConfig() {console.log('def');
+      getPremiumConfig() {
         this.getApi().post('premium/list-advantages/', {
           'infos': this.getJwtValues(),
           'token': this.getToken()
