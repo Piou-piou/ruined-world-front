@@ -20,7 +20,7 @@
           </div>
           <div v-else>
             <h3>Actif pendant encore</h3>
-            <RibsCountdown :key="key" :end="enabledAdvantages[key]" />
+            <RibsCountdown :key="key" :end="enabledAdvantages[key].timestamp" />
           </div>
           <hr>
         </div>
