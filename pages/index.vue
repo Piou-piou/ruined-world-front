@@ -9,6 +9,7 @@
         <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
         <nuxt-link to="/fight-simulator"><button>Simulateur de combat</button></nuxt-link>
         <nuxt-link to="/ranking"><button>Classement</button></nuxt-link>
+        <button @click="displayPremiumPopup()">Premium</button>
       </div>
 
       <button class="logout" @click="logout">
@@ -23,23 +24,28 @@
         <li><strong>Électricité</strong> : <span
           :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
         </li>
         <li><strong>Fer</strong> : <span
           :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
         </li>
         <li><strong>Fuel</strong> : <span
           :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
         </li>
         <li><strong>Eau</strong> : <span
           :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
         </li>
         <li><strong>Nourriture</strong> :
           <span
             :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="foodConsumptionHour > 0">({{ foodConsumptionHour }} {{ foodString }})</span>
+            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
+            <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
           </span>
         </li>
       </ul>
@@ -67,7 +73,8 @@
       <div v-if="currentConstructions.length > 0">
         <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
           <li>bâtiment : {{ current_construction.name }}</li>
-          <li><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
+          <li v-if="Math.trunc((new Date()).getTime() / 1000) > current_construction.startConstruction || current_construction.startConstruction === null"><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
+          <li v-else>En attente de la fin de construction</li>
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
@@ -130,6 +137,7 @@
 
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
+    <PremiumPopup ref="premiumPopup" :is-displayed="isDisplayPremiumPopup" @close="closePopup()" />
   </div>
 </template>
 
@@ -138,11 +146,13 @@ import RibsCountdown from 'ribs-vue-countdown';
 import Utils from '~/mixins/Utils';
 import BuildingPopup from '~/components/BuildingPopup.vue';
 import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
+import PremiumPopup from '~/components/PremiumPopup.vue';
 
 export default {
   components: {
     BuildingPopup,
     ListBuildingToBuildPopup,
+    PremiumPopup,
     RibsCountdown,
   },
   mixins: [Utils],
@@ -153,6 +163,7 @@ export default {
       currentUnitsInMovement: {},
       emptyLocation: true,
       isDisplayBuildingPopup: false,
+      isDisplayPremiumPopup: false,
       isDisplayListBuildingToBuildPopup: false,
       caseToBuildNumber: null,
       base: {
@@ -160,66 +171,14 @@ export default {
       },
       units: {},
       resourcesInfos: [],
+      premiumStorage: {},
       currentConstructions: {},
       gameInfos: {},
       foodConsumptionHour: 0,
       foodString: '',
+      premiumFood: {},
       unreadMessageNumber: 0
     };
-  },
-  mounted() {
-    /**
-       * called when page is builded to refresh resources
-       */
-    setInterval(() => {
-      this.getApi().post('refresh-resources/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        this.base.resources.electricity = data.electricity;
-        this.base.resources.iron = data.iron;
-        this.base.resources.fuel = data.fuel;
-        this.base.resources.water = data.water;
-        this.base.resources.food = data.food;
-        this.setResources(data);
-      });
-    }, 30000);
-
-    setInterval(() => this.getCurrentMarketMovements(), 70000);
-    setInterval(() => this.getCurrentUnitMovements(), 40000);
-    setInterval(() => this.getUnits(), 330000);
-    setInterval(() => this.getUnreadMessageNumber(), 450000);
-  },
-  created() {
-    this.testAndUpdateToken();
-    this.testUpdateAppVersion();
-    this.gameInfos = this.getGameInfos();
-
-    if (process.client) {
-      if (this.getGuidBase() === null) {
-        const jwtInfos = this.getJwt().sign({
-          token: this.getToken(),
-          iat: Math.floor(Date.now() / 1000) - 30,
-        }, this.getToken());
-
-        this.getApi().post('main-base/', {
-          infos: jwtInfos,
-          token: this.getToken(),
-        }).then((data) => {
-          this.updateTokenIfExist(data.token);
-          if (data.success === true) {
-            this.setGuidBase(data.guid_base);
-
-            this.getBase();
-          } else {
-            this.$router.push('/logout');
-          }
-        });
-      } else {
-        this.getBase();
-      }
-    }
   },
   methods: {
     /**
@@ -229,6 +188,12 @@ export default {
       this.$refs.buildingPopup.getBuilding(building);
       this.toggleBodyClassForPopup();
       this.isDisplayBuildingPopup = true;
+    },
+
+    displayPremiumPopup() {
+      this.$refs.premiumPopup.getPremiumConfig();
+      this.toggleBodyClassForPopup();
+      this.isDisplayPremiumPopup = true;
     },
 
     /**
@@ -249,6 +214,7 @@ export default {
     closePopup() {
       this.isDisplayBuildingPopup = false;
       this.isDisplayListBuildingToBuildPopup = false;
+      this.isDisplayPremiumPopup = false;
       this.toggleBodyClassForPopup();
       this.getBase();
     },
@@ -265,6 +231,7 @@ export default {
         this.base = data.base;
         this.resourcesInfos = data.resources_infos;
         this.setResources(this.base.resources);
+        this.setInfoPremiumStorage(data.premium_storage);
 
         this.getBuildings();
         this.getCurrentConstructions();
@@ -272,7 +239,6 @@ export default {
         this.getCurrentUnitMovements();
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
-        this.getFoodConsumptionPerHour();
         this.getUnreadMessageNumber();
       });
     },
@@ -451,21 +417,8 @@ export default {
     },
 
     /**
-       * method to get food consumption per hour
-       */
-    getFoodConsumptionPerHour() {
-      this.getApi().post('food/consumption-per-hour/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.foodConsumptionHour = data.food_consumption;
-          this.foodString = data.food_string;
-        }
-      });
-    },
-
+     * method to get unread message number
+     */
     getUnreadMessageNumber() {
       this.getApi().post('message/unread-number/', {
         infos: this.getJwtValues(),
@@ -478,6 +431,14 @@ export default {
       });
     },
 
+    setInfoPremiumStorage(premiumStorage) {
+      if (Object.keys(premiumStorage).length > 0) {
+        this.premiumStorage = premiumStorage;
+      } else {
+        this.premiumStorage = {};
+      }
+    },
+
     /**
        * to logout from the game
        */
@@ -485,5 +446,64 @@ export default {
       this.$router.push('/logout');
     },
   },
+  mounted() {
+    /**
+     * called when page is builded to refresh resources
+     */
+    setInterval(() => {
+      this.getApi().post('refresh-resources/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        this.base.resources.electricity = data.electricity;
+        this.base.resources.iron = data.iron;
+        this.base.resources.fuel = data.fuel;
+        this.base.resources.water = data.water;
+        this.base.resources.food = data.food;
+
+        this.foodConsumptionHour = data.food_consumption;
+        this.foodString = data.food_string;
+        
+        this.setInfoPremiumStorage(data.premium_storage);
+        this.setResources(data);
+      });
+    }, 30000);
+
+    setInterval(() => this.getCurrentMarketMovements(), 70000);
+    setInterval(() => this.getCurrentUnitMovements(), 40000);
+    setInterval(() => this.getUnits(), 330000);
+    setInterval(() => this.getUnreadMessageNumber(), 450000);
+  },
+  created() {
+    this.testAndUpdateToken();
+    this.testUpdateAppVersion();
+    this.gameInfos = this.getGameInfos();
+
+    if (process.client) {
+      if (this.getGuidBase() === null) {
+        const jwtInfos = this.getJwt().sign({
+          token: this.getToken(),
+          iat: Math.floor(Date.now() / 1000) - 30,
+        }, this.getToken());
+
+        this.getApi().post('main-base/', {
+          infos: jwtInfos,
+          token: this.getToken(),
+        }).then((data) => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true) {
+            this.setGuidBase(data.guid_base);
+
+            this.getBase();
+          } else {
+            this.$router.push('/logout');
+          }
+        });
+      } else {
+        this.getBase();
+      }
+    }
+  }
 };
 </script>
