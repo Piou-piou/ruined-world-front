@@ -1,5 +1,9 @@
 .resources-error {
-    color: red;
+    color: $resource_error;
+}
+
+.premium {
+    color: $premium-color;
 }
 
 p {
