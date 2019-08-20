@@ -44,7 +44,8 @@
         explanationNextPower: '',
         constructionTime : null,
         resourcesBuild: {},
-        resources: {}
+        resources: {},
+        premiumWhenUpgrade: 0
       }
     },
     methods: {
@@ -58,21 +59,27 @@
           'token': this.getToken()
         }).then(data => {
           this.updateTokenIfExist(data.token);
-          this.building = data.building;
-          this.explanation = data.explanation;
-          this.explanationCurrentPower = data.explanation_current_power;
-          this.explanationNextPower = data.explanation_next_power;
-          this.constructionTime = this.secondToHourMinute(data.construction_time);
-          this.resourcesBuild = data.resources_build;
-          this.resources = this.getResources();
-          this.component = () => getSpecifiqBuilding('Default.vue');
+          if (data.success) {
+            this.building = data.building;
+            this.explanation = data.explanation;
+            this.explanationCurrentPower = data.explanation_current_power;
+            this.explanationNextPower = data.explanation_next_power;
+            this.constructionTime = this.secondToHourMinute(data.construction_time);
+            this.resourcesBuild = data.resources_build;
+            this.resources = this.getResources();
+            this.premiumWhenUpgrade = data.premium_when_upgrade;
+            this.component = () => getSpecifiqBuilding('Default.vue');
 
-          const specificPopup = this.getGameInfos().specific_popup[array_name];
-          this.tabs = [];
-          this.currentTab = 'Default';
-          if (specificPopup) {
-            this.tabs.push([{name: 'default', url: 'Default'}]);
-            this.tabs.push(specificPopup);
+            const specificPopup = this.getGameInfos().specific_popup[array_name];
+            this.tabs = [];
+            this.currentTab = 'Default';
+            if (specificPopup) {
+              this.tabs.push([{name: 'default', url: 'Default'}]);
+              this.tabs.push(specificPopup);
+            }
+          } else {
+            this.$emit('close');
+            this.getFlash().append(data.error_message, 'error');
           }
         });
       },
