@@ -24,28 +24,28 @@
         <li><strong>Électricité</strong> : <span
           :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
-          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.electricity}}h)</span>
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
         </li>
         <li><strong>Fer</strong> : <span
           :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
-          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.iron}}h)</span>
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
         </li>
         <li><strong>Fuel</strong> : <span
           :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
-          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.fuel}}h)</span>
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
         </li>
         <li><strong>Eau</strong> : <span
           :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
           {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
-          <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.water}}h)</span>
+          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
         </li>
         <li><strong>Nourriture</strong> :
           <span
             :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
             {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
-            <span v-if="Object.keys(premiumStorage).length"> ({{premiumStorage.food}}h)</span>
+            <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
           </span>
         </li>
       </ul>
