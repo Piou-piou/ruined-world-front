@@ -20,7 +20,7 @@
 
     <h3>Temps</h3>
     <ul>
-      <li v-if="premiumWhenUpgrade > 0">Il sera possible de construire ce bâtiment dans {{premiumWhenUpgrade}}h</li>
+      <li v-if="premiumWhenUpgrade > 0" class="premium">Il sera possible de construire ce bâtiment dans {{premiumWhenUpgrade}}h</li>
       <li>Temps pour construire : {{constructionTime}}</li>
       <li>{{explanationNextPower}}</li>
     </ul>
