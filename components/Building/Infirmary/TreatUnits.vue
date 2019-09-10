@@ -5,25 +5,26 @@
     <div>
       <div v-if="Object.keys(units).length > 0">
         <div  v-for="(unit, key) in units" v-bind:key="key">
-          <h4>{{unit.name}}</h4>
+          <h4>{{unit.unitname}}</h4>
           <ul>
-            <li>Attack power : {{unitConfig[unit.array_name].attack_power}}</li>
-            <li>Defense power : {{unitConfig[unit.array_name].defense_power}}</li>
-            <li>Move Speed : {{unitConfig[unit.array_name].speed}}</li>
-            <li>Transport weight : {{unitConfig[unit.array_name].transport_weight}}</li>
-            <li>Time to treat : {{secondToHourMinute(unitConfig[unit.array_name].treatment_time)}}</li>
+            <li>Attack power : {{unitConfig[unit.unit.array_name].attack_power}}</li>
+            <li>Defense power : {{unitConfig[unit.unit.array_name].defense_power}}</li>
+            <li>Move Speed : {{unitConfig[unit.unit.array_name].speed}}</li>
+            <li>Transport weight : {{unitConfig[unit.unit.array_name].transport_weight}}</li>
+            <li>Time to treat : {{secondToHourMinute(unit.treatment_time)}}</li>
           </ul>
 
           <h5>Ressources pour soigner</h5>
           <ul>
-            <li>Électricité : <span v-bind:class="{'resources-error': resources.electricity < parseInt(unitConfig[unit.array_name].resources_recruit.electricity/2, 10)}">{{parseInt(unitConfig[unit.array_name].resources_recruit.electricity/2, 10)}}</span></li>
-            <li>Fer : <span v-bind:class="{'resources-error': resources.iron < parseInt(unitConfig[unit.array_name].resources_recruit.iron/2, 10)}">{{parseInt(unitConfig[unit.array_name].resources_recruit.iron/2, 10)}}</span></li>
-            <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < parseInt(unitConfig[unit.array_name].resources_recruit.fuel/2, 10)}">{{parseInt(unitConfig[unit.array_name].resources_recruit.fuel/2, 10)}}</span></li>
-            <li>Eau : <span v-bind:class="{'resources-error': resources.water < parseInt(unitConfig[unit.array_name].resources_recruit.water/2, 10)}">{{parseInt(unitConfig[unit.array_name].resources_recruit.water/2, 10)}}</span></li>
+            <li>Électricité : <span v-bind:class="{'resources-error': resources.electricity < unit.resources_to_treat.electricity}">{{unit.resources_to_treat.electricity}}</span></li>
+            <li>Fer : <span v-bind:class="{'resources-error': resources.iron < unit.resources_to_treat.iron}">{{unit.resources_to_treat.iron}}</span></li>
+            <li>Fuel : <span v-bind:class="{'resources-error': resources.fuel < unit.resources_to_treat.fuel}">{{unit.resources_to_treat.fuel}}</span></li>
+            <li>Eau : <span v-bind:class="{'resources-error': resources.water < unit.resources_to_treat.water}">{{unit.resources_to_treat.water}}</span></li>
+            <li>Nourriture : <span v-bind:class="{'resources-error': resources.water < unit.resources_to_treat.food}">{{unit.resources_to_treat.food}}</span></li>
           </ul>
 
-          Soigner : <input type="number" v-bind:class="unit.array_name"> sur xx possible à soigner
-          <button type="submit" v-bind:id="unit.array_name" @click="recruitUnit">Soigner</button>
+          Soigner : <input type="number" v-bind:class="unit.unit.array_name"> sur xx possible à soigner
+          <button type="submit" v-bind:id="unit.unit.array_name" @click="recruitUnit">Soigner</button>
           <hr>
         </div>
       </div>
