@@ -23,7 +23,7 @@
             <li>Nourriture : <span v-bind:class="{'resources-error': resources.water < unit.resources_to_treat.food}">{{unit.resources_to_treat.food}}</span></li>
           </ul>
 
-          Soigner : <input type="number" v-bind:class="unit.unit.array_name"> sur xx possible à soigner
+          Soigner : <input type="number" v-bind:class="unit.unit.array_name"> sur {{unit.possible_to_treat}}/{{unit.number_to_treat}} possible à soigner
           <button type="submit" v-bind:id="unit.unit.array_name" @click="recruitUnit">Soigner</button>
           <hr>
         </div>
