@@ -51,7 +51,7 @@
 
     },
     mounted() {
-      this.getApi().post('units/list-units-to-treat/', {
+      this.getApi().post('infirmary/list-units-to-treat/', {
         'infos': this.getJwtValues(),
         'token': this.getToken(),
       }).then(data => {
