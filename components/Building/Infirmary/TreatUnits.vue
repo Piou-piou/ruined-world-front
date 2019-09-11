@@ -24,7 +24,7 @@
           </ul>
 
           Soigner : <input type="number" v-bind:class="unit.unit.array_name"> sur {{unit.possible_to_treat}}/{{unit.number_to_treat}} possible à soigner
-          <button type="submit" v-bind:id="unit.unit.array_name" @click="recruitUnit">Soigner</button>
+          <button type="submit" v-bind:id="unit.unit.array_name" @click="treatUnit">Soigner</button>
           <hr>
         </div>
       </div>
@@ -48,20 +48,47 @@
       }
     },
     methods: {
+      /**
+       * method that get units that are possible to treat
+       */
+      getUnitsToTreat() {
+        this.getApi().post('infirmary/list-units-to-treat/', {
+          'infos': this.getJwtValues(),
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.units = data.units;
+            this.unitConfig = data.unit_config;
+            this.resources = this.getResources();
+          }
+        });
+      },
 
+      /**
+       * method to recruit units
+       * @param event
+       */
+      treatUnit(event) {
+        const unitArrayName = event.currentTarget.id;
+        const numberToRecruit = event.currentTarget.parentNode.querySelector(`.${unitArrayName}`).value;
+
+        this.getApi().post('infirmary/treat-units/', {
+          'infos': this.getJwtValues({unit_array_name: unitArrayName, number_to_recruit: numberToRecruit}),
+          'token': this.getToken(),
+        }).then(data => {
+          if (data.success) {
+            this.updateTokenIfExist(data.token);
+            this.getFlash().append(data.success_message, 'success');
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+          this.getUnitsToTreat();
+        });
+      }
     },
     mounted() {
-      this.getApi().post('infirmary/list-units-to-treat/', {
-        'infos': this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.units = data.units;
-          this.unitConfig = data.unit_config;
-          this.resources = this.getResources();
-        }
-      });
+      this.getUnitsToTreat();
     }
   }
 </script>
