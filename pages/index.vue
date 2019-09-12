@@ -419,19 +419,18 @@ export default {
      * method called at the end of a treatment of units
      */
     endUnitsTreatment() {
-      this.getBase();
-      /*this.getApi().post('barrack/end-recruitments-base/', {
+      this.getApi().post('infirmary/end-treatments-base/', {
         infos: this.getJwtValues(),
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
-        if (data.success === true && data.units_in_recruitment.length > 0) {
-          this.currentUnitsRecruitment = data.units_in_recruitment;
+        if (data.success === true && data.units_in_treatment.length > 0) {
+          this.currentUnitsTreatment = data.units_in_treatment;
         } else {
-          this.currentUnitsRecruitment = {};
+          this.currentUnitsTreatment = {};
         }
         this.getBase();
-      });*/
+      });
     },
 
     /**
