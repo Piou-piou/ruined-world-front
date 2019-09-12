@@ -92,7 +92,7 @@
     <h2>Unités en guérison</h2>
     <div v-if="currentUnitsTreatment.length > 0">
       <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
-        <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
+        <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
         <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
       </ul>
     </div>
