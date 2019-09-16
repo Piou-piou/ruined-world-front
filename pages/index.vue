@@ -89,6 +89,15 @@
     </div>
     <div v-else>Aucune unité en recrutement</div>
 
+    <h2>Unités en guérison</h2>
+    <div v-if="currentUnitsTreatment.length > 0">
+      <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
+        <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
+        <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
+      </ul>
+    </div>
+    <div v-else>Aucune unité en guérison</div>
+
     <h2>Unités en mouvement</h2>
     <div v-if="currentUnitsInMovement.length > 0">
       <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
@@ -161,6 +170,7 @@ export default {
       currentMarketRransports: {},
       currentUnitsRecruitment: {},
       currentUnitsInMovement: {},
+      currentUnitsTreatment: {},
       emptyLocation: true,
       isDisplayBuildingPopup: false,
       isDisplayPremiumPopup: false,
@@ -239,6 +249,7 @@ export default {
         this.getCurrentUnitMovements();
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
+        this.getUnitsInTreatment();
         this.getUnreadMessageNumber();
       });
     },
@@ -381,6 +392,42 @@ export default {
           this.currentUnitsRecruitment = data.units_in_recruitment;
         } else {
           this.currentUnitsRecruitment = {};
+        }
+        this.getBase();
+      });
+    },
+
+    /**
+     * method to get current treatments in base
+    */
+    getUnitsInTreatment() {
+      this.getApi().post('infirmary/units-in-treatment/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success === true && data.units_in_treatment.length > 0) {
+          this.currentUnitsTreatment = {};
+          this.currentUnitsTreatment = data.units_in_treatment;
+        } else {
+          this.currentUnitsTreatment = {};
+        }
+      });
+    },
+
+    /**
+     * method called at the end of a treatment of units
+     */
+    endUnitsTreatment() {
+      this.getApi().post('infirmary/end-treatments-base/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success === true && data.units_in_treatment.length > 0) {
+          this.currentUnitsTreatment = data.units_in_treatment;
+        } else {
+          this.currentUnitsTreatment = {};
         }
         this.getBase();
       });
