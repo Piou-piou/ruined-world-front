@@ -1,9 +1,15 @@
 {
-	"app_version": "0.0.1-40-5",
+	"app_version": "0.0.1-43-1",
 	"building_locations": 13,
 	"map_size": 200,
 	"map_multiplicator": 15,
 	"specific_popup": {
+		"barrack": [
+			{
+				"name": "Recruter des troupes",
+				"url": "Barrack/RecruitUnits"
+			}
+		],
 		"base": [
 			{
 				"name": "Attaquer",
@@ -20,16 +26,16 @@
 				"url": "CommandCenter/SendUnitsInMission"
 			}
 		],
+		"infirmary": [
+			{
+				"name": "Soigner des unités",
+				"url": "Infirmary/TreatUnits"
+			}
+		],
 		"market": [
 			{
 				"name": "Envoyer des ressources",
 				"url": "Market/SendResources"
-			}
-		],
-		"barrack": [
-			{
-				"name": "Recruter des troupes",
-				"url": "Barrack/RecruitUnits"
 			}
 		]
 	}
