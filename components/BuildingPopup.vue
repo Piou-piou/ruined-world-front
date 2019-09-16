@@ -12,7 +12,7 @@
 
         <Component :is="component" />
 
-        <div class="link">
+        <div class="link" v-if="building.level < maxLevel">
           <a class="validate" @click="build()">Améliorer</a>
         </div>
         <div class="clear"></div>
@@ -39,6 +39,7 @@
         navBuilding: {},
         component: false,
         building: {},
+        maxLevel: null,
         explanation: '',
         explanationCurrentPower: '',
         explanationNextPower: '',
@@ -61,6 +62,7 @@
           this.updateTokenIfExist(data.token);
           if (data.success) {
             this.building = data.building;
+            this.maxLevel = data.max_level;
             this.explanation = data.explanation;
             this.explanationCurrentPower = data.explanation_current_power;
             this.explanationNextPower = data.explanation_next_power;
