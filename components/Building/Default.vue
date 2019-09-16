@@ -4,7 +4,7 @@
     <ul>
       <li>Level : {{building.level}}</li>
       <li>{{explanation}}</li>
-      <li>{{explanationCurrentPower}}</li>
+      <li v-if="explanationCurrentPower">{{explanationCurrentPower}}</li>
     </ul>
 
     <div v-if="building.level < maxLevel">
