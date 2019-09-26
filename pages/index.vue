@@ -393,7 +393,7 @@ export default {
         } else {
           this.currentUnitsRecruitment = {};
         }
-        this.getBase();
+        this.getUnits();
       });
     },
 
@@ -429,7 +429,7 @@ export default {
         } else {
           this.currentUnitsTreatment = {};
         }
-        this.getBase();
+        this.getUnits();
       });
     },
 
