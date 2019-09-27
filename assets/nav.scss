@@ -1,0 +1,25 @@
+nav {
+    #base {
+        background: $nav-background-base;
+        color: $nav-color-base;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+    
+    #resources {
+        background: $nav-background-resources;
+        color: $nav-color-resource;
+        display: flex;
+        align-items: center;
+        
+        ul {
+            li {
+                display: inline-block;
+                background: $nav-background-resource;
+                padding: 5px;
+                font-weight: bold;
+            }
+        }
+    }
+}

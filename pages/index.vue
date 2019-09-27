@@ -1,8 +1,45 @@
 <template>
   <div>
+    <nav class="ribs-container-fluid">
+      <div class="row">
+        <div id="base" class="cxs-12 cmd-1">{{ base.name }}</div>
+        <div id="resources" class="cs-12 cmd-8">
+          <ul>
+            <li><strong>Électricité</strong> : <span
+              :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
+              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
+            </li>
+            <li><strong>Fer</strong> : <span
+              :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
+              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
+            </li>
+            <li><strong>Fuel</strong> : <span
+              :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
+              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
+            </li>
+            <li><strong>Eau</strong> : <span
+              :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
+          {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
+              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
+            </li>
+            <li><strong>Nourriture</strong> :
+              <span
+                :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
+            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
+            <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
+          </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
     <h2>V {{ gameInfos.app_version }}</h2>
 
-    <div>
+    <div class="index-page">
       index de la base
       <div>
         <nuxt-link to="/map"><button>Carte</button></nuxt-link>
@@ -16,39 +53,7 @@
         Se déconnecter
       </button>
     </div>
-    <div>
-      <h2>Nom de la base : {{ base.name }}</h2>
-
-      <h2>Ressources</h2>
-      <ul>
-        <li><strong>Électricité</strong> : <span
-          :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
-          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
-        </li>
-        <li><strong>Fer</strong> : <span
-          :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
-          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
-        </li>
-        <li><strong>Fuel</strong> : <span
-          :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
-          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
-        </li>
-        <li><strong>Eau</strong> : <span
-          :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
-          <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
-        </li>
-        <li><strong>Nourriture</strong> :
-          <span
-            :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
-            <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
-          </span>
-        </li>
-      </ul>
+    <div class="index-page">
 
       <h2>Bâtiments</h2>
       <ul>
@@ -78,72 +83,71 @@
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
-    </div>
 
-    <h2>Unités en recrutement</h2>
-    <div v-if="currentUnitsRecruitment.length > 0">
-      <ul v-for="(current_unit, key) in currentUnitsRecruitment" ref="recruitment-{{current_unit.id}}" :key="key">
-        <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
-        <li>prochaine unité dans : <RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()" /></li>
-      </ul>
-    </div>
-    <div v-else>Aucune unité en recrutement</div>
+      <h2>Unités en recrutement</h2>
+      <div v-if="currentUnitsRecruitment.length > 0">
+        <ul v-for="(current_unit, key) in currentUnitsRecruitment" ref="recruitment-{{current_unit.id}}" :key="key">
+          <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
+          <li>prochaine unité dans : <RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()" /></li>
+        </ul>
+      </div>
+      <div v-else>Aucune unité en recrutement</div>
 
-    <h2>Unités en guérison</h2>
-    <div v-if="currentUnitsTreatment.length > 0">
-      <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
-        <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
-        <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
-      </ul>
-    </div>
-    <div v-else>Aucune unité en guérison</div>
+      <h2>Unités en guérison</h2>
+      <div v-if="currentUnitsTreatment.length > 0">
+        <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
+          <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
+          <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
+        </ul>
+      </div>
+      <div v-else>Aucune unité en guérison</div>
 
-    <h2>Unités en mouvement</h2>
-    <div v-if="currentUnitsInMovement.length > 0">
-      <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
-        <li>
-          <div v-if="current_movement.string_type === 'mission'">
-            En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
-          </div>
-          <div v-else-if="current_movement.string_type === 'attack'">
-            <div v-if="current_movement.base_id === base.id">
-              <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
-              <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+      <h2>Unités en mouvement</h2>
+      <div v-if="currentUnitsInMovement.length > 0">
+        <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
+          <li>
+            <div v-if="current_movement.string_type === 'mission'">
+              En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+            </div>
+            <div v-else-if="current_movement.string_type === 'attack'">
+              <div v-if="current_movement.base_id === base.id">
+                <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
+                <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+              </div>
+              <div v-else>
+                l'attaque de {{current_movement.base_name}} arrivera dans
+              </div>
+              <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+            </div>
+
+            <ul v-for="(unit, key) in current_movement.units" :key="key">
+              <li>unité : {{ unit.name }} (nombre : {{ unit.number }})</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div v-else>Aucune unité en mouvement</div>
+
+      <h2>Transport en cours</h2>
+      <div v-if="currentMarketRransports.length > 0">
+        <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
+          <li>
+            <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
+              sur le chemin
+              <span v-if="current_market_transport.type === 0">de l'allé à</span>
+              <span v-else>du retour de</span>
+              {{ current_market_transport.base_dest_name }}
+              <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
             </div>
             <div v-else>
-              l'attaque de {{current_movement.base_name}} arrivera dans
+              <span>arrive de {{ current_market_transport.base_name }}</span>
+              <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
             </div>
-            <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
-          </div>
-
-          <ul v-for="(unit, key) in current_movement.units" :key="key">
-            <li>unité : {{ unit.name }} (nombre : {{ unit.number }})</li>
-          </ul>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+      <div v-else>Aucun transport en cours</div>
     </div>
-    <div v-else>Aucune unité en mouvement</div>
-
-    <h2>Transport en cours</h2>
-    <div v-if="currentMarketRransports.length > 0">
-      <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
-        <li>
-          <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
-            sur le chemin
-            <span v-if="current_market_transport.type === 0">de l'allé à</span>
-            <span v-else>du retour de</span>
-            {{ current_market_transport.base_dest_name }}
-            <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-          </div>
-          <div v-else>
-            <span>arrive de {{ current_market_transport.base_name }}</span>
-            <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div v-else>Aucun transport en cours</div>
-
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
     <PremiumPopup ref="premiumPopup" :is-displayed="isDisplayPremiumPopup" @close="closePopup()" />
