@@ -27,6 +27,7 @@
     "ribs-flash-message": "^1.2.6",
     "ribs-grid": "^1.0.3",
     "ribs-popup": "^1.1.1",
+    "ribs-reset-css": "^1.0.2",
     "ribs-vue-countdown": "^1.0.1",
     "sass-loader": "^7.1.0"
   },
