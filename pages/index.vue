@@ -102,6 +102,18 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="cxs-12 cmd-2" id="building-constructions">
+          <div class="block" v-if="currentConstructions.length > 0">
+            <h2>Bâtiment en construction</h2>
+            <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
+              <li>bâtiment : {{ current_construction.name }}</li>
+              <li v-if="Math.trunc((new Date()).getTime() / 1000) > current_construction.startConstruction || current_construction.startConstruction === null"><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
+              <li v-else>En attente de la fin de construction</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <h2>V {{ gameInfos.app_version }}</h2>
@@ -118,16 +130,6 @@
           <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
         </li>
       </ul>
-
-      <h2>Bâtiment en construction</h2>
-      <div v-if="currentConstructions.length > 0">
-        <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
-          <li>bâtiment : {{ current_construction.name }}</li>
-          <li v-if="Math.trunc((new Date()).getTime() / 1000) > current_construction.startConstruction || current_construction.startConstruction === null"><RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" /></li>
-          <li v-else>En attente de la fin de construction</li>
-        </ul>
-      </div>
-      <div v-else>Aucun bâtiment en construction</div>
 
       <h2>Transport en cours</h2>
       <div v-if="currentMarketRransports.length > 0">

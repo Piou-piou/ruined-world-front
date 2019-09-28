@@ -9,9 +9,18 @@ nav {
         font-size: 1.2rem;
     }
 
-    #units {
-        background: $nav-left-background-units;
-        color: $nav-left-color-units;
+    #units, #building-constructions {
+        color: $nav-left-color;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        &#units {
+            background: $nav-left-background-units;
+        }
+
+        &#building-constructions {
+            background: $nav-left-background-buildings;
+        }
 
         .block {
             margin-bottom: 20px;
