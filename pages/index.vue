@@ -139,7 +139,7 @@
       </div>
     </nav>
 
-    <h2>V {{ gameInfos.app_version }}</h2>
+    <div id="game-version">V {{ gameInfos.app_version }}</div>
 
     <div class="index-page">
 
