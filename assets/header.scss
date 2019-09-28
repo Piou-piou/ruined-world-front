@@ -1,22 +1,29 @@
 header {
+    nav {
+        a {
+            display: inline-block;
+            padding: 10px;
+        }
+    }
+
     #base {
-        background: $nav-leftbackground-base;
-        color: $nav-leftcolor-base;
+        background: $nav-left-background-base;
+        color: $nav-left-color-base;
         padding: 10px 20px;
         font-weight: bold;
         font-size: 1.4rem;
     }
 
     #resources {
-        background: $nav-leftbackground-resources;
-        color: $nav-leftcolor-resource;
+        background: $nav-left-background-resources;
+        color: $nav-left-color-resource;
         display: flex;
         align-items: center;
 
         ul {
             li {
                 display: inline-block;
-                background: $nav-leftbackground-resource;
+                background: $nav-left-background-resource;
                 padding: 5px;
                 font-weight: bold;
             }
