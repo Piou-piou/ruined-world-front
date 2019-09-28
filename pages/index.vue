@@ -35,6 +35,62 @@
           </ul>
         </div>
       </div>
+      <div class="row">
+        <div class="cxs-12 cmd-2" id="units">
+          <h2>Force militaire</h2>
+
+          <div class="block">
+            <h3>Unités dans la base</h3>
+            <ul v-if="Object.keys(units).length > 0">
+              <li v-for="(unit, key) in units" :key="key">
+                {{ unit.name }} ({{ unit.number }})
+              </li>
+            </ul>
+            <div v-else>Aucune unité présente dans la base</div>
+          </div>
+
+          <div class="block"  v-if="currentUnitsRecruitment.length > 0">
+            <h3>Unités en recrutement</h3>
+            <ul v-for="(current_unit, key) in currentUnitsRecruitment" ref="recruitment-{{current_unit.id}}" :key="key">
+              <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
+              <li>prochaine unité dans : <RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()" /></li>
+            </ul>
+          </div>
+
+          <div class="block" v-if="currentUnitsTreatment.length > 0">
+            <h3>Unités en guérison</h3>
+            <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
+              <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
+              <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
+            </ul>
+          </div>
+
+          <div class="block" v-if="currentUnitsInMovement.length > 0">
+            <h3>Unités en mouvement</h3>
+            <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
+              <li>
+                <div v-if="current_movement.string_type === 'mission'">
+                  En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+                </div>
+                <div v-else-if="current_movement.string_type === 'attack'">
+                  <div v-if="current_movement.base_id === base.id">
+                    <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
+                    <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
+                  </div>
+                  <div v-else>
+                    l'attaque de {{current_movement.base_name}} arrivera dans
+                  </div>
+                  <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
+                </div>
+
+                <ul v-for="(unit, key) in current_movement.units" :key="key">
+                  <li>unité : {{ unit.name }} (nombre : {{ unit.number }})</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <h2>V {{ gameInfos.app_version }}</h2>
@@ -66,14 +122,6 @@
         </li>
       </ul>
 
-      <h2>Unités</h2>
-      <ul v-if="Object.keys(units).length > 0">
-        <li v-for="(unit, key) in units" :key="key">
-          {{ unit.name }} ({{ unit.number }})
-        </li>
-      </ul>
-      <div v-else>Aucune unité présente dans la base</div>
-
       <h2>Bâtiment en construction</h2>
       <div v-if="currentConstructions.length > 0">
         <ul v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
@@ -83,50 +131,6 @@
         </ul>
       </div>
       <div v-else>Aucun bâtiment en construction</div>
-
-      <h2>Unités en recrutement</h2>
-      <div v-if="currentUnitsRecruitment.length > 0">
-        <ul v-for="(current_unit, key) in currentUnitsRecruitment" ref="recruitment-{{current_unit.id}}" :key="key">
-          <li>unité : {{ current_unit.name }} (nombre en recrutement : {{ current_unit.number }})</li>
-          <li>prochaine unité dans : <RibsCountdown :key="current_unit.id" :end="current_unit.end_recruitment" @doActionAfterTimeOver="endUnitsRecruitment()" /></li>
-        </ul>
-      </div>
-      <div v-else>Aucune unité en recrutement</div>
-
-      <h2>Unités en guérison</h2>
-      <div v-if="currentUnitsTreatment.length > 0">
-        <ul v-for="(current_unit, key) in currentUnitsTreatment" ref="recruitment-{{current_unit.id}}" :key="key">
-          <li>unité : {{ current_unit.name }} (nombre en guérison : {{ current_unit.number }})</li>
-          <li>prochaine unité soignée dans : <RibsCountdown :key="current_unit.end_treatment" :end="current_unit.end_treatment" @doActionAfterTimeOver="endUnitsTreatment()" /></li>
-        </ul>
-      </div>
-      <div v-else>Aucune unité en guérison</div>
-
-      <h2>Unités en mouvement</h2>
-      <div v-if="currentUnitsInMovement.length > 0">
-        <ul v-for="(current_movement, key) in currentUnitsInMovement" ref="movement-{{current_unit.id}}" :key="key">
-          <li>
-            <div v-if="current_movement.string_type === 'mission'">
-              En mission pendant encore <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
-            </div>
-            <div v-else-if="current_movement.string_type === 'attack'">
-              <div v-if="current_movement.base_id === base.id">
-                <span v-if="current_movement.movement_type_string === 'go'">temps avant l'arrivée pour l'attaque à {{current_movement.entity_name}}</span>
-                <span v-if="current_movement.movement_type_string === 'return'">sur le retour de l'attaque de {{current_movement.entity_name}}</span>
-              </div>
-              <div v-else>
-                l'attaque de {{current_movement.base_name}} arrivera dans
-              </div>
-              <RibsCountdown :key="current_movement.end_date" :end="current_movement.end_date" @doActionAfterTimeOver="updateUnitMovement()" />
-            </div>
-
-            <ul v-for="(unit, key) in current_movement.units" :key="key">
-              <li>unité : {{ unit.name }} (nombre : {{ unit.number }})</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div v-else>Aucune unité en mouvement</div>
 
       <h2>Transport en cours</h2>
       <div v-if="currentMarketRransports.length > 0">

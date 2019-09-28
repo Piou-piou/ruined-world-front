@@ -1,4 +1,14 @@
 nav {
+    h2 {
+        margin: 10px 0;
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        margin: 10px 0;
+        font-size: 1.2rem;
+    }
+
     #base {
         background: $nav-background-base;
         color: $nav-color-base;
@@ -19,6 +29,30 @@ nav {
                 background: $nav-background-resource;
                 padding: 5px;
                 font-weight: bold;
+            }
+        }
+    }
+
+    #units {
+        background: $nav-background-units;
+        color: $nav-color-units;
+
+        .block {
+            margin-bottom: 20px;
+
+            &:first-of-type {
+                margin-bottom: 10px;
+
+                li {
+                    margin-bottom: 10px;
+                }
+            }
+
+            ul {
+                li {
+                    display: inline-block;
+                    margin-right: 10px;
+                }
             }
         }
     }
