@@ -9,40 +9,14 @@ nav {
         font-size: 1.2rem;
     }
 
-    #base {
-        background: $nav-background-base;
-        color: $nav-color-base;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 1.4rem;
-    }
-    
-    #resources {
-        background: $nav-background-resources;
-        color: $nav-color-resource;
-        display: flex;
-        align-items: center;
-        
-        ul {
-            li {
-                display: inline-block;
-                background: $nav-background-resource;
-                padding: 5px;
-                font-weight: bold;
-            }
-        }
-    }
-
     #units {
-        background: $nav-background-units;
-        color: $nav-color-units;
+        background: $nav-leftbackground-units;
+        color: $nav-leftcolor-units;
 
         .block {
             margin-bottom: 20px;
 
             &:first-of-type {
-                margin-bottom: 10px;
-
                 li {
                     margin-bottom: 10px;
                 }
@@ -52,6 +26,7 @@ nav {
                 li {
                     display: inline-block;
                     margin-right: 10px;
+                    margin-bottom: 10px;
                 }
             }
         }
