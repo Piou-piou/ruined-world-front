@@ -1,15 +1,14 @@
 <template>
   <div>
     <header class="ribs-container-fluid">
-      <div class="row">
-        <nav class="top">
-          <nuxt-link to="/map">Carte</nuxt-link>
-          <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></nuxt-link>
-          <nuxt-link to="/fight-simulator">Simulateur de combat</nuxt-link>
-          <nuxt-link to="/ranking">Classement</nuxt-link>
-          <button @click="displayPremiumPopup()">Premium</button>
-        </nav>
-      </div>
+      <nav class="top">
+        <nuxt-link to="/map">Carte</nuxt-link>
+        <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></nuxt-link>
+        <nuxt-link to="/fight-simulator">Simulateur de combat</nuxt-link>
+        <nuxt-link to="/ranking">Classement</nuxt-link>
+        <a @click="displayPremiumPopup()">Premium</a>
+        <a id="logout" @click="logout">Se déconnecter</a>
+      </nav>
       <div class="row">
         <div id="base" class="cxs-12 cmd-1">{{ base.name }}</div>
         <div id="resources" class="cs-12 cmd-8">
@@ -107,20 +106,6 @@
 
     <h2>V {{ gameInfos.app_version }}</h2>
 
-    <div class="index-page">
-      index de la base
-      <div>
-        <nuxt-link to="/map"><button>Carte</button></nuxt-link>
-        <nuxt-link to="/message-box"><button>Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></button></nuxt-link>
-        <nuxt-link to="/fight-simulator"><button>Simulateur de combat</button></nuxt-link>
-        <nuxt-link to="/ranking"><button>Classement</button></nuxt-link>
-        <button @click="displayPremiumPopup()">Premium</button>
-      </div>
-
-      <button class="logout" @click="logout">
-        Se déconnecter
-      </button>
-    </div>
     <div class="index-page">
 
       <h2>Bâtiments</h2>
