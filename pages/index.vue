@@ -1,49 +1,6 @@
 <template>
   <div>
-    <header class="ribs-container-fluid">
-      <nav class="top">
-        <nuxt-link to="/map">Carte</nuxt-link>
-        <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span></nuxt-link>
-        <nuxt-link to="/fight-simulator">Simulateur de combat</nuxt-link>
-        <nuxt-link to="/ranking">Classement</nuxt-link>
-        <a @click="displayPremiumPopup()">Premium</a>
-        <a id="logout" @click="logout">Se déconnecter</a>
-      </nav>
-      <div class="row">
-        <div id="base" class="cxs-12 cmd-1">{{ base.name }}</div>
-        <div id="resources" class="cs-12 cmd-8">
-          <ul>
-            <li><strong>Électricité</strong> : <span
-                    :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
-              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
-            </li>
-            <li><strong>Fer</strong> : <span
-                    :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
-              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
-            </li>
-            <li><strong>Fuel</strong> : <span
-                    :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
-              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
-            </li>
-            <li><strong>Eau</strong> : <span
-                    :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
-              <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
-            </li>
-            <li><strong>Nourriture</strong> :
-              <span
-                      :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
-            <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
-          </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+    <Navigation ref="mainNavigation"></Navigation>
 
     <nav class="ribs-container-fluid left">
       <div class="row">
@@ -158,7 +115,6 @@
     </div>
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
-    <PremiumPopup ref="premiumPopup" :is-displayed="isDisplayPremiumPopup" @close="closePopup()" />
   </div>
 </template>
 
@@ -166,12 +122,14 @@
 import RibsCountdown from 'ribs-vue-countdown';
 import Utils from '~/mixins/Utils';
 import BuildingPopup from '~/components/BuildingPopup.vue';
+import Navigation from '~/components/Navigation.vue';
 import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
 import PremiumPopup from '~/components/PremiumPopup.vue';
 
 export default {
   components: {
     BuildingPopup,
+    Navigation,
     ListBuildingToBuildPopup,
     PremiumPopup,
     RibsCountdown,
@@ -185,7 +143,6 @@ export default {
       currentUnitsTreatment: {},
       emptyLocation: true,
       isDisplayBuildingPopup: false,
-      isDisplayPremiumPopup: false,
       isDisplayListBuildingToBuildPopup: false,
       caseToBuildNumber: null,
       base: {
@@ -193,12 +150,8 @@ export default {
       },
       units: {},
       resourcesInfos: [],
-      premiumStorage: {},
       currentConstructions: {},
       gameInfos: {},
-      foodConsumptionHour: 0,
-      foodString: '',
-      premiumFood: {},
       unreadMessageNumber: 0
     };
   },
@@ -210,12 +163,6 @@ export default {
       this.$refs.buildingPopup.getBuilding(building);
       this.toggleBodyClassForPopup();
       this.isDisplayBuildingPopup = true;
-    },
-
-    displayPremiumPopup() {
-      this.$refs.premiumPopup.getPremiumConfig();
-      this.toggleBodyClassForPopup();
-      this.isDisplayPremiumPopup = true;
     },
 
     /**
@@ -236,7 +183,6 @@ export default {
     closePopup() {
       this.isDisplayBuildingPopup = false;
       this.isDisplayListBuildingToBuildPopup = false;
-      this.isDisplayPremiumPopup = false;
       this.toggleBodyClassForPopup();
       this.getBase();
     },
@@ -251,9 +197,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.base = data.base;
-        this.resourcesInfos = data.resources_infos;
-        this.setResources(this.base.resources);
-        this.setInfoPremiumStorage(data.premium_storage);
+        this.$refs.mainNavigation.refreshResources();
 
         this.getBuildings();
         this.getCurrentConstructions();
@@ -489,46 +433,8 @@ export default {
         }
       });
     },
-
-    setInfoPremiumStorage(premiumStorage) {
-      if (Object.keys(premiumStorage).length > 0) {
-        this.premiumStorage = premiumStorage;
-      } else {
-        this.premiumStorage = {};
-      }
-    },
-
-    /**
-       * to logout from the game
-       */
-    logout() {
-      this.$router.push('/logout');
-    },
   },
   mounted() {
-    /**
-     * called when page is builded to refresh resources
-     */
-    setInterval(() => {
-      this.getApi().post('refresh-resources/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        this.base.resources.electricity = data.electricity;
-        this.base.resources.iron = data.iron;
-        this.base.resources.fuel = data.fuel;
-        this.base.resources.water = data.water;
-        this.base.resources.food = data.food;
-
-        this.foodConsumptionHour = data.food_consumption;
-        this.foodString = data.food_string;
-        
-        this.setInfoPremiumStorage(data.premium_storage);
-        this.setResources(data);
-      });
-    }, 30000);
-
     setInterval(() => this.getCurrentMarketMovements(), 70000);
     setInterval(() => this.getCurrentUnitMovements(), 40000);
     setInterval(() => this.getUnits(), 330000);
