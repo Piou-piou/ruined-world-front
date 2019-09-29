@@ -2,6 +2,7 @@
   <div>
     <header class="ribs-container-fluid">
       <nav class="top">
+        <nuxt-link to="/">Base</nuxt-link>
         <nuxt-link to="/map">Carte</nuxt-link>
         <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span>
         </nuxt-link>
