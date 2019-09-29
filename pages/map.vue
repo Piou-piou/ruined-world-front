@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
+    <Header ref="header"></Header>
+
     <h1>Carte</h1>
 
     <div class="map-players">
@@ -37,10 +36,12 @@
 <script>
   import Utils from '~/mixins/Utils';
   import BasePopup from '~/components/BasePopup.vue';
+  import Header from '~/components/Header.vue';
 
   export default {
     components: {
-      BasePopup
+      BasePopup,
+      Header
     },
     mixins: [Utils],
     data() {
