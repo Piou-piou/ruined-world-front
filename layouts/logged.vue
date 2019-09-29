@@ -78,6 +78,24 @@
     },
     methods: {
       /**
+       * method to get base
+       */
+      getBase() {
+        this.getApi().post('base/', {
+          infos: this.getJwtValues(),
+          token: this.getToken(),
+        }).then((data) => {
+          this.updateTokenIfExist(data.token);
+          this.resourcesInfos = data.resources_infos;
+          this.setResources(this.base.resources);
+          this.setInfoPremiumStorage(data.premium_storage);
+          this.base.name = data.base.name;
+        });
+
+        this.refreshResources();
+      },
+
+      /**
        * method to display premium popup
        */
       displayPremiumPopup() {
@@ -106,18 +124,27 @@
     },
     created() {
       if (process.client) {
-        this.getApi().post('base/', {
-          infos: this.getJwtValues(),
-          token: this.getToken(),
-        }).then((data) => {
-          this.updateTokenIfExist(data.token);
-          this.resourcesInfos = data.resources_infos;
-          this.setResources(this.base.resources);
-          this.setInfoPremiumStorage(data.premium_storage);
-          this.base.name = data.base.name;
-        });
+        if (this.getGuidBase() === null) {
+          const jwtInfos = this.getJwt().sign({
+            token: this.getToken(),
+            iat: Math.floor(Date.now() / 1000) - 30,
+          }, this.getToken());
 
-        this.refreshResources();
+          this.getApi().post('main-base/', {
+            infos: jwtInfos,
+            token: this.getToken(),
+          }).then((data) => {
+            this.updateTokenIfExist(data.token);
+            if (data.success === true) {
+              this.setGuidBase(data.guid_base);
+              this.getBase();
+            } else {
+              this.$router.push('/logout');
+            }
+          });
+        } else {
+          this.getBase();
+        }
       }
     }
   };

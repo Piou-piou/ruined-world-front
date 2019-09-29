@@ -146,7 +146,6 @@ export default {
         resources: {},
       },
       units: {},
-      resourcesInfos: [],
       currentConstructions: {},
       gameInfos: {},
       unreadMessageNumber: 0
