@@ -13,6 +13,7 @@
   import ListMessages from '~/components/MessageBox/ListMessages.vue';
 
   export default {
+    layout: 'logged',
     components: {
       Nav,
       ListMessages
