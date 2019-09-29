@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navigation ref="mainNavigation"></Navigation>
+    <Header ref="header"></Header>
 
     <nav class="ribs-container-fluid left">
       <div class="row">
@@ -122,14 +122,14 @@
 import RibsCountdown from 'ribs-vue-countdown';
 import Utils from '~/mixins/Utils';
 import BuildingPopup from '~/components/BuildingPopup.vue';
-import Navigation from '~/components/Navigation.vue';
+import Header from '~/components/Header.vue';
 import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
 import PremiumPopup from '~/components/PremiumPopup.vue';
 
 export default {
   components: {
     BuildingPopup,
-    Navigation,
+    Header,
     ListBuildingToBuildPopup,
     PremiumPopup,
     RibsCountdown,
@@ -197,7 +197,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.base = data.base;
-        this.$refs.mainNavigation.refreshResources();
+        this.$refs.header.refreshResources();
 
         this.getBuildings();
         this.getCurrentConstructions();
