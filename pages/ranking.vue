@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
+    <Header ref="header"></Header>
     <h1>Classement</h1>
 
     <table class="general">
@@ -32,8 +30,12 @@
 
 <script>
   import Utils from '~/mixins/Utils';
+  import Header from '~/components/Header.vue';
 
   export default {
+    components: {
+      Header
+    },
     mixins: [Utils],
     data() {
       return {
