@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Header ref="header"></Header>
-
     <h1>Simulateur de combat</h1>
     <h2>Créé ta simulation</h2>
 
@@ -46,12 +44,9 @@
 
 <script>
   import Utils from '~/mixins/Utils';
-  import Header from '~/components/Header.vue';
 
   export default {
-    components: {
-      Header,
-    },
+    layout: 'logged',
     mixins: [Utils],
     data() {
       return {

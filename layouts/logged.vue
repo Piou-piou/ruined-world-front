@@ -48,8 +48,9 @@
     </header>
 
     <PremiumPopup ref="premiumPopup" :is-displayed="isDisplayPremiumPopup" @close="closePopup()"/>
-  </div>
 
+    <nuxt/>
+  </div>
 </template>
 
 <script>
@@ -91,37 +92,6 @@
       closePopup() {
         this.isDisplayPremiumPopup = false;
         this.toggleBodyClassForPopup();
-      },
-
-      /**
-       * method called to refresh resources
-       */
-      refreshResources() {
-        this.getApi().post('refresh-resources/', {
-          infos: this.getJwtValues(),
-          token: this.getToken(),
-        }).then((data) => {
-          this.updateTokenIfExist(data.token);
-          this.base.resources.electricity = data.electricity;
-          this.base.resources.iron = data.iron;
-          this.base.resources.fuel = data.fuel;
-          this.base.resources.water = data.water;
-          this.base.resources.food = data.food;
-
-          this.foodConsumptionHour = data.food_consumption;
-          this.foodString = data.food_string;
-
-          this.setInfoPremiumStorage(data.premium_storage);
-          this.setResources(data);
-        });
-      },
-
-      setInfoPremiumStorage(premiumStorage) {
-        if (Object.keys(premiumStorage).length > 0) {
-          this.premiumStorage = premiumStorage;
-        } else {
-          this.premiumStorage = {};
-        }
       },
 
       /**

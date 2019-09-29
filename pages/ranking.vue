@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header ref="header"></Header>
     <h1>Classement</h1>
 
     <table class="general">
@@ -30,12 +29,9 @@
 
 <script>
   import Utils from '~/mixins/Utils';
-  import Header from '~/components/Header.vue';
 
   export default {
-    components: {
-      Header
-    },
+    layout: 'logged',
     mixins: [Utils],
     data() {
       return {

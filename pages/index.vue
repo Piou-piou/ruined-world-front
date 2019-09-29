@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Header ref="header"></Header>
-
     <nav class="ribs-container-fluid left">
       <div class="row">
         <div class="cxs-12 cmd-2" id="units">
@@ -122,14 +120,13 @@
 import RibsCountdown from 'ribs-vue-countdown';
 import Utils from '~/mixins/Utils';
 import BuildingPopup from '~/components/BuildingPopup.vue';
-import Header from '~/components/Header.vue';
 import ListBuildingToBuildPopup from '~/components/ListBuildingToBuildPopup.vue';
 import PremiumPopup from '~/components/PremiumPopup.vue';
 
 export default {
+  layout: 'logged',
   components: {
     BuildingPopup,
-    Header,
     ListBuildingToBuildPopup,
     PremiumPopup,
     RibsCountdown,
@@ -197,7 +194,6 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.base = data.base;
-        this.$refs.header.refreshResources();
 
         this.getBuildings();
         this.getCurrentConstructions();
