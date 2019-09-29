@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
+    <Header ref="header"></Header>
 
     <h1>Simulateur de combat</h1>
     <h2>Créé ta simulation</h2>
@@ -48,8 +46,12 @@
 
 <script>
   import Utils from '~/mixins/Utils';
+  import Header from '~/components/Header.vue';
 
   export default {
+    components: {
+      Header,
+    },
     mixins: [Utils],
     data() {
       return {
