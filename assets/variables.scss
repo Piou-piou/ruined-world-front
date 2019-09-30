@@ -14,13 +14,20 @@ $login-background-form: #EBEDF1;
 
 
 /** ---- FOR INDEX PAGE ---- */
-$nav-background-base: #a4a39f;
-$nav-color-base: #38393d;
-$nav-background-resources: rgba(164, 163, 159, 0.8);
-$nav-background-resource: #38393d;
-$nav-color-resource: #a3a3a1;
-$nav-background-units: #626368;
-$nav-background-market: #555061;
+$header-nav-background: #38393d;
+$header-nav-color: #cce1e2;
+$header-nav-color-hover: #ffffff;
+$header-nav-background-hover: #F24237;
+$nav-left-background-base: #a4a39f;
+$nav-left-color-base: #38393d;
+$nav-left-background-resources: rgba(164, 163, 159, 0.8);
+$nav-left-background-resource: #38393d;
+$nav-left-color-resource: #a3a3a1;
+$nav-left-background-units: #626368;
+$nav-left-background-buildings: #a88478;
+$nav-left-background-markets: #544f61;
+$nav-left-color: #ffffff;
+$nav-left-background-market: #555061;
 
 /** ---- FOR MAP PAGE ---- */
 $bg-map: #162B56;
