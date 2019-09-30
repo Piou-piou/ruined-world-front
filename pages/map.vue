@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
     <h1>Carte</h1>
 
     <div class="map-players">
@@ -39,8 +36,9 @@
   import BasePopup from '~/components/BasePopup.vue';
 
   export default {
+    layout: 'logged',
     components: {
-      BasePopup
+      BasePopup,
     },
     mixins: [Utils],
     data() {
