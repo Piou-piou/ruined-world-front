@@ -130,14 +130,14 @@ export default {
      */
     testUpdateAppVersion() {
       if (process.client) {
-        const appVersion = this.getGameInfos().app_version;
-        const actualVersion = this.getActualVersion();
-        console.log(appVersion);
-        console.log(actualVersion);
-        if (appVersion !== actualVersion) {
-          this.setActualVersion(appVersion);
-          window.location.reload();
-        }
+        this.getApi().post('version/').then((data) => {
+          const appVersion = data.app_version;
+          const actualVersion = this.getActualVersion();
+          if (appVersion !== actualVersion) {
+            this.setActualVersion(appVersion);
+            window.location.reload();
+          }
+        });
       }
     },
 

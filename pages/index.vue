@@ -93,7 +93,7 @@
       </div>
     </nav>
 
-    <div id="game-version">V {{ gameInfos.app_version }}</div>
+    <div id="game-version">V {{ getActualVersion() }}</div>
 
     <div class="index-page">
 
