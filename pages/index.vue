@@ -2,7 +2,7 @@
   <div>
     <nav class="ribs-container-fluid left">
       <div class="row">
-        <div class="cxs-12 cmd-2" id="units">
+        <div class="cxs-12 cmd-4 clg-2" id="units">
           <h2>Force militaire</h2>
 
           <div class="block">
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="cxs-12 cmd-2" id="building-constructions">
+        <div class="cxs-12 cmd-4 clg-2" id="building-constructions">
           <div class="block" v-if="currentConstructions.length > 0">
             <h2>Bâtiment en construction</h2>
             <ul>
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="cxs-12 cmd-2" id="market-movements">
+        <div class="cxs-12 cmd-4 clg-2" id="market-movements">
           <div class="block" v-if="currentMarketRransports.length > 0">
             <h2>Transport en cours</h2>
             <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
