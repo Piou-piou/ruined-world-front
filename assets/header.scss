@@ -20,6 +20,10 @@ header {
 
             &#logout {
                 float: right;
+    
+                @media all and #{$media-mobile} {
+                    float: none;
+                }
             }
         }
     }
@@ -44,6 +48,11 @@ header {
                 background: $nav-left-background-resource;
                 padding: 5px;
                 font-weight: bold;
+    
+                @media all and #{$media-tablet} {
+                    margin-bottom: 5px;
+                    margin-top: 5px;
+                }
             }
         }
     }

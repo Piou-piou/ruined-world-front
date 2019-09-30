@@ -12,8 +12,8 @@
         <a id="logout" @click="logout">Se déconnecter</a>
       </nav>
       <div class="row">
-        <div id="base" class="cxs-12 cmd-1">{{ base.name }}</div>
-        <div id="resources" class="cs-12 cmd-8">
+        <div id="base" class="cxs-12 cmd-2 clg-2">{{ base.name }}</div>
+        <div id="resources" class="cxs-12 cmd-10 clg-8">
           <ul>
             <li><strong>Électricité</strong> : <span
                     :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
