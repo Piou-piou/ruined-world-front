@@ -2,17 +2,16 @@
   <div>
     <nav class="ribs-container-fluid left">
       <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="units">
+        <div class="cxs-12 cmd-4 clg-2" id="units" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
           <h2>Force militaire</h2>
 
-          <div class="block">
+          <div class="block"  v-if="Object.keys(units).length > 0">
             <h3>Unités dans la base</h3>
-            <ul v-if="Object.keys(units).length > 0">
+            <ul>
               <li v-for="(unit, key) in units" :key="key">
                 {{ unit.name }} ({{ unit.number }})
               </li>
             </ul>
-            <div v-else>Aucune unité présente dans la base</div>
           </div>
 
           <div class="block"  v-if="currentUnitsRecruitment.length > 0">
