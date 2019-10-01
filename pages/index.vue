@@ -93,7 +93,7 @@
       </div>
     </nav>
 
-    <div id="game-version">V {{ getActualVersion() }}</div>
+    <div id="game-version">V {{ actualVersion }}</div>
 
     <div class="index-page">
 
@@ -133,6 +133,7 @@ export default {
   mixins: [Utils],
   data() {
     return {
+      actualVersion: null,
       currentMarketRransports: {},
       currentUnitsRecruitment: {},
       currentUnitsInMovement: {},
@@ -440,6 +441,7 @@ export default {
     this.gameInfos = this.getGameInfos();
 
     if (process.client) {
+      this.actualVersion = this.getActualVersion();
       if (this.getGuidBase() === null) {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
