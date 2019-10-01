@@ -1,11 +1,12 @@
 <template>
   <div>
-    <nav class="ribs-container-fluid left">
-      <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="units" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
+    <nav class="left">
+      <div id="units" class="big" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
+        <span>FM</span>
+        <div>
           <h2>Force militaire</h2>
 
-          <div class="block"  v-if="Object.keys(units).length > 0">
+          <div class="block" v-if="Object.keys(units).length > 0">
             <h3>Unités dans la base</h3>
             <ul>
               <li v-for="(unit, key) in units" :key="key">
@@ -56,6 +57,9 @@
           </div>
         </div>
       </div>
+    </nav>
+
+    <nav class="ribs-container-fluid left">
       <div class="row">
         <div class="cxs-12 cmd-4 clg-2" id="building-constructions">
           <div class="block" v-if="currentConstructions.length > 0">
