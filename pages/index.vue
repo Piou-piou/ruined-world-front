@@ -152,7 +152,6 @@ export default {
       units: {},
       currentConstructions: {},
       gameInfos: {},
-      unreadMessageNumber: 0
     };
   },
   methods: {
@@ -205,7 +204,6 @@ export default {
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
         this.getUnitsInTreatment();
-        this.getUnreadMessageNumber();
       });
     },
 
@@ -417,27 +415,11 @@ export default {
         this.getBase();
       });
     },
-
-    /**
-     * method to get unread message number
-     */
-    getUnreadMessageNumber() {
-      this.getApi().post('message/unread-number/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.unreadMessageNumber = data.nb_unread;
-        }
-      });
-    },
   },
   mounted() {
     setInterval(() => this.getCurrentMarketMovements(), 70000);
     setInterval(() => this.getCurrentUnitMovements(), 40000);
     setInterval(() => this.getUnits(), 330000);
-    setInterval(() => this.getUnreadMessageNumber(), 450000);
   },
   created() {
     this.testAndUpdateToken();

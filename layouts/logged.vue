@@ -93,6 +93,19 @@
         });
 
         this.refreshResources();
+        this.getUnreadMessageNumber();
+      },
+
+      getUnreadMessageNumber() {
+        this.getApi().post('message/unread-number/', {
+          infos: this.getJwtValues(),
+          token: this.getToken(),
+        }).then((data) => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.unreadMessageNumber = data.nb_unread;
+          }
+        });
       },
 
       /**
@@ -121,6 +134,7 @@
     },
     mounted() {
       setInterval(() => this.refreshResources(), 30000);
+      setInterval(() => this.getUnreadMessageNumber(), 450000);
     },
     created() {
       if (process.client) {
