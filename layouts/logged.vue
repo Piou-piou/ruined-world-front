@@ -16,29 +16,29 @@
         <div id="resources" class="cxs-12 cmd-10 clg-8">
           <ul>
             <li><strong>Électricité</strong> : <span
-                    :class="{'resources-error': base.resources.electricity === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
+                    :class="{'resources-error': resources.electricity === resourcesInfos.max_storage_wharehouse}">
+          {{ resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
             </li>
             <li><strong>Fer</strong> : <span
-                    :class="{'resources-error': base.resources.iron === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
+                    :class="{'resources-error': resources.iron === resourcesInfos.max_storage_wharehouse}">
+          {{ resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
             </li>
             <li><strong>Fuel</strong> : <span
-                    :class="{'resources-error': base.resources.fuel === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
+                    :class="{'resources-error': resources.fuel === resourcesInfos.max_storage_wharehouse}">
+          {{ resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
             </li>
             <li><strong>Eau</strong> : <span
-                    :class="{'resources-error': base.resources.water === resourcesInfos.max_storage_wharehouse}">
-          {{ base.resources.water }}</span> (+{{ resourcesInfos.water_production }})
+                    :class="{'resources-error': resources.water === resourcesInfos.max_storage_wharehouse}">
+          {{ resources.water }}</span> (+{{ resourcesInfos.water_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
             </li>
             <li><strong>Nourriture</strong> :
               <span
-                      :class="{'resources-error': base.resources.food === resourcesInfos.max_storage_garner}">
-            {{ base.resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
+                      :class="{'resources-error': resources.food === resourcesInfos.max_storage_garner}">
+            {{ resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
             <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
           </span>
             </li>
@@ -87,12 +87,11 @@
         }).then((data) => {
           this.updateTokenIfExist(data.token);
           this.resourcesInfos = data.resources_infos;
-          this.setResources(this.base.resources);
+          this.setResources(data.base.resources);
           this.setInfoPremiumStorage(data.premium_storage);
           this.base.name = data.base.name;
         });
 
-        this.refreshResources();
         this.getUnreadMessageNumber();
       },
 
@@ -134,6 +133,7 @@
     },
     mounted() {
       setInterval(() => this.refreshResources(), 30000);
+      setInterval(() => this.getResources(), 1000);
       setInterval(() => this.getUnreadMessageNumber(), 450000);
     },
     created() {

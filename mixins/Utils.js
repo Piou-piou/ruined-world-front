@@ -4,6 +4,11 @@ import ribsFlash from 'ribs-flash-message';
 import game_infos from '~/assets/game_infos.json';
 
 export default {
+  data() {
+    return {
+      resources: {}
+    }
+  },
   methods: {
     /**
      * method to get guid of current base
@@ -146,11 +151,7 @@ export default {
      * @returns {null|any}
      */
     getResources() {
-      if (localStorage.resources === undefined) {
-        return null;
-      }
-
-      return JSON.parse(localStorage.resources);
+      return this.resources;
     },
 
     /**
@@ -158,14 +159,15 @@ export default {
      * @param resources
      */
     setResources(resources) {
-      const resources_array = {
+      this.resources = {
         electricity: resources.electricity,
         iron: resources.iron,
         fuel: resources.fuel,
         water: resources.water,
         food: resources.food,
+        foodConsumptionHour: resources.food_consumption,
+        foodString: resources.food_string,
       };
-      localStorage.setItem('resources', JSON.stringify(resources_array));
     },
 
     /**
@@ -192,15 +194,6 @@ export default {
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
-        this.base.resources.electricity = data.electricity;
-        this.base.resources.iron = data.iron;
-        this.base.resources.fuel = data.fuel;
-        this.base.resources.water = data.water;
-        this.base.resources.food = data.food;
-
-        this.foodConsumptionHour = data.food_consumption;
-        this.foodString = data.food_string;
-
         this.setInfoPremiumStorage(data.premium_storage);
         this.setResources(data);
       });

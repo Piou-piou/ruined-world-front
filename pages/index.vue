@@ -146,9 +146,7 @@ export default {
       isDisplayBuildingPopup: false,
       isDisplayListBuildingToBuildPopup: false,
       caseToBuildNumber: null,
-      base: {
-        resources: {},
-      },
+      base: {},
       units: {},
       currentConstructions: {},
       gameInfos: {},
@@ -287,6 +285,7 @@ export default {
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
+        this.refreshResources();
         if (data.success === true && data.market_movements.length > 0) {
           this.currentMarketRransports = {};
           this.currentMarketRransports = data.market_movements;
@@ -413,6 +412,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.getBase();
+        this.refreshResources();
       });
     },
   },
@@ -443,12 +443,14 @@ export default {
             this.setGuidBase(data.guid_base);
 
             this.getBase();
+            this.refreshResources();
           } else {
             this.$router.push('/logout');
           }
         });
       } else {
         this.getBase();
+        this.refreshResources();
       }
     }
   }
