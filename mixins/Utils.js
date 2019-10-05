@@ -151,6 +151,9 @@ export default {
      * @returns {null|any}
      */
     getResources() {
+      if (localStorage) {
+        this.resources = localStorage.getItem('resources') ? JSON.parse(localStorage.getItem('resources')) : {};
+      }
       return this.resources;
     },
 
@@ -168,6 +171,10 @@ export default {
         foodConsumptionHour: resources.food_consumption,
         foodString: resources.food_string,
       };
+
+      if (localStorage) {
+        localStorage.setItem('resources', JSON.stringify(this.resources));
+      }
     },
 
     /**
