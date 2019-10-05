@@ -4,8 +4,7 @@
       <nav class="top">
         <nuxt-link to="/">Base</nuxt-link>
         <nuxt-link to="/map">Carte</nuxt-link>
-        <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span>
-        </nuxt-link>
+        <nuxt-link to="/message-box">Messagerie <span v-if="unreadMessageNumber > 0">({{unreadMessageNumber}})</span></nuxt-link>
         <nuxt-link to="/fight-simulator">Simulateur de combat</nuxt-link>
         <nuxt-link to="/ranking">Classement</nuxt-link>
         <a @click="displayPremiumPopup()">Premium</a>
@@ -92,19 +91,8 @@
           this.base.name = data.base.name;
         });
 
+        this.refreshUnreadMessageNumber();
         this.getUnreadMessageNumber();
-      },
-
-      getUnreadMessageNumber() {
-        this.getApi().post('message/unread-number/', {
-          infos: this.getJwtValues(),
-          token: this.getToken(),
-        }).then((data) => {
-          this.updateTokenIfExist(data.token);
-          if (data.success) {
-            this.unreadMessageNumber = data.nb_unread;
-          }
-        });
       },
 
       /**
@@ -134,7 +122,8 @@
     mounted() {
       setInterval(() => this.refreshResources(), 30000);
       setInterval(() => this.getResources(), 1000);
-      setInterval(() => this.getUnreadMessageNumber(), 450000);
+      setInterval(() => this.refreshUnreadMessageNumber(), 450000);
+      setInterval(() => this.getUnreadMessageNumber(), 1000);
     },
     created() {
       if (process.client) {
