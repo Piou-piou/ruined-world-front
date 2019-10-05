@@ -36,6 +36,7 @@
           this.unreadMessages = data.unread_messages;
           this.unreadFightReport = data.unread_fight_report;
           this.unreadOtherReport = data.unread_other_report;
+          this.refreshUnreadMessageNumber();
         }
       });
     }
