@@ -130,6 +130,7 @@
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
             this.getAllMessages();
+            this.refreshUnreadMessageNumber();
           }
         });
       },
