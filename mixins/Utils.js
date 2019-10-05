@@ -206,6 +206,10 @@ export default {
       });
     },
 
+    /**
+     * method to set premiumStorage infos
+     * @param premiumStorage
+     */
     setInfoPremiumStorage(premiumStorage) {
       if (Object.keys(premiumStorage).length > 0) {
         this.premiumStorage = premiumStorage;
