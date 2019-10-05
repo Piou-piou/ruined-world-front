@@ -1,18 +1,18 @@
 <template>
   <div>
-    <nav class="ribs-container-fluid left">
-      <div class="row">
-        <div class="cxs-12 cmd-2" id="units">
+    <nav class="left">
+      <div id="units" class="big" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
+        <span>FM</span>
+        <div>
           <h2>Force militaire</h2>
 
-          <div class="block">
+          <div class="block" v-if="Object.keys(units).length > 0">
             <h3>Unités dans la base</h3>
-            <ul v-if="Object.keys(units).length > 0">
+            <ul>
               <li v-for="(unit, key) in units" :key="key">
                 {{ unit.name }} ({{ unit.number }})
               </li>
             </ul>
-            <div v-else>Aucune unité présente dans la base</div>
           </div>
 
           <div class="block"  v-if="currentUnitsRecruitment.length > 0">
@@ -57,8 +57,11 @@
           </div>
         </div>
       </div>
+    </nav>
+
+    <nav class="ribs-container-fluid left">
       <div class="row">
-        <div class="cxs-12 cmd-2" id="building-constructions">
+        <div class="cxs-12 cmd-4 clg-2" id="building-constructions">
           <div class="block" v-if="currentConstructions.length > 0">
             <h2>Bâtiment en construction</h2>
             <ul>
@@ -71,7 +74,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="cxs-12 cmd-2" id="market-movements">
+        <div class="cxs-12 cmd-4 clg-2" id="market-movements">
           <div class="block" v-if="currentMarketRransports.length > 0">
             <h2>Transport en cours</h2>
             <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
@@ -94,7 +97,7 @@
       </div>
     </nav>
 
-    <div id="game-version">V {{ gameInfos.app_version }}</div>
+    <div id="game-version">V {{ actualVersion }}</div>
 
     <div class="index-page">
 
@@ -134,6 +137,7 @@ export default {
   mixins: [Utils],
   data() {
     return {
+      actualVersion: null,
       currentMarketRransports: {},
       currentUnitsRecruitment: {},
       currentUnitsInMovement: {},
@@ -142,13 +146,10 @@ export default {
       isDisplayBuildingPopup: false,
       isDisplayListBuildingToBuildPopup: false,
       caseToBuildNumber: null,
-      base: {
-        resources: {},
-      },
+      base: {},
       units: {},
       currentConstructions: {},
       gameInfos: {},
-      unreadMessageNumber: 0
     };
   },
   methods: {
@@ -201,7 +202,6 @@ export default {
         this.getCurrentMarketMovements();
         this.getUnitsInRecruitment();
         this.getUnitsInTreatment();
-        this.getUnreadMessageNumber();
       });
     },
 
@@ -285,6 +285,7 @@ export default {
         token: this.getToken(),
       }).then((data) => {
         this.updateTokenIfExist(data.token);
+        this.refreshResources();
         if (data.success === true && data.market_movements.length > 0) {
           this.currentMarketRransports = {};
           this.currentMarketRransports = data.market_movements;
@@ -411,21 +412,7 @@ export default {
       }).then((data) => {
         this.updateTokenIfExist(data.token);
         this.getBase();
-      });
-    },
-
-    /**
-     * method to get unread message number
-     */
-    getUnreadMessageNumber() {
-      this.getApi().post('message/unread-number/', {
-        infos: this.getJwtValues(),
-        token: this.getToken(),
-      }).then((data) => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.unreadMessageNumber = data.nb_unread;
-        }
+        this.refreshResources();
       });
     },
   },
@@ -433,7 +420,6 @@ export default {
     setInterval(() => this.getCurrentMarketMovements(), 70000);
     setInterval(() => this.getCurrentUnitMovements(), 40000);
     setInterval(() => this.getUnits(), 330000);
-    setInterval(() => this.getUnreadMessageNumber(), 450000);
   },
   created() {
     this.testAndUpdateToken();
@@ -441,6 +427,7 @@ export default {
     this.gameInfos = this.getGameInfos();
 
     if (process.client) {
+      this.actualVersion = this.getActualVersion();
       if (this.getGuidBase() === null) {
         const jwtInfos = this.getJwt().sign({
           token: this.getToken(),
@@ -456,12 +443,14 @@ export default {
             this.setGuidBase(data.guid_base);
 
             this.getBase();
+            this.refreshResources();
           } else {
             this.$router.push('/logout');
           }
         });
       } else {
         this.getBase();
+        this.refreshResources();
       }
     }
   }
