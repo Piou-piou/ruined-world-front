@@ -2,7 +2,8 @@
   <div>
     <nav class="left">
       <div id="units" class="big" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
-        <span>FM</span>
+        <span class="little" @click="toggleNavClass">FM</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
         <div>
           <h2>Force militaire</h2>
 
@@ -93,7 +94,6 @@
     <div id="game-version">V {{ actualVersion }}</div>
 
     <div class="index-page">
-
       <h2>Bâtiments</h2>
       <ul>
         <li v-for="(building, key) in base.buildings" :key="key">
@@ -104,9 +104,8 @@
           <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
         </li>
       </ul>
-
-
     </div>
+
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
   </div>
@@ -146,6 +145,20 @@ export default {
     };
   },
   methods: {
+    /**
+     * moethod to open or close left nav
+     */
+    toggleNavClass(event) {
+      const block = event.currentTarget.parentNode;
+      if (block.classList.contains('big')) {
+        block.classList.remove('big');
+        block.classList.add('little');
+      } else {
+        block.classList.remove('little');
+        block.classList.add('big');
+      }
+    },
+
     /**
        * to open popup to upgrade a building
        */

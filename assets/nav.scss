@@ -13,14 +13,26 @@ nav {
         line-height: 50px;
         text-align: center;
         text-transform: uppercase;
+        overflow: hidden;
+        
+        > span.reduce {
+            display: none;
+        }
     }
     
     .big {
         width: 280px;
         padding: 0 .9375rem;
         
-        > span {
+        > span.little {
             display: none;
+        }
+    
+        > span.reduce {
+            float: right;
+            font-size: 2.5rem;
+            line-height: 0.8;
+            cursor: pointer;
         }
     }
 
