@@ -66,10 +66,7 @@ a {
 .index-page {
     @media all and #{$media-largetablet} {
         margin-left: 60px;
-    }
-    
-    @media all and #{$media-mobile} {
-        margin-left: 0;
+        width: calc(100% - 60px);
     }
     
     li {
