@@ -151,6 +151,9 @@ export default {
      * @returns {null|any}
      */
     getResources() {
+      if (localStorage) {
+        this.resources = localStorage.getItem('resources') ? JSON.parse(localStorage.getItem('resources')) : {};
+      }
       return this.resources;
     },
 
@@ -168,6 +171,34 @@ export default {
         foodConsumptionHour: resources.food_consumption,
         foodString: resources.food_string,
       };
+
+      if (localStorage) {
+        localStorage.setItem('resources', JSON.stringify(this.resources));
+      }
+    },
+
+    /**
+     * method to get unread message number
+     * @returns {any}
+     */
+    getUnreadMessageNumber() {
+      if (localStorage) {
+        this.unreadMessageNumber = localStorage.getItem('unreadMessageNumber') ? JSON.parse(localStorage.getItem('unreadMessageNumber')) : {};
+      }
+
+      return this.unreadMessageNumber;
+    },
+
+    /**
+     * method to set unread message number
+     * @param nbUnread
+     */
+    setUnreadMessageNumber(nbUnread) {
+      this.unreadMessageNumber = nbUnread;
+
+      if (localStorage) {
+        localStorage.setItem('unreadMessageNumber', JSON.stringify(this.unreadMessageNumber));
+      }
     },
 
     /**
@@ -205,6 +236,21 @@ export default {
       } else {
         this.premiumStorage = {};
       }
+    },
+
+    /**
+     * method to refresh unread message number
+     */
+    refreshUnreadMessageNumber() {
+      this.getApi().post('message/unread-number/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success) {
+          this.setUnreadMessageNumber(data.nb_unread);
+        }
+      });
     },
 
     /**
