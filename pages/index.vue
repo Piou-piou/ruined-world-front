@@ -57,42 +57,35 @@
           </div>
         </div>
       </div>
-    </nav>
-
-    <nav class="ribs-container-fluid left">
-      <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="building-constructions">
-          <div class="block" v-if="currentConstructions.length > 0">
-            <h2>Bâtiment en construction</h2>
-            <ul>
-              <li v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
-                {{ current_construction.name }}
-                <RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" />
-              </li>
-            </ul>
-          </div>
+      <div class="big" id="building-constructions">
+        <div class="block" v-if="currentConstructions.length > 0">
+          <h2>Bâtiment en construction</h2>
+          <ul>
+            <li v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
+              {{ current_construction.name }}
+              <RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" />
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="market-movements">
-          <div class="block" v-if="currentMarketRransports.length > 0">
-            <h2>Transport en cours</h2>
-            <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
-              <li>
-                <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
-                  sur le chemin
-                  <span v-if="current_market_transport.type === 0">de l'allé à</span>
-                  <span v-else>du retour de</span>
-                  {{ current_market_transport.base_dest_name }}
-                  <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-                </div>
-                <div v-else>
-                  <span>arrive de {{ current_market_transport.base_name }}</span>
-                  <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-                </div>
-              </li>
-            </ul>
-          </div>
+      <div class="big" id="market-movements">
+        <div class="block" v-if="currentMarketRransports.length > 0">
+          <h2>Transport en cours</h2>
+          <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
+            <li>
+              <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
+                sur le chemin
+                <span v-if="current_market_transport.type === 0">de l'allé à</span>
+                <span v-else>du retour de</span>
+                {{ current_market_transport.base_dest_name }}
+                <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
+              </div>
+              <div v-else>
+                <span>arrive de {{ current_market_transport.base_name }}</span>
+                <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
