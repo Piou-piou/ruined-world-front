@@ -130,6 +130,7 @@
           if (data.success) {
             this.getFlash().append(data.success_message, 'success');
             this.getAllMessages();
+            this.refreshUnreadMessageNumber();
           }
         });
       },
@@ -137,6 +138,7 @@
     mounted() {
       localStorage.removeItem('message');
       this.getAllMessages();
+      this.refreshUnreadMessageNumber();
     }
   }
 </script>
