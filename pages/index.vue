@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="left">
+    <nav class="left-infos">
       <div id="units" class="big" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
         <span class="little" @click="toggleNavClass">FM</span>
         <span class="reduce" @click="toggleNavClass"> - </span>

@@ -1,8 +1,11 @@
-nav {
-    
-    &.left {
-        margin-top: -29px;
+nav.left-infos {
+    @media all and #{$media-mobile} {
+        position: relative;
+        margin-top: 0;
     }
+    
+    position: absolute;
+    margin-top: -29px;
     
     h2 {
         font-size: 1.4rem;

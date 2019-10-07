@@ -25,9 +25,6 @@ a {
     color: inherit;
 }
 
-.left {
-    float: left;
-}
 
 .hidden {
     display: none;
@@ -66,8 +63,18 @@ a {
     }
 }
 
-.index-page li {
-    margin-bottom: 10px !important;
+.index-page {
+    @media all and #{$media-largetablet} {
+        margin-left: 60px;
+    }
+    
+    @media all and #{$media-mobile} {
+        margin-left: 0;
+    }
+    
+    li {
+        margin-bottom: 10px !important;
+    }
 }
 
 .ribs-popup ul {
