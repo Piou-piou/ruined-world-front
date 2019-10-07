@@ -99,18 +99,18 @@
 
     <div id="game-version">V {{ actualVersion }}</div>
 
-    <div class="index-page">
-      <h2>Bâtiments</h2>
-      <ul>
-        <li v-for="(building, key) in base.buildings" :key="key">
-          <div v-if="building !== null">
-            <div @click="displayBuildingPopup(building.array_name)">
-              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
-          </div>
-          <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
-        </li>
-      </ul>
-    </div>
+      <div class="ribs-container index-page">
+        <h2>Bâtiments</h2>
+        <ul>
+          <li v-for="(building, key) in base.buildings" :key="key">
+            <div v-if="building !== null">
+              <div @click="displayBuildingPopup(building.array_name)">
+                {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
+            </div>
+            <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
+          </li>
+        </ul>
+      </div>
 
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
