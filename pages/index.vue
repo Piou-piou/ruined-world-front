@@ -58,8 +58,11 @@
           </div>
         </div>
       </div>
-      <div class="big" id="building-constructions">
-        <div class="block" v-if="currentConstructions.length > 0">
+      <div class="big" id="building-constructions" v-if="currentConstructions.length > 0">
+        <span class="little" @click="toggleNavClass">BC</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
+
+        <div class="block">
           <h2>Bâtiment en construction</h2>
           <ul>
             <li v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
@@ -69,8 +72,11 @@
           </ul>
         </div>
       </div>
-      <div class="big" id="market-movements">
-        <div class="block" v-if="currentMarketRransports.length > 0">
+      <div class="big" id="market-movements" v-if="currentMarketRransports.length > 0">
+        <span class="little" @click="toggleNavClass">TC</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
+
+        <div class="block">
           <h2>Transport en cours</h2>
           <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
             <li>
