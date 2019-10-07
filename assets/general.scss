@@ -57,10 +57,13 @@ a {
         
         li {
             list-style: initial !important;
-            margin: initial !important;
             line-height: 1.2;
         }
     }
+}
+
+.index-page li {
+    margin-bottom: 10px !important;
 }
 
 .ribs-popup ul {
