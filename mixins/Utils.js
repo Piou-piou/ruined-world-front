@@ -306,6 +306,18 @@ export default {
       const secondsDisplay = seconds === 0 ? '' : `${seconds}sec`;
 
       return `${hoursDisplay} ${minutesDisplay} ${secondsDisplay}`;
+    },
+
+    /**
+     * method to add space between numbers
+     * @param number
+     * @returns {string|number}
+     */
+    formatNumber(number) {
+      if (number) {
+        return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+      }
+      return 0;
     }
   }
 };
