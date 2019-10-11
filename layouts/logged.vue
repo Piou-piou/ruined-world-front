@@ -4,7 +4,8 @@
       <nav class="top">
         <nuxt-link to="/">Base</nuxt-link>
         <nuxt-link to="/map">Carte</nuxt-link>
-        <nuxt-link to="/message-box">Messagerie <span v-if="unreadMessageNumber > 0">({{unreadMessageNumber}})</span></nuxt-link>
+        <nuxt-link to="/message-box">Messagerie<span v-if="unreadMessageNumber > 0"> ({{unreadMessageNumber}})</span>
+        </nuxt-link>
         <nuxt-link to="/fight-simulator">Simulateur de combat</nuxt-link>
         <nuxt-link to="/ranking">Classement</nuxt-link>
         <a @click="displayPremiumPopup()">Premium</a>
@@ -16,28 +17,28 @@
           <ul>
             <li><strong>Électricité</strong> : <span
                     :class="{'resources-error': resources.electricity === resourcesInfos.max_storage_wharehouse}">
-          {{ resources.electricity }}</span> (+{{ resourcesInfos.electricity_production }})
+          {{ formatNumber(resources.electricity) }}</span> (+{{ resourcesInfos.electricity_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.electricity}}h)</span>
             </li>
             <li><strong>Fer</strong> : <span
                     :class="{'resources-error': resources.iron === resourcesInfos.max_storage_wharehouse}">
-          {{ resources.iron }}</span> (+{{ resourcesInfos.iron_production }})
+          {{ formatNumber(resources.iron) }}</span> (+{{ resourcesInfos.iron_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.iron}}h)</span>
             </li>
             <li><strong>Fuel</strong> : <span
                     :class="{'resources-error': resources.fuel === resourcesInfos.max_storage_wharehouse}">
-          {{ resources.fuel }}</span> (+{{ resourcesInfos.fuel_production }})
+          {{ formatNumber(resources.fuel) }}</span> (+{{ resourcesInfos.fuel_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.fuel}}h)</span>
             </li>
             <li><strong>Eau</strong> : <span
                     :class="{'resources-error': resources.water === resourcesInfos.max_storage_wharehouse}">
-          {{ resources.water }}</span> (+{{ resourcesInfos.water_production }})
+          {{ formatNumber(resources.water) }}</span> (+{{ resourcesInfos.water_production }})
               <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.water}}h)</span>
             </li>
             <li><strong>Nourriture</strong> :
               <span
                       :class="{'resources-error': resources.food === resourcesInfos.max_storage_garner}">
-            {{ resources.food }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
+            {{ formatNumber(resources.food) }} <span v-if="resourcesInfos.food_consumption > 0">({{ resourcesInfos.food_consumption }} {{ resourcesInfos.food_string }})</span>
             <span v-if="Object.keys(premiumStorage).length" class="premium"> ({{premiumStorage.food}}h)</span>
           </span>
             </li>
@@ -93,6 +94,18 @@
 
         this.refreshUnreadMessageNumber();
         this.getUnreadMessageNumber();
+      },
+
+      getUnreadMessageNumber() {
+        this.getApi().post('message/unread-number/', {
+          infos: this.getJwtValues(),
+          token: this.getToken(),
+        }).then((data) => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.unreadMessageNumber = data.nb_unread;
+          }
+        });
       },
 
       /**

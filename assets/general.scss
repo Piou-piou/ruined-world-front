@@ -25,6 +25,7 @@ a {
     color: inherit;
 }
 
+
 .hidden {
     display: none;
 }
@@ -44,6 +45,12 @@ a {
         margin: 29px 0;
     }
     
+    h3 {
+        font-size: 1.2rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    
     ul {
         list-style: initial !important;
         margin: initial !important;
@@ -51,9 +58,19 @@ a {
         
         li {
             list-style: initial !important;
-            margin: initial !important;
             line-height: 1.2;
         }
+    }
+}
+
+.index-page {
+    @media all and #{$media-largetablet} {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+    
+    li {
+        margin-bottom: 10px !important;
     }
 }
 

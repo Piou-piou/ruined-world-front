@@ -1,8 +1,9 @@
 <template>
   <div>
-    <nav class="left">
+    <nav class="left-infos">
       <div id="units" class="big" v-if="Object.keys(units).length > 0 || currentUnitsRecruitment.length > 0 || currentUnitsTreatment.length > 0 || currentUnitsInMovement.length > 0">
-        <span>FM</span>
+        <span class="little" @click="toggleNavClass">FM</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
         <div>
           <h2>Force militaire</h2>
 
@@ -57,63 +58,60 @@
           </div>
         </div>
       </div>
-    </nav>
+      <div class="big" id="building-constructions" v-if="currentConstructions.length > 0">
+        <span class="little" @click="toggleNavClass">BC</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
 
-    <nav class="ribs-container-fluid left">
-      <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="building-constructions">
-          <div class="block" v-if="currentConstructions.length > 0">
-            <h2>Bâtiment en construction</h2>
-            <ul>
-              <li v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
-                {{ current_construction.name }}
-                <RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" />
-              </li>
-            </ul>
-          </div>
+        <div class="block">
+          <h2>Bâtiment en construction</h2>
+          <ul>
+            <li v-for="(current_construction, key) in currentConstructions" ref="construction-{{current_construction.id}}" :key="key">
+              {{ current_construction.name }}
+              <RibsCountdown :key="current_construction.id" :end="current_construction.endConstruction" @doActionAfterTimeOver="endConstructions()" />
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="row">
-        <div class="cxs-12 cmd-4 clg-2" id="market-movements">
-          <div class="block" v-if="currentMarketRransports.length > 0">
-            <h2>Transport en cours</h2>
-            <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
-              <li>
-                <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
-                  sur le chemin
-                  <span v-if="current_market_transport.type === 0">de l'allé à</span>
-                  <span v-else>du retour de</span>
-                  {{ current_market_transport.base_dest_name }}
-                  <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-                </div>
-                <div v-else>
-                  <span>arrive de {{ current_market_transport.base_name }}</span>
-                  <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
-                </div>
-              </li>
-            </ul>
-          </div>
+      <div class="big" id="market-movements" v-if="currentMarketRransports.length > 0">
+        <span class="little" @click="toggleNavClass">TC</span>
+        <span class="reduce" @click="toggleNavClass"> - </span>
+
+        <div class="block">
+          <h2>Transport en cours</h2>
+          <ul v-for="(current_market_transport, key) in currentMarketRransports" :key="key">
+            <li>
+              <div v-if="current_market_transport.base_dest_guid !== getGuidBase()">
+                sur le chemin
+                <span v-if="current_market_transport.type === 0">de l'allé à</span>
+                <span v-else>du retour de</span>
+                {{ current_market_transport.base_dest_name }}
+                <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
+              </div>
+              <div v-else>
+                <span>arrive de {{ current_market_transport.base_name }}</span>
+                <RibsCountdown :key="current_market_transport.endTransport" :end="current_market_transport.endTransport" @doActionAfterTimeOver="updateMarketMovement()" />
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
 
     <div id="game-version">V {{ actualVersion }}</div>
 
-    <div class="index-page">
+      <div class="ribs-container index-page">
+        <h2>Bâtiments</h2>
+        <ul>
+          <li v-for="(building, key) in base.buildings" :key="key">
+            <div v-if="building !== null">
+              <div @click="displayBuildingPopup(building.array_name)">
+                {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
+            </div>
+            <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
+          </li>
+        </ul>
+      </div>
 
-      <h2>Bâtiments</h2>
-      <ul>
-        <li v-for="(building, key) in base.buildings" :key="key">
-          <div v-if="building !== null">
-            <div @click="displayBuildingPopup(building.array_name)">
-              {{ building.name }} (lvl : {{ building.level }}) in build {{ building.in_construction }}</div>
-          </div>
-          <div v-else @click="displayListBuildingToBuildPopup(key)">Construire</div>
-        </li>
-      </ul>
-
-
-    </div>
     <ListBuildingToBuildPopup ref="listBuildingToBuildPopup" :is-displayed="isDisplayListBuildingToBuildPopup" :case-to-build="caseToBuildNumber" @close="closePopup()" />
     <BuildingPopup ref="buildingPopup" :is-displayed="isDisplayBuildingPopup" @close="closePopup()" />
   </div>
@@ -153,6 +151,20 @@ export default {
     };
   },
   methods: {
+    /**
+     * moethod to open or close left nav
+     */
+    toggleNavClass(event) {
+      const block = event.currentTarget.parentNode;
+      if (block.classList.contains('big')) {
+        block.classList.remove('big');
+        block.classList.add('little');
+      } else {
+        block.classList.remove('little');
+        block.classList.add('big');
+      }
+    },
+
     /**
        * to open popup to upgrade a building
        */

@@ -138,6 +138,7 @@
     mounted() {
       localStorage.removeItem('message');
       this.getAllMessages();
+      this.refreshUnreadMessageNumber();
     }
   }
 </script>
