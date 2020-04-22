@@ -9,31 +9,29 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/icon": "^2.6.0",
-    "@nuxtjs/manifest": "^2.6.0",
-    "@nuxtjs/pwa": "^3.0.0-beta.16",
-    "form-data": "^2.5.0",
+    "@nuxtjs/icon": "^3.0.0-beta.16",
+    "@nuxtjs/manifest": "^3.0.0-beta.16",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "form-data": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
-    "node-sass": "^4.12.0",
-    "nuxt": "^2.8.1",
-    "nuxt-edge": "^2.6.2-25915688.22138535",
-    "ribs-api": "^1.0.2",
-    "ribs-core": "0.0.9-3",
-    "ribs-flash-message": "^1.2.6",
-    "ribs-popup": "^1.1.1",
-    "ribs-vue-countdown": "^1.0.1",
-    "sass-loader": "^7.1.0"
+    "nuxt": "^2.12.2",
+    "ribs-api": "^1.0.7",
+    "ribs-core": "0.0.9-4",
+    "ribs-flash-message": "^1.2.7",
+    "ribs-popup": "^1.1.5",
+    "ribs-vue-countdown": "^1.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.2.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-plugin-vue": "^4.0.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.2"
   }
 }

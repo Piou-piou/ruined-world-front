@@ -64,7 +64,7 @@ export default {
      */
     getApi() {
       if (this.api === undefined) {
-        this.api = new RibsApi('https://dev.ruined-world-api.anthony-pilloud.fr/api/', 'cors');
+        this.api = new RibsApi('https://dev.ruined-world-api.anthony-pilloud.fr/api/', 'external');
       }
 
       return this.api;
