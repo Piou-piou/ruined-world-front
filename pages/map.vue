@@ -97,22 +97,24 @@
       },
     },
     mounted() {
-      if (!this.getGuidBase()) {
-        return;
-      }
-
-      this.travelTime = 0;
-      this.getApi().post('bases-map/', {
-        'infos':  this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        this.updateTokenIfExist(data.token);
-        if (data.success) {
-          this.bases = data.bases;
-          this.guidsPlayerBases = data.guids_player_bases;
-          this.idPlayer = data.id_player;
+      if (process.client) {
+        if (!this.getGuidBase()) {
+          return;
         }
-      });
+
+        this.travelTime = 0;
+        this.getApi().post('bases-map/', {
+          'infos':  this.getJwtValues(),
+          'token': this.getToken(),
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success) {
+            this.bases = data.bases;
+            this.guidsPlayerBases = data.guids_player_bases;
+            this.idPlayer = data.id_player;
+          }
+        });
+      }
     }
   }
 </script>
