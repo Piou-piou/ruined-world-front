@@ -1,0 +1,59 @@
+header {
+    nav {
+        background: $header-nav-background;
+
+        a {
+            display: inline-block;
+            padding: 10px;
+            color: $header-nav-color;
+            text-transform: uppercase;
+            cursor: pointer;
+            @include hbgtranslate($header-nav-background, $header-nav-background-hover, top, bottom);
+
+            &:hover {
+                color: $header-nav-color-hover;
+            }
+
+            &:visited {
+                color: $header-nav-color;
+            }
+
+            &#logout {
+                float: right;
+    
+                @media all and #{$media-mobile} {
+                    float: none;
+                }
+            }
+        }
+    }
+
+    #base {
+        background: $nav-left-background-base;
+        color: $nav-left-color-base;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+    #resources {
+        background: $nav-left-background-resources;
+        color: $nav-left-color-resource;
+        display: flex;
+        align-items: center;
+
+        ul {
+            li {
+                display: inline-block;
+                background: $nav-left-background-resource;
+                padding: 5px;
+                font-weight: bold;
+    
+                @media all and #{$media-tablet} {
+                    margin-bottom: 5px;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+}

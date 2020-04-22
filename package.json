@@ -1,39 +1,42 @@
 {
-  "name": "ruined-world",
-  "version": "1.0.0",
-  "description": "Ruined world, gestion game is a free game around gestion of a base and an army and ressources production",
-  "author": "Piou-piou <pilloud.anthony@gmail.com>",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
-  },
-  "dependencies": {
-    "@nuxtjs/icon": "^2.6.0",
-    "@nuxtjs/manifest": "^2.6.0",
-    "@nuxtjs/pwa": "^3.0.0-beta.16",
-    "form-data": "^2.5.0",
-    "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^2.6.0",
-    "node-sass": "^4.12.0",
-    "nuxt": "^2.8.1",
-    "nuxt-edge": "^2.6.2-25915688.22138535",
-    "ribs-api": "^1.0.2",
-    "ribs-core": "0.0.9-3",
-    "ribs-flash-message": "^1.2.6",
-    "ribs-popup": "^1.1.1",
-    "ribs-vue-countdown": "^1.0.1",
-    "sass-loader": "^7.1.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.2",
-    "eslint": "^4.19.1",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.2.1",
-    "eslint-plugin-vue": "^4.0.0"
-  }
+	"name": "ruined-world",
+	"version": "1.0.0",
+	"description": "Ruined world, gestion game is a free game around gestion of a base and an army and ressources production",
+	"author": "Piou-piou <pilloud.anthony@gmail.com>",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt",
+		"build": "nuxt build",
+		"start": "nuxt start",
+		"generate": "nuxt generate",
+		"lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+		"precommit": "npm run lint"
+	},
+	"dependencies": {
+		"@nuxtjs/icon": "^2.6.0",
+		"@nuxtjs/manifest": "^2.6.0",
+		"@nuxtjs/pwa": "^3.0.0-beta.16",
+		"form-data": "^2.5.0",
+		"jsonwebtoken": "^8.5.1",
+		"node-fetch": "^2.6.0",
+		"node-sass": "^4.12.0",
+		"nuxt": "^2.8.1",
+		"nuxt-edge": "^2.6.2-25915688.22138535",
+		"ribs-api": "^1.0.2",
+		"ribs-core": "0.0.9-3",
+		"ribs-flash-message": "^1.2.6",
+		"ribs-grid": "^1.0.3",
+		"ribs-popup": "^1.1.1",
+		"ribs-reset-css": "^1.0.2",
+		"ribs-vue-countdown": "^1.0.1",
+		"sass-loader": "^7.1.0",
+		"css-loader": "^2.1.1"
+	},
+	"devDependencies": {
+		"babel-eslint": "^10.0.2",
+		"eslint": "^4.19.1",
+		"eslint-friendly-formatter": "^4.0.1",
+		"eslint-loader": "^2.2.1",
+		"eslint-plugin-vue": "^4.0.0"
+	}
 }

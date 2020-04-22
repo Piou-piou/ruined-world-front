@@ -21,6 +21,7 @@
   import Nav from '~/components/MessageBox/Nav.vue';
 
   export default {
+    layout: 'logged',
     mixins: [Utils],
     components: {
       Nav

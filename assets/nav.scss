@@ -1,0 +1,89 @@
+nav.left-infos {
+    position: absolute;
+    margin-top: -29px;
+    
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+    
+    .little {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        text-transform: uppercase;
+        overflow: hidden;
+        cursor: pointer;
+        
+        > span.reduce {
+            display: none;
+        }
+    }
+    
+    .big {
+        width: 280px;
+        padding: 0 .9375rem;
+        
+        > span.little {
+            display: none;
+        }
+    
+        > span.reduce {
+            float: right;
+            font-size: 2.5rem;
+            line-height: 0.8;
+            cursor: pointer;
+        }
+    }
+
+    #units, #building-constructions, #market-movements {
+        color: $nav-left-color;
+
+        &#units {
+            background: $nav-left-background-units;
+        }
+
+        &#building-constructions {
+            background: $nav-left-background-buildings;
+        }
+
+        &#market-movements {
+            background: $nav-left-background-markets;
+        }
+
+        .block {
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            h2, h3 {
+                margin-bottom: 10px;
+            }
+
+            &:first-of-type {
+                li {
+                    margin-bottom: 10px;
+                }
+            }
+
+            &:last-of-type {
+                padding-bottom: 0;
+            }
+
+            ul {
+                li {
+                    display: inline-block;
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+
+    #units h2 {
+        padding-top: 10px;
+    }
+}

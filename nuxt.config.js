@@ -15,6 +15,8 @@ module.exports = {
   },
 
   css: [
+    'ribs-reset-css/style.min.css',
+    'ribs-grid/dist/css/style.min.css',
     'ribs-popup/dist/css/style.min.css',
     'ribs-flash-message/dist/css/style.css',
     '~assets/style.scss'

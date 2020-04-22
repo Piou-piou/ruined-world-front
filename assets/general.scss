@@ -1,3 +1,13 @@
+body {
+    font-family: "Arial", arial, serif;
+}
+
+#game-version {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
 .resources-error {
     color: $resource_error;
 }
@@ -15,10 +25,55 @@ a {
     color: inherit;
 }
 
-.popup {
+
+.hidden {
+    display: none;
+}
+
+.ribs-popup {
     nav {
         > div {
             display: inline-block;
         }
     }
+}
+
+/* temporary for index page */
+.index-page, .ribs-popup {
+    h2 {
+        font-size: 24px;
+        margin: 29px 0;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    ul {
+        list-style: initial !important;
+        margin: initial !important;
+        padding-left: 40px !important;
+        
+        li {
+            list-style: initial !important;
+            line-height: 1.2;
+        }
+    }
+}
+
+.index-page {
+    @media all and #{$media-largetablet} {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+    
+    li {
+        margin-bottom: 10px !important;
+    }
+}
+
+.ribs-popup ul {
+    margin-bottom: 20px !important;
 }
