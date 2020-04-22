@@ -22,7 +22,9 @@
     "ribs-api": "^1.0.7",
     "ribs-core": "0.0.9-4",
     "ribs-flash-message": "^1.2.7",
+    "ribs-grid": "^1.0.5",
     "ribs-popup": "^1.1.5",
+    "ribs-reset-css": "^1.0.2",
     "ribs-vue-countdown": "^1.0.1"
   },
   "devDependencies": {
