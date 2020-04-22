@@ -1,3 +1,15 @@
+/** ---- general ---- */
+$media-mobile: "(max-width: 576px)";
+$media-tablet: "(max-width: 991px)";
+$media-largetablet: "(max-width: 1320px)";
+
+
+/** ---- general colors ---- */
+$resource_error: #ea0003;
+$premium-color: #F24237;
+
+
+/** ---- FOR LOGIN PAGE ---- */
 $login-color-error-text: #F24237;
 $login-color-error-border-input: #F24237;
 $login-color-valid-border-input: #24AC29;
@@ -7,6 +19,23 @@ $login-link-color: #2A6BC3;
 $login-background-form: #EBEDF1;
 
 
+/** ---- FOR INDEX PAGE ---- */
+$header-nav-background: #38393d;
+$header-nav-color: #cce1e2;
+$header-nav-color-hover: #ffffff;
+$header-nav-background-hover: #F24237;
+$nav-left-background-base: #a4a39f;
+$nav-left-color-base: #38393d;
+$nav-left-background-resources: rgba(164, 163, 159, 0.8);
+$nav-left-background-resource: #38393d;
+$nav-left-color-resource: #a3a3a1;
+$nav-left-background-units: #626368;
+$nav-left-background-buildings: #a88478;
+$nav-left-background-markets: #544f61;
+$nav-left-color: #ffffff;
+$nav-left-background-market: #555061;
+
+/** ---- FOR MAP PAGE ---- */
 $bg-map: #162B56;
 $border-map-players: #000;
 $map-bg-mybase: #2A6BC3;
@@ -19,11 +48,8 @@ $map-bg-archived: #434343;
 $map-bg-hover-base: #FFFFFF;
 
 
+/** ---- FOR MESSAGES PAGE ---- */
 $messages-border-list-color: #CCC;
 $messages-bg-hover-line-list: #e7e7e7;
 
 
-$resource_error: #ea0003;
-
-
-$premium-color: #F24237;

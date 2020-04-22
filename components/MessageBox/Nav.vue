@@ -1,10 +1,6 @@
 <template>
   <div>
     <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
-
-    <div>
       <nuxt-link to="/message-box"><button>Boite de réception <span v-if="unreadMessages > 0">({{unreadMessages}})</span></button></nuxt-link>
       <nuxt-link to="/message-box/sent-messages"><button>Messages envoyés</button></nuxt-link>
       <nuxt-link to="/message-box/write"><button>Ecrire un message</button></nuxt-link>
@@ -40,6 +36,7 @@
           this.unreadMessages = data.unread_messages;
           this.unreadFightReport = data.unread_fight_report;
           this.unreadOtherReport = data.unread_other_report;
+          this.refreshUnreadMessageNumber();
         }
       });
     }

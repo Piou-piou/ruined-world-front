@@ -4,6 +4,11 @@ import ribsFlash from 'ribs-flash-message';
 import game_infos from '~/assets/game_infos.json';
 
 export default {
+  data() {
+    return {
+      resources: {}
+    }
+  },
   methods: {
     /**
      * method to get guid of current base
@@ -130,14 +135,14 @@ export default {
      */
     testUpdateAppVersion() {
       if (process.client) {
-        const appVersion = this.getGameInfos().app_version;
-        const actualVersion = this.getActualVersion();
-        console.log(appVersion);
-        console.log(actualVersion);
-        if (appVersion !== actualVersion) {
-          this.setActualVersion(appVersion);
-          window.location.reload();
-        }
+        this.getApi().post('version/').then((data) => {
+          const appVersion = data.app_version;
+          const actualVersion = this.getActualVersion();
+          if (appVersion !== actualVersion) {
+            this.setActualVersion(appVersion);
+            window.location.reload();
+          }
+        });
       }
     },
 
@@ -146,11 +151,10 @@ export default {
      * @returns {null|any}
      */
     getResources() {
-      if (localStorage.resources === undefined) {
-        return null;
+      if (localStorage) {
+        this.resources = localStorage.getItem('resources') ? JSON.parse(localStorage.getItem('resources')) : {};
       }
-
-      return JSON.parse(localStorage.resources);
+      return this.resources;
     },
 
     /**
@@ -158,14 +162,43 @@ export default {
      * @param resources
      */
     setResources(resources) {
-      const resources_array = {
+      this.resources = {
         electricity: resources.electricity,
         iron: resources.iron,
         fuel: resources.fuel,
         water: resources.water,
         food: resources.food,
+        foodConsumptionHour: resources.food_consumption,
+        foodString: resources.food_string,
       };
-      localStorage.setItem('resources', JSON.stringify(resources_array));
+
+      if (localStorage) {
+        localStorage.setItem('resources', JSON.stringify(this.resources));
+      }
+    },
+
+    /**
+     * method to get unread message number
+     * @returns {any}
+     */
+    getUnreadMessageNumber() {
+      if (localStorage) {
+        this.unreadMessageNumber = localStorage.getItem('unreadMessageNumber') ? JSON.parse(localStorage.getItem('unreadMessageNumber')) : {};
+      }
+
+      return this.unreadMessageNumber;
+    },
+
+    /**
+     * method to set unread message number
+     * @param nbUnread
+     */
+    setUnreadMessageNumber(nbUnread) {
+      this.unreadMessageNumber = nbUnread;
+
+      if (localStorage) {
+        localStorage.setItem('unreadMessageNumber', JSON.stringify(this.unreadMessageNumber));
+      }
     },
 
     /**
@@ -181,6 +214,43 @@ export default {
     toggleBodyClassForPopup() {
       const body = document.body;
       body.classList.toggle('ribs-popup-body');
+    },
+
+    /**
+     * method called to refresh resources
+     */
+    refreshResources() {
+      this.getApi().post('refresh-resources/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        this.setInfoPremiumStorage(data.premium_storage);
+        this.setResources(data);
+      });
+    },
+
+    setInfoPremiumStorage(premiumStorage) {
+      if (Object.keys(premiumStorage).length > 0) {
+        this.premiumStorage = premiumStorage;
+      } else {
+        this.premiumStorage = {};
+      }
+    },
+
+    /**
+     * method to refresh unread message number
+     */
+    refreshUnreadMessageNumber() {
+      this.getApi().post('message/unread-number/', {
+        infos: this.getJwtValues(),
+        token: this.getToken(),
+      }).then((data) => {
+        this.updateTokenIfExist(data.token);
+        if (data.success) {
+          this.setUnreadMessageNumber(data.nb_unread);
+        }
+      });
     },
 
     /**
@@ -236,6 +306,18 @@ export default {
       const secondsDisplay = seconds === 0 ? '' : `${seconds}sec`;
 
       return `${hoursDisplay} ${minutesDisplay} ${secondsDisplay}`;
+    },
+
+    /**
+     * method to add space between numbers
+     * @param number
+     * @returns {string|number}
+     */
+    formatNumber(number) {
+      if (number) {
+        return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+      }
+      return 0;
     }
   }
 };

@@ -95,6 +95,7 @@
           'token': this.getToken()
         }).then(data => {
           if (data.success === true) {
+            this.refreshResources();
             this.$emit('close');
           } else {
             this.getFlash().append(data.error_message, 'error');

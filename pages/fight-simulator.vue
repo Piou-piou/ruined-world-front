@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div>
-      <nuxt-link to="/"><button>Index</button></nuxt-link>
-    </div>
-
     <h1>Simulateur de combat</h1>
     <h2>Créé ta simulation</h2>
 
@@ -50,6 +46,7 @@
   import Utils from '~/mixins/Utils';
 
   export default {
+    layout: 'logged',
     mixins: [Utils],
     data() {
       return {
