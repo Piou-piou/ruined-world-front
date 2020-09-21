@@ -6,7 +6,8 @@ import game_infos from '~/assets/game_infos.json';
 export default {
   data() {
     return {
-      resources: {}
+      resources: {},
+      resourcesInfos: []
     }
   },
   methods: {
@@ -175,6 +176,14 @@ export default {
       if (localStorage) {
         localStorage.setItem('resources', JSON.stringify(this.resources));
       }
+    },
+
+    /**
+     * method to refresh resources information when get base is called
+     * @param infos
+     */
+    setResourcesInfo(infos) {
+      this.resourcesInfos = infos;
     },
 
     /**

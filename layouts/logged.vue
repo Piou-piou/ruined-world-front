@@ -68,7 +68,6 @@
         base: {
           resources: {},
         },
-        resourcesInfos: [],
         premiumStorage: {},
         foodConsumptionHour: 0,
         foodString: '',
@@ -86,7 +85,7 @@
           token: this.getToken(),
         }).then((data) => {
           this.updateTokenIfExist(data.token);
-          this.resourcesInfos = data.resources_infos;
+          this.setResourcesInfo(data.resources_infos);
           this.setResources(data.base.resources);
           this.setInfoPremiumStorage(data.premium_storage);
           this.base.name = data.base.name;

@@ -207,6 +207,11 @@ export default {
         this.updateTokenIfExist(data.token);
         this.base = data.base;
 
+        this.setResources(data.base.resources);
+        this.getResources();
+
+        this.setResourcesInfo(data.resources_infos);
+
         this.getBuildings();
         this.getCurrentConstructions();
         this.getUnits();
