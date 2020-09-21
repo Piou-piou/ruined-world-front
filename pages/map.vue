@@ -8,7 +8,7 @@
       <div class="controls" id="bottom" @click="moveMap('bottom')"></div>
       <div class="controls" id="left" @click="moveMap('left')"></div>
 
-      <div v-bind:style="{'width': mapSize*mapMultiplicator + 'px',  'height': mapSize*mapMultiplicator + 'px', 'left': -(mapSize*mapMultiplicator)/2+'px', 'top': -(mapSize*mapMultiplicator)/2+'px'}"  class="map" ref="map">
+      <div v-bind:style="{'width': mapSize*mapMultiplicator + 'px',  'height': mapSize*mapMultiplicator + 'px', 'left': -(mapSize*mapMultiplicator)/2+800+'px', 'top': -(mapSize*mapMultiplicator)/2+400+'px'}"  class="map" ref="map">
         <div v-for="(base, key) in bases"
              v-bind:key="key"
              v-bind:style="{'left': base.posx*mapMultiplicator + 'px', 'top': base.posy*mapMultiplicator + 'px'}"
