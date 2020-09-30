@@ -5,8 +5,8 @@
 	"specific_popup": {
 		"ambassy": [
 			{
-				"name": "Créer une alliance",
-				"url": "Ambassy/SendResources"
+				"name": "Mon alliance",
+				"url": "Ambassy/MyLeague"
 			}
 		],
 		"barrack": [
