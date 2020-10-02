@@ -12,7 +12,7 @@
 
         <Component :is="component" />
 
-        <div class="link" v-if="building.level < maxLevel">
+        <div class="link" v-if="building.level < maxLevel && displayBuildButton">
           <a class="validate" @click="build()">Améliorer</a>
         </div>
         <div class="clear"></div>
@@ -46,7 +46,8 @@
         constructionTime : null,
         resourcesBuild: {},
         resources: {},
-        premiumWhenUpgrade: 0
+        premiumWhenUpgrade: 0,
+        displayBuildButton: true
       }
     },
     methods: {
@@ -108,6 +109,7 @@
        * @param url
        */
       changeComponent(url) {
+        this.displayBuildButton = url === 'Default';
         this.component = () => getSpecifiqBuilding(url);
       }
     }
