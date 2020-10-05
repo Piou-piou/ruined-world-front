@@ -1,10 +1,7 @@
 <template>
   <div>
-    <h1>Title</h1>
+    <h1>League</h1>
 
-    <div class="link">
-      <a class="cancel">Button</a>
-    </div>
   </div>
 </template>
 
@@ -21,6 +18,14 @@
     methods: {
     },
     mounted() {
+      this.getApi().post('embassy/show/', {
+        'infos': this.getJwtValues(),
+        'token': this.getToken(),
+      }).then(data => {
+        if (data.success) {
+          console.log(data);
+        }
+      });
     }
   }
 </script>
