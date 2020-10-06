@@ -72,6 +72,7 @@
             this.resources = this.getResources();
             this.premiumWhenUpgrade = data.premium_when_upgrade;
             this.component = () => getSpecifiqBuilding('Default.vue');
+            this.displayBuildButton = true;
 
             const specificPopup = this.getGameInfos().specific_popup[array_name];
             this.tabs = [];
