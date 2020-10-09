@@ -2,6 +2,15 @@
   <div>
     <h1>League</h1>
 
+    <div v-if="league">
+      league ok
+    </div>
+    <div v-else>
+      <h2>Créer une alliance</h2>
+
+      <p v-if="embassy && embassy.level > 2">Pour créer une alliance : c'est par ici</p>
+      <p v-else>Pour créer une alliance tu dois avoir ton embassade au niveau 2</p>
+    </div>
   </div>
 </template>
 
@@ -12,7 +21,9 @@
     mixins: [Utils],
     data() {
       return {
-        base: this.$parent.base
+        base: this.$parent.base,
+        league: null,
+        embassy: null,
       }
     },
     methods: {
@@ -23,9 +34,13 @@
         'token': this.getToken(),
       }).then(data => {
         if (data.success) {
-          console.log(data);
+          this.league = data.league;
+          this.embassy = data.embassy;
+          console.log(this.embassy)
+          console.log(this.embassy.level)
         }
       });
-    }
+    },
+    created() {}
   }
 </script>

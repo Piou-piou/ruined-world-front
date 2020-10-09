@@ -3,7 +3,7 @@
 	"map_size": 200,
 	"map_multiplicator": 15,
 	"specific_popup": {
-		"ambassy": [
+		"embassy": [
 			{
 				"name": "Mon alliance",
 				"url": "Ambassy/MyLeague"
