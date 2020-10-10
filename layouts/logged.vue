@@ -126,6 +126,8 @@
       setInterval(() => this.getUnreadMessageNumber(), 1000);
     },
     created() {
+      this.testAndUpdateToken();
+
       if (process.client) {
         if (this.getGuidBase() === null) {
           const jwtInfos = this.getJwt().sign({
