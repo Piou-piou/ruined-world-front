@@ -8,7 +8,17 @@
     <div v-else>
       <h2>Créer une alliance</h2>
 
-      <p v-if="embassy && embassy.level > 2">Pour créer une alliance : c'est par ici</p>
+      <div v-if="embassy && embassy.level > 0">
+        <h4>Information pour ton alliance</h4>
+
+        <form action="">
+          <div>
+            Nom : <input type="text" name="name" v-model="name">
+          </div>
+
+          <button  v-on:click.stop.prevent="createLeague">Envoyer</button>
+        </form>
+      </div>
       <p v-else>Pour créer une alliance tu dois avoir ton embassade au niveau 2</p>
     </div>
   </div>
@@ -24,9 +34,13 @@
         base: this.$parent.base,
         league: null,
         embassy: null,
+        name: null
       }
     },
     methods: {
+      createLeague() {
+
+      }
     },
     mounted() {
       this.getApi().post('embassy/show/', {
@@ -36,8 +50,6 @@
         if (data.success) {
           this.league = data.league;
           this.embassy = data.embassy;
-          console.log(this.embassy)
-          console.log(this.embassy.level)
         }
       });
     },
