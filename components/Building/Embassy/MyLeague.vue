@@ -39,7 +39,23 @@
     },
     methods: {
       createLeague() {
+        const jwtInfos = this.getJwtValues({
+          name: this.name,
+          league_id: this.league ? this.league.id : null
+        });
 
+        this.getApi().post('embassy/edit/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true) {
+            this.getFlash().append(data.success_message, 'success');
+            this.league = data.league;
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        });
       }
     },
     mounted() {
