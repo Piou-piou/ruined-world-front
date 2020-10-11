@@ -4,6 +4,8 @@
 
     <div v-if="league">
       league ok
+
+      <button @click="deleteLeague">Dissoudre mon alliance</button>
     </div>
     <div v-else>
       <h2>Créer une alliance</h2>
@@ -38,6 +40,9 @@
       }
     },
     methods: {
+      /**
+       * league creation
+       */
       createLeague() {
         const jwtInfos = this.getJwtValues({
           name: this.name,
@@ -52,6 +57,28 @@
           if (data.success === true) {
             this.getFlash().append(data.success_message, 'success');
             this.league = data.league;
+          } else {
+            this.getFlash().append(data.error_message, 'error');
+          }
+        });
+      },
+
+      /**
+       * league deletion
+       */
+      deleteLeague() {
+        const jwtInfos = this.getJwtValues({
+          league_id: this.league.id
+        });
+
+        this.getApi().post('embassy/delete/', {
+          'infos': jwtInfos,
+          'token': this.getToken()
+        }).then(data => {
+          this.updateTokenIfExist(data.token);
+          if (data.success === true) {
+            this.getFlash().append(data.success_message, 'success');
+            this.league = null;
           } else {
             this.getFlash().append(data.error_message, 'error');
           }
