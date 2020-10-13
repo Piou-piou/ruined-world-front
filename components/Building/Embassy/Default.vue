@@ -1,7 +1,9 @@
 <template>
   <div>
-    <nav>dfgdfgdgdfgdfg
-      <nuxt-link to=""><button>My league</button></nuxt-link>
+    <nav>
+      <button>My league</button>
+      <button>Members</button>
+      <button>Forum</button>
     </nav>
 
     <Component :is="component" />
