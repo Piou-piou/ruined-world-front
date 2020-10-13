@@ -35,10 +35,10 @@ export default {
       if (data.success) {
         this.league = data.league;
         this.embassy = data.embassy;
+
+        this.component = () => getSpecifiqBuilding('MyLeague.vue');
       }
     });
-
-    this.component = () => getSpecifiqBuilding('MyLeague.vue');
   },
 }
 </script>

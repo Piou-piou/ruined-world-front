@@ -85,9 +85,5 @@
         });
       }
     },
-    mounted() {
-      console.log(this.embassy);
-      console.log(this.$parent.embassy);
-    }
   }
 </script>
