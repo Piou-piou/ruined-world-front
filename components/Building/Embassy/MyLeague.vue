@@ -34,8 +34,8 @@
     data() {
       return {
         base: this.$parent.base,
-        league: null,
-        embassy: null,
+        league: this.$parent.league,
+        embassy: this.$parent.embassy,
         name: null
       }
     },
@@ -86,16 +86,8 @@
       }
     },
     mounted() {
-      this.getApi().post('embassy/show/', {
-        'infos': this.getJwtValues(),
-        'token': this.getToken(),
-      }).then(data => {
-        if (data.success) {
-          this.league = data.league;
-          this.embassy = data.embassy;
-        }
-      });
-    },
-    created() {}
+      console.log(this.embassy);
+      console.log(this.$parent.embassy);
+    }
   }
 </script>
